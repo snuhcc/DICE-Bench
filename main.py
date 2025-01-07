@@ -9,17 +9,16 @@ from src.utils.utils import save_data
 
 @click.command()
 @click.option('--agent', default=3, help='Number of agents.')
-@click.option('--turn', default=1, help='Number of turns')
+@click.option('--round', default=1, help='Number of rounds')
 @click.option('--fewshot', default="", help='fewshot use')
-def main(agent, turn, fewshot):
+def main(agent, round, fewshot):
     # 1. Define few-shot prompt from path (TODO)
     fewshot = fewshot
     # 2. Define functions from path (TODO)
     funclist = BaseFunctionList()
 
     # 3. Define langgraph pipeline
-
-    pm = PromptMaker(agent, turn, fewshot, funclist)
+    pm = PromptMaker(agent, round, fewshot, funclist)
     main_graph = make_agent_pipeline(pm)
 
     # 4. Get new data
