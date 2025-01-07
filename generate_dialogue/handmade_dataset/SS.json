@@ -1,32 +1,44 @@
 {
     "metadata": {
-      "conv_id": 1,
-      "users": {
-        "user1": {
-          "persona": "호기심 많은 대학생"
+        "conv_id": 1,
+        "users": {
+            "user1": {
+                "persona_name": "Kyochul",
+                "persona": "논리적으로 답변하는 친구"
+            },
+            "user2": {
+                "persona": "논리적으로 답변하는 친구"
+            }
         },
-        "user2": {
-          "persona": "논리적으로 답변하는 친구"
+        "category": "Persuasion Dialogue",
+        "functions": {
+            "round1": {
+                "get_weather": [
+                    "seoul",
+                    "05-23"
+                ],
+                "get_news_for_topic": [
+                    "money"
+                ]
+            }
         }
-      },
-      "category": "Persuasion Dialogue"
     },
     "messages": [
-      {
-        "user": "user1",
-        "message": "대화 데이터를 제일 효과적으로 표현할 수 있는 json 형식이 뭐야?"
-      },
-      {
-        "user": "user2",
-        "message": "메타데이터에 persona와 conversation_id를 추가하면 좋지 않을까?"
-      },
-      {
-        "user": "user1",
-        "message": "그럼 이 형식이 적합할까?"
-      },
-      {
-        "user": "user2",
-        "message": "응, 충분히 간단하면서도 확장 가능해 보여!"
-      }
+        {
+            "user": "user1",
+            "message": "대화 데이터를 제일 효과적으로 표현할 수 있는 json 형식이 뭐야?"
+        },
+        {
+            "user": "user2",
+            "message": "메타데이터에 persona와 conversation_id를 추가하면 좋지 않을까?"
+        },
+        {
+            "user": "user1",
+            "message": "그럼 이 형식이 적합할까?"
+        },
+        {
+            "user": "user2",
+            "message": "응, 충분히 간단하면서도 확장 가능해 보여!"
+        }
     ]
-  }
+}
