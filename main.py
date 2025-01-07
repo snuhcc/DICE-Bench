@@ -19,7 +19,7 @@ def main(agent, turn, fewshot):
 
     # 3. Define langgraph pipeline
 
-    pm = PromptMaker(agent, fewshot, funclist)
+    pm = PromptMaker(agent, turn, fewshot, funclist)
     main_graph = make_agent_pipeline(pm)
 
     # 4. Get new data

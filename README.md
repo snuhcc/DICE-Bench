@@ -11,8 +11,8 @@ python main.py
 
 ### Arguments
 
-- agent (agent_num) default: 3 
-- turn (미구현) default: 1
+- agent (agent_num) default: 3  
+- turn default: 1
 - step (미구현 - graph 완성 시 구현) default: 1
 - fewshot (미구현) default: ""  
 
