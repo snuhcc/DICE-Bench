@@ -13,7 +13,6 @@ from langchain_core.messages import (
 from langgraph.graph import END, StateGraph, START
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema import SystemMessage
-from src.prompt.base import PromptMaker
 
 
 class AgentState(TypedDict):
@@ -32,24 +31,24 @@ def find_next_agent(message):
     if match:
         next_agent = match.group(1)  # 그룹 1에 원하는 값이 들어있음
         return next_agent
-    
     return None  # 매칭되지 않을 경우 None 반환
 
-def router(state) -> Literal['__end__', 'agent_a', 'agent_b', 'agent_c', 'mediator']:
+def router(state) -> str:
     messages = state['messages']
     last_message = messages[-1]
     # print(state)
     next_agent = find_next_agent(last_message)  # `find_next_agent`는 다음 에이전트를 추출하는 함수
-    
-    if next_agent == 'agent_a':
-        return 'agent_a'
-    elif next_agent == 'agent_b':
-        return 'agent_b'
-    elif next_agent == 'agent_c':
-        return 'agent_c'
-    elif next_agent == 'END':
-        return '__end__'  # 종료 상태
-    return 'continue' 
+    try:
+        if next_agent is None:
+            return 'continue'
+        if 'agent' in next_agent:
+            return next_agent
+        elif next_agent == 'END':
+            return '__end__'  # 종료 상태
+        return 'continue' 
+    except Exception as e:
+        print(next_agent)
+        raise e
 
 def create_agent(llm, prompt: str):
     prompt = ChatPromptTemplate.from_messages(
@@ -79,41 +78,33 @@ def make_agent_pipeline(pm):
     cond_dict = {
         '__end__': END
         }
-    agent_names = ['agent_a', 'agent_b', 'agent_c']
     llm = ChatOpenAI(model='gpt-4o')
-    if pm.agent_num >= 1:
-        ag = create_agent(llm, pm.agent_prompt('A'))
-        agent_nodes.append(functools.partial(agent_node, agent=ag, name="agent_a"))
-        cond_dict['agent_a'] = 'agent_a'
-    if pm.agent_num >= 2:
-        ag = create_agent(llm, pm.agent_prompt('B'))
-        agent_nodes.append(functools.partial(agent_node, agent=ag, name="agent_b"))
-        cond_dict['agent_b'] = 'agent_b'
-    if pm.agent_num >= 3:
-        ag = create_agent(llm, pm.agent_prompt('C'))
-        agent_nodes.append(functools.partial(agent_node, agent=ag, name="agent_c"))
-        cond_dict['agent_c'] = 'agent_c'
-    # Mediator
-    ag = create_agent(llm, pm.agent_prompt('M'))
-    mediator_node = functools.partial(agent_node, agent=ag, name="mediator")
-    cond_dict['continue'] = 'mediator'
+    agent_names = [f'agent_{chr(97+i)}' for i in range(pm.agent_num)]
+    for i in range(pm.agent_num):
+        ag = create_agent(llm, pm.agent_prompt(chr(97+i)))
+        agent_nodes.append(functools.partial(agent_node, agent=ag, name=agent_names[i]))
+        cond_dict[agent_names[i]] = agent_names[i]
+    # orchestrator
+    ag = create_agent(llm, pm.agent_prompt('orch'))
+    orchestrator_node = functools.partial(agent_node, agent=ag, name="orchestrator")
+    cond_dict['continue'] = 'orchestrator'
     # StateGraph 설정
     workflow = StateGraph(AgentState)
 
     # 상태 그래프 설정
     for i, ag_node in enumerate(agent_nodes):
         workflow.add_node(agent_names[i], ag_node)
-    workflow.add_node("mediator", mediator_node)
+    workflow.add_node("orchestrator", orchestrator_node)
 
     workflow.add_conditional_edges(
-        'mediator',
+        'orchestrator',
         router,
         cond_dict
     )
     for cond_key in cond_dict.keys():
         if "agent" in cond_key:
-            workflow.add_edge(cond_key, "mediator")
-    workflow.add_edge(START, 'mediator')
+            workflow.add_edge(cond_key, "orchestrator")
+    workflow.add_edge(START, 'orchestrator')
     graph = workflow.compile()
     return graph
 
