@@ -12,7 +12,7 @@
         {
           "name": "date",
           "type": "date",
-          "desc": "The date to get the weather for"
+          "desc": "The date to get the weather for. The date format should follow the followng: MM-DD."
         }
       ]
     },
@@ -50,7 +50,7 @@
         {
           "name": "date",
           "type": "date",
-          "desc": "The date to book the flight for"
+          "desc": "The date to book the flight for. The date format should follow the followng: MM-DD."
         },
         {
           "name": "from",
@@ -71,7 +71,7 @@
         {
           "name": "date",
           "type": "date",
-          "desc": "The date to book the hotel for"
+          "desc": "The date to book the hotel for. The date format should follow the followng: MM-DD."
         },
         {
           "name": "name",
@@ -87,7 +87,7 @@
         {
           "name": "date",
           "type": "date",
-          "desc": "The date to book the restaurant for"
+          "desc": "The date to book the restaurant for. The date format should follow the followng: MM-DD."
         },
         {
           "name": "name",
@@ -104,7 +104,7 @@
         {
           "name": "date",
           "type": "date",
-          "desc": "The date to book the car for"
+          "desc": "The date to book the car for. The date format should follow the followng: MM-DD."
         },
         {
           "name": "location",
