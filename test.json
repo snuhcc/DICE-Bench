@@ -1,0 +1,12 @@
+{
+    "id": "10829044",
+    "seed": 947666,
+    "n_tools": 3,
+    "type": "dag",
+    "sampled_nodes": "[{\"task\": \"apply_for_passport\", \"arguments\": [{\"name\": \"country\", \"type\": \"string\", \"desc\": \"The country to apply for the passport for\"}]}, {\"task\": \"play_movie_by_title\", \"arguments\": [{\"name\": \"title\", \"type\": \"string\", \"desc\": \"The title of the movie to play\"}]}, {\"task\": \"stock_operation\", \"arguments\": [{\"name\": \"stock\", \"type\": \"string\", \"desc\": \"The stock to do the operation on\"}, {\"name\": \"operation\", \"type\": \"string\", \"desc\": \"The operation to do, eg. buy, sell, short, cover etc.\"}]}]",
+    "sampled_links": "[{\"source\": \"play_movie_by_title\", \"target\": \"apply_for_passport\"}, {\"source\": \"stock_operation\", \"target\": \"apply_for_passport\"}]",
+    "instruction": "I've been looking forward to some me-time after a hectic week. Can you help me unwind by playing my favorite movie 'example.mp4'? Also, I've been planning a trip to the United States and I need to apply for a U.S. passport. Oh, and don't let me forget to invest in some Apple stocks while prices are low.",
+    "tool_steps": "[\"Step 1: Begin with the play_movie_by_title API, setting the title to 'example.mp4'\", \"Step 2: Next, use the apply_for_passport API with the country set as 'United States'\", \"Step 3: Finally, use the stock_operation API and don't forget to set the stock to 'AAPL' and the operation to 'buy'\"]",
+    "tool_nodes": "[{\"task\": \"play_movie_by_title\", \"arguments\": [{\"name\": \"title\", \"value\": \"example.mp4\"}]}, {\"task\": \"apply_for_passport\", \"arguments\": [{\"name\": \"country\", \"value\": \"United States\"}]}, {\"task\": \"stock_operation\", \"arguments\": [{\"name\": \"stock\", \"value\": \"AAPL\"}, {\"name\": \"operation\", \"value\": \"buy\"}]}]",
+    "tool_links": "[{\"source\": \"play_movie_by_title\", \"target\": \"apply_for_passport\"}, {\"source\": \"apply_for_passport\", \"target\": \"stock_operation\"}]"
+}

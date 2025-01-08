@@ -6,6 +6,16 @@ from src.agent.base import make_agent_pipeline
 from src.prompt.base import PromptMaker
 from src.function.base import BaseFunctionList
 from src.utils.utils import save_data
+import os
+
+def get_unique_filename(filename):
+    """Check if a file exists and increment the filename with numbers if it does."""
+    base, ext = os.path.splitext(filename)
+    counter = 1
+    while os.path.exists(filename):
+        filename = f"{base}{counter}{ext}"
+        counter += 1
+    return filename
 
 @click.command()
 @click.option('--agent', default=3, help='Number of agents.')
@@ -31,8 +41,9 @@ def main(agent, round, fewshot):
         {'recursion_limit': 100},
     )
 
-    # 5. Show / Save new data
-    save_data(events, "outputs/test.txt")
+    # 5. Get unique file name and save new data
+    output_file = get_unique_filename("outputs/test.txt")
+    save_data(events, output_file)
 
 if __name__ == '__main__':
     main()
