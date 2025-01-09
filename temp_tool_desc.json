@@ -707,7 +707,8 @@
           "type": "string",
           "desc": "The time to set the alarm for"
         }
-      ]
+      ],
+      "output": "time"
     }
   ]
 }
