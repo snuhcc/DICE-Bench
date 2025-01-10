@@ -29,9 +29,6 @@ agent_system_message = """
     - Ensure that the conversation organically introduces the function "{func}" and its parameter values without making them appear forced or unnatural.
 """
 
-
-
-
 # 3개 돌려쓰기.
 agent_personas = [
     """a thoughtful and resourceful problem-solver who likes optimizing plans for the group's benefit. 
@@ -55,8 +52,10 @@ orchestrator_system_message = """
 """
 
 
-# "Within {max_msg} messages, ensure agent(s) make {round} function call(s) to the AI using the specified function(s). "
-
+task_desc = {
+    'S-S': 'This task is called Single Round and Single Tool Task where only one tool is used in a single round. Therefore, the conversation should contain the information of a single tool and its parameters very naturally.',
+    'S-M': 'This task is called Single Round and Multi Tools Task where multiple tools are used in a single round. Therefore, the conversation should contain the information of multiple tools and their parameters very naturally.' 
+}
 
 
 # function call output : GPT 생성 유도 (get_weather 같은거)
@@ -66,17 +65,17 @@ data_message = """
     <INSTRUCTION>
     Carry out a natural and casual conversation similar to everyday life scenarios.  
     - Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively. Speaker selection will be determined by the orchestrator.
+    - {task_desc}
     - The conversation must naturally and explicitly incorporate all parameter values provided in {func}. These values should seamlessly fit into the context and contribute meaningfully to the flow of the dialogue.
     - At the end of the conversation, one of the agents should summarize the key decisions and call the function "{func}" with the determined parameter values, {parameter_values}.
     - The orchestrator will conclude the conversation with '[NEXT: END]' after all conditions are met.
     - The final utterance from the last agent should address the AI. But, make sure that the last utterance should not include any information about parameter values. It can only at least mention 'AI' using the function name. For example, if the function name is 'turn_on_computer_at_the_given_time', then the last utterance should be like 'AI, please turn on the computer.'
     - Try to progress the conversation at least {max_msg} messages, and orchestrator should only generate {agents} or '[NEXT: END]'. **Do not add any extra text, explanations, or comments.**
-    - All conversation must be conducted in Korean.
 """
 
 
 class PromptMaker:
-    def __init__(self, agent_num, round, fewshot, func, parameter_values, domain, iter):
+    def __init__(self, agent_num, round, fewshot, func, parameter_values, domain, iter, task):
         self.agent_num = agent_num
         self.round = round
         self.fewshot = fewshot
@@ -85,6 +84,7 @@ class PromptMaker:
         self.domain = domain
         # self.now_domains = [self.get_domain() for i in range(iter)]
         self.domain_ctr = 0
+        self.task = task
 
         agent_names = [f"agent_{chr(97+i)}" for i in range(agent_num)]
         self.personas = [agent_personas[i % 3] for i in range(agent_num)]
@@ -127,6 +127,7 @@ class PromptMaker:
             func=self.func,
             parameter_values=self.parameter_values,
             agents=self.orchestrator_agent_prompt,
+            task_desc=task_desc[self.task]
         )
         return prompt
 

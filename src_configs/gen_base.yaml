@@ -5,7 +5,7 @@ agent: 3
 round: 1
 
 # define dataset iteration (number of data)
-iter: 5
+iter: 1
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
@@ -21,6 +21,8 @@ functions:
 # define your desire fewshot prompt or use ""
 fewshot: ""
 
+# define tasks: 'S-M', 'M-S', 'S-S', 'M-M'
+task: "S-M"
 # output path
 output_path: "dialogue/SS"
 
