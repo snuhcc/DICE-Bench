@@ -11,17 +11,17 @@ python main.py
 
 ### Arguments
 
-- agent (agent_num) default: 3  
-- turn default: 1
-- step (미구현 - graph 완성 시 구현) default: 1
-- fewshot (미구현) default: ""  
-- iter default: 1  
+- src_configs/gen_base.yaml 수정
 
 fewshot이랑 function list를 txt/json file화해서 쉽게 import할 수 있게 만들 예정. step 수 아직
 
 agent 수 알파벳(26)만큼 가능.
 
-python main.py --agent 3 -- turn 2
+python main.py --yaml_path=src_configs/gen_base.yaml
+
+## Streamlit
+
+streamlit run showing_data.py
 
 ## Architecture
 
@@ -33,4 +33,5 @@ python main.py --agent 3 -- turn 2
 - prompt : 프롬프트들 저장.
 - utils : 파일 세이빙 등 유틸
 - main.py  
+- inference.py (vllm 고쳐야함)
 
