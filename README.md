@@ -15,6 +15,7 @@ python main.py
 - turn default: 1
 - step (미구현 - graph 완성 시 구현) default: 1
 - fewshot (미구현) default: ""  
+- iter default: 1  
 
 fewshot이랑 function list를 txt/json file화해서 쉽게 import할 수 있게 만들 예정. step 수 아직
 

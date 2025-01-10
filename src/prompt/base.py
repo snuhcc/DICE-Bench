@@ -1,3 +1,6 @@
+import random
+from src.prompt.domain_prompt import domain_prompt_dict
+
 ## define agent prompt here
 MAX_MSG = 20
 
@@ -27,7 +30,7 @@ agent_personas = [
 orchestrator_system_message = (
     "You are the orchestrator, responsible for controlling the speaking order in this conversation. "
     "Your valid responses are strictly limited to selecting one agent from {agents} or responding with '[NEXT: END]'. "
-    "Never add anything beyond these responses. "
+    "Never add anything beyond these responses. You cannot call function calls directly."
     "Within {max_msg} messages, ensure agent(s) make {round} function call(s) to the AI using the specified function(s). "
     "Maintain a random speaking order without allowing the same agent to speak consecutively, except when the final AI call is made. "
     "Conclude the session with '[NEXT: END]'."
@@ -35,22 +38,29 @@ orchestrator_system_message = (
 
 
 # function call output : GPT 생성 유도 (get_weather 같은거)
+# topic: 좀더 구체화
 data_message = """{fewshot}
-    Instruction:
+    <INSTRUCTION>
     Carry out a natural and casual conversation similar to everyday life scenarios.  
-    Use the few-shot examples above as a reference for structuring the dialogue.  
-    Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively.  
-    Within {max_msg} messages, naturally incorporate all the details needed to fulfill {round} function call(s) during the dialogue. Earlier function calls' outputs need to be reflect to later dialogue. 
+    The goal is to write a natural conversation where multiple users interact in an {domain}. An {domain} is defined as:  
+    '{domain_definition}'  
+    Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively. Use orchestrator to determine speaker.
+    The conversation must explicitly mention all parameter values provided in {func_doc} in a natural and logical manner during the discussion. These values should contribute meaningfully to the flow of the conversation and should not feel forced or out of place.
+    Within {max_msg} messages, naturally incorporate all the details needed to fulfill {round} number function call(s) during the dialogue. Earlier function calls' outputs need to be reflect to later dialogue. The latest function call need to be called in last message.
+    A function call need to be called by only agent, not orchestrator. 
     At least one agent must make the AI function call using the specified functions_document: {func_doc}.  
     The orchestrator will conclude the conversation with '[NEXT: END]' after all conditions are met.
 """
 
+
 class PromptMaker:
-    def __init__(self, agent_num, round, fewshot, funclist):
+    def __init__(self, agent_num, round, fewshot, funclist, domain):
         self.agent_num = agent_num
         self.round = round
         self.fewshot = fewshot
         self.func_doc = funclist.func_doc
+
+        self.domain = domain
 
         agent_names = [f'agent_{chr(97+i)}' for i in range(agent_num)]
         self.personas = [agent_personas[i%3] for i in range(agent_num)]
@@ -67,5 +77,15 @@ class PromptMaker:
         return prompt
     
     def data_prompt(self):
-        prompt = data_message.format(fewshot=self.fewshot, simple_agents=self.simple_agent_prompt, max_msg=MAX_MSG, round=self.round, func_doc=self.func_doc)
+        domain, domain_prompt = self.get_domain()
+        prompt = data_message.format(fewshot=self.fewshot, simple_agents=self.simple_agent_prompt, max_msg=MAX_MSG, round=self.round, func_doc=self.func_doc, domain=domain, domain_definition=domain_prompt )
         return prompt
+
+    def get_domain(self):
+        if self.domain == 'Random':
+            r_domain = random.choice([
+                "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
+            ])
+            return r_domain, domain_prompt_dict[r_domain]
+        else:
+            return self.domain, domain_prompt_dict[self.domain]

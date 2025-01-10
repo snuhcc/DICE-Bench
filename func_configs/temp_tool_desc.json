@@ -1,0 +1,714 @@
+{
+  "nodes": [
+    {
+      "function": "get_weather",
+      "desc": "Get the weather for a specific city and a specific day",
+      "parameters": [
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location to get the weather for"
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "desc": "The date to get the weather for. The date format should follow the followng: MM-DD."
+        }
+      ]
+    },
+    {
+      "function": "get_news_for_topic",
+      "desc": "Get the news for a specific topic",
+      "parameters": [
+        {
+          "name": "topic",
+          "type": "string",
+          "desc": "The topic to get the news for"
+        }
+      ]
+    },
+    {
+      "function": "stock_operation",
+      "desc": "Do a specific operation on a specific stock",
+      "parameters": [
+        {
+          "name": "stock",
+          "type": "string",
+          "desc": "The stock to do the operation on"
+        },
+        {
+          "name": "operation",
+          "type": "string",
+          "desc": "The operation to do, eg. buy, sell, short, cover etc."
+        }
+      ]
+    },
+    {
+      "function": "book_flight",
+      "desc": "Book a flight for a specific date, from a specific location to a specific destination",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "date",
+          "desc": "The date to book the flight for. The date format should follow the followng: MM-DD."
+        },
+        {
+          "name": "from",
+          "type": "string",
+          "desc": "The location to book the flight from"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "desc": "The location to book the flight to"
+        }
+      ]
+    },
+    {
+      "function": "book_hotel",
+      "desc": "Book a specific hotel for a specific date",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "date",
+          "desc": "The date to book the hotel for. The date format should follow the followng: MM-DD."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "The name of the hotel to book"
+        }
+      ]
+    },
+    {
+      "function": "find_hotel",
+      "desc": "Find a hotel in a specific location with a specified check-in date",
+      "parameters": [
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location where the hotel is being searched, eg. city or region"
+        },
+        {
+          "name": "check_in",
+          "type": "string",
+          "desc": "The check-in date for the hotel in MM-DD format"
+        }
+      ]
+    },
+    {
+      "function": "book_restaurant",
+      "desc": "Book a specific restaurant for a specific date",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "date",
+          "desc": "The date to book the restaurant for. The date format should follow the followng: MM-DD."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "The name of the restaurant to book"
+        }
+
+      ]
+    },
+    {
+      "function": "find_restaurants",
+      "desc": "Find restaurants based on cuisine type and location",
+      "parameters": [
+        {
+          "name": "cuisine",
+          "type": "string",
+          "desc": "The type of cuisine to search for, eg. Italian, Korean, Japanese"
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location where to search for restaurants, eg. city or neighborhood"
+        }
+      ]
+    },
+    {
+      "function": "book_car",
+      "desc": "Book a car for a specific date, in a specific location",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "date",
+          "desc": "The date to book the car for. The date format should follow the followng: MM-DD."
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location to book the car in"
+        }
+      ]
+    },
+    {
+      "function": "shop_online",
+      "desc": "Buy a product from a specific website",
+      "parameters": [
+        {
+          "name": "website",
+          "type": "string",
+          "desc": "The website to buy the product from, eg. Amazon, Ebay, Taobao etc."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "desc": "The product to buy"
+        }
+      ]
+    },
+    {
+      "function": "send_email",
+      "desc": "Send an email to a specific email address",
+      "parameters": [
+        {
+          "name": "email_address",
+          "type": "string",
+          "desc": "The email address to send the email to"
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "desc": "The content of the email"
+        }
+      ]
+    },
+    {
+      "function": "send_sms",
+      "desc": "Send an sms to a specific phone number",
+      "parameters": [
+        {
+          "name": "phone_number",
+          "type": "string",
+          "desc": "The phone number to send the sms to"
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "desc": "The content of the sms"
+        }
+      ]
+    },
+    {
+      "function": "schedule_appointment",
+      "desc": "Schedule an appointment for a specific service at a specific location, date, and time",
+      "parameters": [
+        {
+          "name": "service",
+          "type": "string",
+          "desc": "The type of service for the appointment, eg. dentist, doctor, therapist"
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "desc": "The date of the appointment in MM-DD format"
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "The time of the appointment in HH:MM format (24-hour clock)"
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location where the appointment is scheduled"
+        }
+      ]
+    },
+    {
+      "function": "check_balance",
+      "desc": "Check the balance of a specific account type in a specific currency at a specific bank",
+      "parameters": [
+        {
+          "name": "bank",
+          "type": "string",
+          "desc": "The bank where the account is held"
+        },
+        {
+          "name": "account_type",
+          "type": "string",
+          "desc": "The type of account to check balance for, eg. savings, checking"
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "desc": "The currency in which the balance is to be displayed, eg. USD, EUR, KRW"
+        }
+      ]
+    },
+    {
+      "function": "share_by_social_network",
+      "desc": "Share a specific content by a specific social network",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "string",
+          "desc": "The content to share"
+        },
+        {
+          "name": "social_network",
+          "type": "string",
+          "desc": "The social network to share the content by, eg. Wechat, Facebook, Twitter, Weibo etc."
+        }
+      ]
+    },
+    {
+      "function": "search_by_engine",
+      "desc": "Search a specific query by a specific search engine",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "desc": "The content to search"
+        },
+        {
+          "name": "engine",
+          "type": "string",
+          "desc": "The search engine to use, eg. Google, Bing, Baidu etc."
+        }
+      ]
+    },
+    {
+      "function": "apply_for_job",
+      "desc": "Apply for a specific job",
+      "parameters": [
+        {
+          "name": "job",
+          "type": "string",
+          "desc": "The job to apply for"
+        }
+      ]
+    },
+    {
+      "function": "see_doctor_online",
+      "desc": "See a specific doctor for a specific disease",
+      "parameters": [
+        {
+          "name": "disease",
+          "type": "string",
+          "desc": "The disease to see the doctor for"
+        },
+        {
+          "name": "doctor",
+          "type": "string",
+          "desc": "The doctor to see"
+        }
+      ]
+    },
+    {
+      "function": "consult_lawyer_online",
+      "desc": "Consult a specific lawyer for a specific legal issue",
+      "parameters": [
+        {
+          "name": "issue",
+          "type": "string",
+          "desc": "The legal issue to consult the lawyer for"
+        },
+        {
+          "name": "lawyer",
+          "type": "string",
+          "desc": "The lawyer to consult"
+        }
+      ]
+    },
+    {
+      "function": "enroll_in_course",
+      "desc": "Enroll in a specific course at a specific university",
+      "parameters": [
+        {
+          "name": "course",
+          "type": "string",
+          "desc": "The course to enroll in"
+        },
+        {
+          "name": "university",
+          "type": "string",
+          "desc": "The university to enroll in the course at"
+        }
+      ]
+    },
+    {
+      "function": "buy_insurance",
+      "desc": "Buy a specific insurance from a specific insurance company",
+      "parameters": [
+        {
+          "name": "insurance",
+          "type": "string",
+          "desc": "The insurance to buy"
+        },
+        {
+          "name": "company",
+          "type": "string",
+          "desc": "The insurance company to buy the insurance from"
+        }
+      ]
+    },
+    {
+      "function": "withdraw_cash",
+      "desc": "Withdraw a specific amount of cash in a specific currency from a specific bank",
+      "parameters": [
+        {
+          "name": "bank",
+          "type": "string",
+          "desc": "The bank to withdraw cash from"
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "desc": "The amount of cash to withdraw"
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "desc": "The currency of the cash to withdraw, eg. USD, EUR, KRW"
+        }
+      ]
+    },
+    {
+      "function": "daily_bill_payment",
+      "desc": "Pay a specific bill",
+      "parameters": [
+        {
+          "name": "bill",
+          "type": "string",
+          "desc": "The bill to pay, eg. electricity, water, gas, phone, internet etc."
+        }
+      ]
+    },
+    {
+      "function": "sell_item_online",
+      "desc": "Sell a specific item at a specific online store",
+      "parameters": [
+        {
+          "name": "item",
+          "type": "string",
+          "desc": "The item to sell"
+        },
+        {
+          "name": "store",
+          "type": "string",
+          "desc": "The online store to sell the item at, eg. Amazon, Ebay, Taobao etc."
+        }
+      ]
+    },
+    {
+      "function": "do_tax_return",
+      "desc": "Do the tax return for a specific year",
+      "parameters": [
+        {
+          "name": "year",
+          "type": "string",
+          "desc": "The year to do the tax return for"
+        }
+      ]
+    },
+    {
+      "function": "apply_for_passport",
+      "desc": "Apply for a passport",
+      "parameters": [
+        {
+          "name": "country",
+          "type": "string",
+          "desc": "The country to apply for the passport for"
+        }
+      ]
+    },
+    {
+      "function": "pay_for_credit_card",
+      "desc": "Pay for a specific credit card",
+      "parameters": [
+        {
+          "name": "credit_card",
+          "type": "string",
+          "desc": "The credit card to pay for"
+        }
+      ]
+    },
+    {
+      "function": "auto_housework_by_robot",
+      "desc": "Let a robot do a housework by following a specific instruction",
+      "parameters": [
+        {
+          "name": "instruction",
+          "type": "string",
+          "desc": "The instruction to let the robot follow, eg. clean the floor, wash the dishes, do the laundry etc."
+        }
+      ]
+    },
+    {
+      "function": "auto_driving_to_destination",
+      "desc": "Let a car drive to a specific destination",
+      "parameters": [
+        {
+          "name": "destination",
+          "type": "string",
+          "desc": "The destination to drive to"
+        }
+      ]
+    },
+    {
+      "function": "deliver_package",
+      "desc": "Deliver a specific package to a specific destination",
+      "parameters": [
+        {
+          "name": "package",
+          "type": "string",
+          "desc": "The package to deliver"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "desc": "The destination to deliver the package to"
+        }
+      ]
+    },
+    {
+      "function": "order_food_dinein",
+      "desc": "Place a dine-in food order at a specific restaurant for a specific item",
+      "parameters": [
+        {
+          "name": "restaurant",
+          "type": "string",
+          "desc": "The name of the restaurant where the food order will be placed"
+        },
+        {
+          "name": "item",
+          "type": "string",
+          "desc": "The food item to order, eg. Pepperoni Pizza, Cheeseburger, Sushi"
+        }
+      ]
+    },
+    {
+      "function": "order_food_delivery",
+      "desc": "Order a specific food to be delivered to a specific location at a specific platform",
+      "parameters": [
+        {
+          "name": "food",
+          "type": "string",
+          "desc": "The food to order"
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location to deliver the food to"
+        },
+        {
+          "name": "platform",
+          "type": "string",
+          "desc": "The platform to order the food at, eg. Uber Eats, Meituan Waimai etc."
+        }
+      ]
+    },
+    {
+      "function": "order_taxi",
+      "desc": "Order a taxi to a specific location at a specific platform",
+      "parameters": [
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "The location to order the taxi to"
+        },
+        {
+          "name": "platform",
+          "type": "string",
+          "desc": "The platform to order the taxi at, eg. Uber, Didi etc."
+        }
+      ]
+    },
+    {
+      "function": "play_music_by_artist_and_genre",
+      "desc": "Play music based on a specific artist and genre",
+      "parameters": [
+        {
+          "name": "genre",
+          "type": "string",
+          "desc": "The genre of music to play, eg. pop, rock, jazz"
+        },
+        {
+          "name": "artist",
+          "type": "string",
+          "desc": "The name of the artist whose music should be played"
+        }
+      ]
+    },
+    {
+      "function": "get_crypto_price",
+      "desc": "Retrieve the price of a specific cryptocurrency on a specific date",
+      "parameters": [
+        {
+          "name": "currency",
+          "type": "string",
+          "desc": "The name of the cryptocurrency to retrieve the price for, eg. bitcoin, ethereum"
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "desc": "The date for which to retrieve the cryptocurrency price in MM-DD format"
+        }
+      ]
+    },
+    {
+      "function": "play_music_by_title",
+      "desc": "Play a specific music by a specific title",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "The title of the music to play"
+        }
+      ]
+    },
+    {
+      "function": "play_movie_by_title",
+      "desc": "Play a specific movie by a specific title",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "The title of the movie to play"
+        }
+      ]
+    },
+    {
+      "function": "take_note",
+      "desc": "Take a note",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "string",
+          "desc": "The content of the note"
+        }
+      ]
+    },
+    {
+      "function": "borrow_book_online",
+      "desc": "Borrow a specific book from a specific library",
+      "parameters": [
+        {
+          "name": "book",
+          "type": "string",
+          "desc": "The book to borrow"
+        },
+        {
+          "name": "library",
+          "type": "string",
+          "desc": "The library to borrow the book from"
+        }
+      ]
+    },
+    {
+      "function": "recording_audio",
+      "desc": "Record an audio",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "string",
+          "desc": "The content of the audio"
+        }
+      ]
+    },
+    {
+      "function": "calculate_bmi",
+      "desc": "Calculate the Body Mass Index (BMI) based on height and weight",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "number",
+          "desc": "The height of the person in centimeters"
+        },
+        {
+          "name": "weight",
+          "type": "number",
+          "desc": "The weight of the person in kilograms"
+        }
+      ]
+    },
+    {
+      "function": "make_video_call",
+      "desc": "Make a video call to a specific phone number",
+      "parameters": [
+        {
+          "name": "phone_number",
+          "type": "string",
+          "desc": "The phone number to make the video call to"
+        }
+      ]
+    },
+    {
+      "function": "make_voice_call",
+      "desc": "Make a voice call to a specific phone number",
+      "parameters": [
+        {
+          "name": "phone_number",
+          "type": "string",
+          "desc": "The phone number to make the voice call to"
+        }
+      ]
+    },
+    {
+      "function": "organize_meeting_online",
+      "desc": "Organize a meeting online about a specific topic",
+      "parameters": [
+        {
+          "name": "topic",
+          "type": "string",
+          "desc": "The topic of the meeting"
+        }
+      ]
+    },
+    {
+      "function": "attend_meeting_online",
+      "desc": "Attend a meeting online about a specific topic",
+      "parameters": [
+        {
+          "name": "topic",
+          "type": "string",
+          "desc": "The topic of the meeting"
+        }
+      ]
+    },
+    {
+      "function": "software_management",
+      "desc": "Manage a specific software by a specific instruction",
+      "parameters": [
+        {
+          "name": "software",
+          "type": "string",
+          "desc": "The software to manage"
+        },
+        {
+          "name": "instruction",
+          "type": "string",
+          "desc": "The instruction to manage the software by, eg. install, uninstall, update etc."
+        }
+      ]
+    },
+    {
+      "function": "print_document",
+      "desc": "Print a specific document",
+      "parameters": [
+        {
+          "name": "document",
+          "type": "string",
+          "desc": "The document to print"
+        }
+      ]
+    },
+    {
+      "function": "set_alarm",
+      "desc": "Set an alarm for a specific time",
+      "parameters": [
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "The time to set the alarm for"
+        }
+      ],
+      "output": "time"
+    }
+  ]
+}
