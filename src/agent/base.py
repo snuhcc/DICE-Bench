@@ -37,8 +37,14 @@ def router(state) -> str:
     messages = state['messages']
     last_message = messages[-1]
     # print(state)
+    
+    
+    
     next_agent = find_next_agent(last_message)  # `find_next_agent`는 다음 에이전트를 추출하는 함수
     try:
+        if "I'm sorry" in last_message.content and "I can't assist" in last_message.content:
+            return '__end__'
+        
         if next_agent is None:
             return 'continue'
         if 'agent' in next_agent:
@@ -79,15 +85,18 @@ def make_agent_pipeline(pm):
         '__end__': END
         }
     llm = ChatOpenAI(model='gpt-4o')
+    
     agent_names = [f'agent_{chr(97+i)}' for i in range(pm.agent_num)]
     for i in range(pm.agent_num):
         ag = create_agent(llm, pm.agent_prompt(chr(97+i)))
         agent_nodes.append(functools.partial(agent_node, agent=ag, name=agent_names[i]))
         cond_dict[agent_names[i]] = agent_names[i]
+        
     # orchestrator
     ag = create_agent(llm, pm.agent_prompt('orch'))
     orchestrator_node = functools.partial(agent_node, agent=ag, name="orchestrator")
     cond_dict['continue'] = 'orchestrator'
+    
     # StateGraph 설정
     workflow = StateGraph(AgentState)
 
@@ -101,6 +110,7 @@ def make_agent_pipeline(pm):
         router,
         cond_dict
     )
+    
     for cond_key in cond_dict.keys():
         if "agent" in cond_key:
             workflow.add_edge(cond_key, "orchestrator")

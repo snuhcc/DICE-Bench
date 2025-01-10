@@ -31,8 +31,8 @@ def save_data(events_list, save_path=None):
         save_dicts[f"data{i}"] = save_list
         metadata_dicts[f"data{i}"] = metadata_list
     if save_path is not None:
-        with open(save_path, 'w') as f:
-            json.dump(save_dicts, f)
+        with open(save_path, 'w', encoding='utf-8') as f:
+            json.dump(save_dicts, f, ensure_ascii=False)
         # json.dumps(save_dicts, indent=4)
 
     return save_dicts, metadata_dicts
