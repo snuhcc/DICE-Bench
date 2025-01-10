@@ -2,7 +2,7 @@ import random
 from src.prompt.domain_prompt import domain_prompt_dict
 
 ## define agent prompt here
-MAX_MSG = 20
+MAX_MSG = 10
 
 # 어떤 페르소나에든 들어가는 default
 basic_message = """
@@ -10,12 +10,15 @@ basic_message = """
     - Collaborate in a discussion based on your role and the messages provided.\n
     - Respond according to your designated persona.\n
     - Provide only one short sentence per turn if you are an agent.\n
-    - If you are the orchestrator, you must respond only with exactly one of the following: {agents} or '[NEXT: END]'. No additional text or explanations are allowed.\n
-    - End the entire conversation after {max_msg} total messages by prompting one agent to call AI using the functions in the functions document, ensuring all necessary information for the function call is included within the dialogue.\n
+    - Try to make the conversation be approximately {max_msg} steps except for the utterances from "orchestrator".\n
     """
 
 # 페르소나 정의
-agent_system_message = "You are User {agent_char}. {persona}"
+agent_system_message = """You are an Agent {agent_char}.
+Try to progress the {domain} conversation where the {domain} is defined as the following:
+{domain_definition}.
+Make sure the conversation should be very naturally, and make sure the parameter values can be decided through the conversation that you will generate.
+"""
 
 # 3개 돌려쓰기.
 agent_personas = [
@@ -27,13 +30,18 @@ agent_personas = [
     Your focus is on creating exciting plans and keeping the conversation dynamic and engaging."""
 ]
 
+# TODO: graph based generation
 orchestrator_system_message = (
     "You are the orchestrator, responsible for controlling the speaking order in this conversation. "
-    "Your valid responses are strictly limited to selecting one agent from {agents} or responding with '[NEXT: END]'. "
-    "Never add anything beyond these responses. You cannot call function calls directly."
-    "Within {max_msg} messages, ensure agent(s) make {round} function call(s) to the AI using the specified function(s). "
-    "Maintain a random speaking order without allowing the same agent to speak consecutively, except when the final AI call is made. "
+    "Generate '[NEXT: END]' after {max_msg} turns of utterances from agents"
+    "Never add anything beyond calling agents or make the dialogue end."
+    # "Within {max_msg} messages, ensure agent(s) make {round} function call(s) to the AI using the specified function(s). "
+    # "Refer function list below:"
+    # "{func_doc}"
+    "Choose the next agent most relevant to the chat history and persona."
+    "Avoid the same agent to speak consecutively."
     "Conclude the session with '[NEXT: END]'."
+    "You must respond only with exactly one of the following: {agents} or '[NEXT: END]'. No additional text or explanations are allowed."
 )
 
 
@@ -42,25 +50,25 @@ orchestrator_system_message = (
 data_message = """{fewshot}
     <INSTRUCTION>
     Carry out a natural and casual conversation similar to everyday life scenarios.  
-    The goal is to write a natural conversation where multiple users interact in an {domain}. An {domain} is defined as:  
-    '{domain_definition}'  
     Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively. Use orchestrator to determine speaker.
     The conversation must explicitly mention all parameter values provided in {func_doc} in a natural and logical manner during the discussion. These values should contribute meaningfully to the flow of the conversation and should not feel forced or out of place.
-    Within {max_msg} messages, naturally incorporate all the details needed to fulfill {round} number function call(s) during the dialogue. Earlier function calls' outputs need to be reflect to later dialogue. The latest function call need to be called in last message.
-    A function call need to be called by only agent, not orchestrator. 
-    At least one agent must make the AI function call using the specified functions_document: {func_doc}.  
     The orchestrator will conclude the conversation with '[NEXT: END]' after all conditions are met.
+    The last utterance from the last agent should say something that calls AI, for example, "Hey, AI, please handle our issue" or "AI, go ahead" etc.
+    All conversation need to be in Korean.
 """
-
+# Within {max_msg} messages, naturally incorporate all the details needed to fulfill {round} number function call(s) during the dialogue. Earlier function calls' outputs need to be reflect to later dialogue. The latest function call need to be called in last message.
+    
 
 class PromptMaker:
-    def __init__(self, agent_num, round, fewshot, funclist, domain):
+    def __init__(self, agent_num, round, fewshot, funclist, domain,iter):
         self.agent_num = agent_num
         self.round = round
         self.fewshot = fewshot
         self.func_doc = funclist.func_doc
 
         self.domain = domain
+        self.now_domains = [self.get_domain() for i in range(iter)]
+        self.domain_ctr = 0
 
         agent_names = [f'agent_{chr(97+i)}' for i in range(agent_num)]
         self.personas = [agent_personas[i%3] for i in range(agent_num)]
@@ -73,12 +81,13 @@ class PromptMaker:
         if agent_type == 'orch':
             prompt += orchestrator_system_message.format(agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG, round=self.round)
         else:
-            prompt += agent_system_message.format(agent_char=agent_type, persona=agent_personas[(ord(agent_type)-97) % 3])
+            domain, domain_prompt = self.now_domains[self.domain_ctr]
+            self.domain_ctr +=1
+            prompt += agent_system_message.format(agent_char=agent_type, persona=agent_personas[(ord(agent_type)-97) % 3], domain=domain, domain_definition=domain_prompt)
         return prompt
     
     def data_prompt(self):
-        domain, domain_prompt = self.get_domain()
-        prompt = data_message.format(fewshot=self.fewshot, simple_agents=self.simple_agent_prompt, max_msg=MAX_MSG, round=self.round, func_doc=self.func_doc, domain=domain, domain_definition=domain_prompt )
+        prompt = data_message.format(fewshot=self.fewshot, simple_agents=self.simple_agent_prompt, max_msg=MAX_MSG, round=self.round, func_doc=self.func_doc, )
         return prompt
 
     def get_domain(self):

@@ -1,5 +1,6 @@
 import click
 import yaml
+import json
 from langchain_core.messages import (
     HumanMessage
 )
@@ -25,9 +26,10 @@ def get_unique_filename(filename):
 @click.option('--iter', default=1, help='number of iteration')
 @click.option('--domain', default="Persuasion", help='domain')
 @click.option('--functions', default=None, help='func list')
+@click.option('--output_path', default="outputs/test.json", help='output_path')
 
 @click.option('--yaml_path', default=None, help='predefined yaml import')
-def main(agent, round, fewshot, iter, domain, functions, yaml_path):
+def main(agent, round, fewshot, iter, domain, functions, output_path, yaml_path):
     if yaml_path is not None:
         with open(yaml_path, encoding='utf-8') as f:
             yaml_data = yaml.full_load(f)
@@ -37,6 +39,7 @@ def main(agent, round, fewshot, iter, domain, functions, yaml_path):
         iter = yaml_data['iter']
         domain = yaml_data['domain']
         functions = yaml_data['functions']
+        output_path = yaml_data['output_path']
 
     # 1. Define few-shot prompt from path (TODO)
     fewshot = fewshot
@@ -44,16 +47,18 @@ def main(agent, round, fewshot, iter, domain, functions, yaml_path):
     funclist = BaseFunctionList(functions=functions)
 
     # 3. Define langgraph pipeline
-    pm = PromptMaker(agent, round, fewshot, funclist, domain=domain)
+    pm = PromptMaker(agent, round, fewshot, funclist, domain, iter)
     main_graph = make_agent_pipeline(pm)
 
     # 4. Get new data
     events_list = []
+    domain_list = pm.now_domains
     for i in range(iter):
+        data_prompt = pm.data_prompt()
         events = main_graph.stream(
             {
                 'messages': [
-                    HumanMessage(content=pm.data_prompt())
+                    HumanMessage(content=data_prompt)
                 ]
             },
             {'recursion_limit': 100},
@@ -61,8 +66,17 @@ def main(agent, round, fewshot, iter, domain, functions, yaml_path):
         events_list.append(events)
 
     # 5. Get unique file name and save new data
-    output_file = get_unique_filename("outputs/test.json")
-    save_data(events_list, output_file)
+    output_file = get_unique_filename(output_path)
+    save_dicts, metadata_dicts = save_data(events_list, output_file)
+    metadata_path = '.'.join(output_file.split('.')[:-1]) + '_metadata.json'
+    metadata = {
+        "domain": domain_list,
+        "round": round,
+        "funclist": funclist.func_doc,
+        "orchestrator": metadata_dicts
+    }
+    with open(metadata_path, 'w') as f:
+        json.dump(metadata, f)
 
 if __name__ == '__main__':
     main()
