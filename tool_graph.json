@@ -7,18 +7,16 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "The city or region to check weather for."
+          "desc": "The city or region to get the weather information for (e.g. 'New York')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format."
+          "desc": "Date in MM-DD format (e.g. '04-15')."
         }
       ],
       "return": {
-        "location": "string",
-        "date": "string",
-        "forecast": "string"
+        "weather": "string"
       }
     },
     {
@@ -28,11 +26,10 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "Topic or keyword to get the news for."
+          "desc": "A keyword or topic to search news for (e.g. 'technology')."
         }
       ],
       "return": {
-        "topic": "string",
         "news_headlines": "string"
       }
     },
@@ -43,17 +40,15 @@
         {
           "name": "currency",
           "type": "string",
-          "desc": "e.g., 'bitcoin', 'ethereum'."
+          "desc": "Name of the cryptocurrency (e.g. 'bitcoin')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format."
+          "desc": "Date in MM-DD format (e.g. '06-20') for which you want the price."
         }
       ],
       "return": {
-        "currency": "string",
-        "date": "string",
         "price": "number"
       }
     },
@@ -64,13 +59,11 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name."
+          "desc": "Stock symbol or name (e.g. 'AAPL')."
         }
       ],
       "return": {
-        "stock": "string",
-        "price": "number",
-        "timestamp": "string"
+        "price": "number"
       }
     },
     {
@@ -80,12 +73,17 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name."
+          "desc": "Stock symbol or name (e.g. 'AAPL') to buy."
+        },
+        {
+          "name": "shares",
+          "type": "number",
+          "desc": "Number of shares you want to purchase (e.g. 10)."
         }
       ],
       "return": {
-        "stock": "string",
-        "purchase_confirmation": "string"
+        "stock_name": "string",
+        "shares_bought": "number"
       }
     },
     {
@@ -95,42 +93,17 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name."
-        }
-      ],
-      "return": {
-        "stock": "string",
-        "sale_confirmation": "string"
-      }
-    },
-    {
-      "function": "short_stock",
-      "desc": "Short-sell a specific stock.",
-      "parameters": [
+          "desc": "Stock symbol or name (e.g. 'AAPL') to sell."
+        },
         {
-          "name": "stock",
-          "type": "string",
-          "desc": "Stock symbol or name."
+          "name": "shares",
+          "type": "number",
+          "desc": "Number of shares you want to sell (e.g. 5)."
         }
       ],
       "return": {
-        "stock": "string",
-        "shorting_confirmation": "string"
-      }
-    },
-    {
-      "function": "cover_stock",
-      "desc": "Cover (close) a short position on a specific stock.",
-      "parameters": [
-        {
-          "name": "stock",
-          "type": "string",
-          "desc": "Stock symbol or name."
-        }
-      ],
-      "return": {
-        "stock": "string",
-        "cover_confirmation": "string"
+        "stock_name": "string",
+        "shares_sold": "number"
       }
     },
     {
@@ -140,25 +113,31 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "Flight date, MM-DD format."
+          "desc": "Flight departure date in MM-DD format (e.g. '09-15')."
         },
         {
           "name": "from",
           "type": "string",
-          "desc": "Departure location."
+          "desc": "Departure airport or city (e.g. 'JFK')."
         },
         {
           "name": "to",
           "type": "string",
-          "desc": "Arrival location."
+          "desc": "Arrival airport or city (e.g. 'LAX')."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "Departure time in HH:MM 24-hour format (e.g. '09:30')."
         }
       ],
       "return": {
         "flight_number": "string",
         "departure_date": "string",
+        "departure_time": "string",
         "from": "string",
         "to": "string",
-        "booking_confirmation": "string"
+        "reservation_id": "string"
       }
     },
     {
@@ -168,17 +147,15 @@
         {
           "name": "flight_number",
           "type": "string",
-          "desc": "Flight number to check."
+          "desc": "Flight number (e.g. 'AA100') to check status for."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format."
+          "desc": "Date in MM-DD format (e.g. '09-15') of the flight."
         }
       ],
       "return": {
-        "flight_number": "string",
-        "date": "string",
         "flight_status": "string"
       }
     },
@@ -189,18 +166,16 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region to search for hotels."
+          "desc": "City or region to search for hotels (e.g. 'Las Vegas')."
         },
         {
           "name": "check_in",
           "type": "string",
-          "desc": "Check-in date in MM-DD format."
+          "desc": "Check-in date in MM-DD format (e.g. '10-05')."
         }
       ],
       "return": {
-        "hotel_name": "string",
-        "location": "string",
-        "check_in_date": "string"
+        "hotel_name": "string"
       }
     },
     {
@@ -210,24 +185,30 @@
         {
           "name": "hotel_name",
           "type": "string",
-          "desc": "Name of the hotel."
-        },
-        {
-          "name": "date",
-          "type": "string",
-          "desc": "Date in MM-DD format."
+          "desc": "Name of the hotel to book (e.g. 'Grand Hyatt')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Location of the hotel."
+          "desc": "City or region of the hotel (e.g. 'Las Vegas')."
+        },
+        {
+          "name": "check_in_date",
+          "type": "string",
+          "desc": "Check-in date in MM-DD format (e.g. '10-05')."
+        },
+        {
+          "name": "check_in_time",
+          "type": "string",
+          "desc": "Approximate check-in time (HH:MM, 24-hour) (e.g. '15:00')."
         }
       ],
       "return": {
         "hotel_name": "string",
         "location": "string",
         "check_in_date": "string",
-        "hotel_booking_confirmation": "string"
+        "check_in_time": "string",
+        "reservation_id": "string"
       }
     },
     {
@@ -237,37 +218,48 @@
         {
           "name": "cuisine",
           "type": "string",
-          "desc": "e.g., 'Italian', 'Korean'."
+          "desc": "Type of cuisine (e.g. 'Italian')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or area to find restaurants."
+          "desc": "City or area to search for restaurants (e.g. 'San Francisco')."
         }
       ],
       "return": {
-        "restaurant_name": "string",
-        "location": "string"
+        "restaurant_name": "string"
       }
     },
     {
       "function": "book_restaurant",
-      "desc": "Book a table at a specific restaurant on a certain date.",
+      "desc": "Book a table at a specific restaurant on a certain date/time.",
       "parameters": [
         {
           "name": "restaurant_name",
           "type": "string",
-          "desc": "Name of the restaurant."
+          "desc": "Name of the restaurant to reserve a table at (e.g. 'Olive Garden')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format."
+          "desc": "Date for the reservation in MM-DD format (e.g. '03-10')."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "Time for the reservation in HH:MM (24-hour) format (e.g. '19:00')."
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "Restaurant's location or address (e.g. '123 Main St')."
         }
       ],
       "return": {
         "restaurant_name": "string",
-        "date": "string",
+        "reservation_date": "string",
+        "reservation_time": "string",
+        "location": "string",
         "booking_id": "string"
       }
     },
@@ -278,17 +270,15 @@
         {
           "name": "restaurant_name",
           "type": "string",
-          "desc": "Name of the restaurant."
+          "desc": "Name of the restaurant where you want to dine in."
         },
         {
           "name": "item",
           "type": "string",
-          "desc": "Menu item to order."
+          "desc": "Menu item to order (e.g. 'Margherita Pizza')."
         }
       ],
       "return": {
-        "restaurant_name": "string",
-        "item": "string",
         "order_status": "string"
       }
     },
@@ -299,23 +289,20 @@
         {
           "name": "food",
           "type": "string",
-          "desc": "Name of the food item."
+          "desc": "Name of the food item to order (e.g. 'Pepperoni Pizza')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Delivery location address."
+          "desc": "Delivery address (e.g. '123 Main St')."
         },
         {
           "name": "platform",
           "type": "string",
-          "desc": "Delivery platform, e.g. 'Uber Eats'."
+          "desc": "Delivery service platform (e.g. 'Uber Eats')."
         }
       ],
       "return": {
-        "food": "string",
-        "location": "string",
-        "platform": "string",
         "order_details": "string"
       }
     },
@@ -326,45 +313,49 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "MM-DD format for pickup date."
+          "desc": "Pickup date in MM-DD format (e.g. '07-01')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Pickup location."
+          "desc": "City or location to pick up the rental car (e.g. 'Miami')."
         }
       ],
       "return": {
-        "car_name": "string",
-        "date": "string",
-        "location": "string"
+        "car_name": "string"
       }
     },
     {
       "function": "book_car",
-      "desc": "Book a car rental for a specified date and location.",
+      "desc": "Book a car rental for a specified date, time, and location.",
       "parameters": [
         {
           "name": "car_name",
           "type": "string",
-          "desc": "Name or model of the car."
-        },
-        {
-          "name": "date",
-          "type": "string",
-          "desc": "Pickup date, MM-DD format."
+          "desc": "Name or model of the car to rent (e.g. 'Toyota Camry')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Pickup location."
+          "desc": "City or location to pick up the rental car (e.g. 'Miami')."
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "desc": "Pickup date in MM-DD format (e.g. '07-02')."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "Pickup time in HH:MM (24-hour) format (e.g. '10:30')."
         }
       ],
       "return": {
         "car_name": "string",
-        "date": "string",
         "location": "string",
-        "car_booking_confirmation": "string"
+        "date": "string",
+        "time": "string",
+        "reservation_id": "string"
       }
     },
     {
@@ -374,17 +365,15 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "Pickup location."
+          "desc": "Pickup address or location (e.g. '55 5th Ave')."
         },
         {
           "name": "platform",
           "type": "string",
-          "desc": "e.g. 'Uber', 'Didi'."
+          "desc": "Taxi service platform (e.g. 'Uber')."
         }
       ],
       "return": {
-        "location": "string",
-        "platform": "string",
         "ride_details": "string"
       }
     },
@@ -395,23 +384,20 @@
         {
           "name": "bank",
           "type": "string",
-          "desc": "Name of the bank."
+          "desc": "Name of the bank (e.g. 'Chase')."
         },
         {
           "name": "account_type",
           "type": "string",
-          "desc": "e.g. 'savings', 'checking'."
+          "desc": "Account type (e.g. 'savings', 'checking')."
         },
         {
           "name": "currency",
           "type": "string",
-          "desc": "Currency code, e.g. 'USD'."
+          "desc": "Currency code (e.g. 'USD')."
         }
       ],
       "return": {
-        "bank": "string",
-        "account_type": "string",
-        "currency": "string",
         "account_balance": "number"
       }
     },
@@ -422,23 +408,20 @@
         {
           "name": "bank",
           "type": "string",
-          "desc": "Bank name."
+          "desc": "Name of the bank to withdraw from (e.g. 'Chase')."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "How much to withdraw."
+          "desc": "Amount of money to withdraw (e.g. 200)."
         },
         {
           "name": "currency",
           "type": "string",
-          "desc": "Currency code, e.g. 'USD'."
+          "desc": "Currency code (e.g. 'USD')."
         }
       ],
       "return": {
-        "bank": "string",
-        "amount": "number",
-        "currency": "string",
         "transaction_status": "string"
       }
     },
@@ -449,11 +432,10 @@
         {
           "name": "credit_card",
           "type": "string",
-          "desc": "Credit card identifier."
+          "desc": "Credit card identifier (e.g. last 4 digits)."
         }
       ],
       "return": {
-        "credit_card": "string",
         "payment_status": "string"
       }
     },
@@ -464,17 +446,15 @@
         {
           "name": "website",
           "type": "string",
-          "desc": "e.g. 'Amazon', 'Ebay'."
+          "desc": "Website or marketplace to buy from (e.g. 'Amazon')."
         },
         {
           "name": "product",
           "type": "string",
-          "desc": "What product to buy."
+          "desc": "Name or description of the product (e.g. 'wireless mouse')."
         }
       ],
       "return": {
-        "website": "string",
-        "product": "string",
         "order_details": "string"
       }
     },
@@ -485,17 +465,15 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name/description of the item."
+          "desc": "Name/description of the item to sell (e.g. 'used iPhone X')."
         },
         {
           "name": "store",
           "type": "string",
-          "desc": "Marketplace, e.g. 'Ebay'."
+          "desc": "Online marketplace (e.g. 'Ebay')."
         }
       ],
       "return": {
-        "item": "string",
-        "store": "string",
         "sold_item": "string"
       }
     },
@@ -506,16 +484,15 @@
         {
           "name": "email_address",
           "type": "string",
-          "desc": "Recipient's email."
+          "desc": "Recipient's email address (e.g. 'john@example.com')."
         },
         {
           "name": "content",
           "type": "string",
-          "desc": "Email body."
+          "desc": "Body text of the email."
         }
       ],
       "return": {
-        "email_address": "string",
         "email_status": "string"
       }
     },
@@ -526,16 +503,15 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Destination phone number."
+          "desc": "Destination phone number (e.g. '+1 555-1234')."
         },
         {
           "name": "content",
           "type": "string",
-          "desc": "SMS content."
+          "desc": "Text content of the SMS message."
         }
       ],
       "return": {
-        "phone_number": "string",
         "sms_status": "string"
       }
     },
@@ -551,12 +527,10 @@
         {
           "name": "social_network",
           "type": "string",
-          "desc": "e.g. 'Facebook', 'Twitter'."
+          "desc": "Name of the social platform (e.g. 'Facebook')."
         }
       ],
       "return": {
-        "content": "string",
-        "social_network": "string",
         "share_status": "string"
       }
     },
@@ -567,17 +541,15 @@
         {
           "name": "query",
           "type": "string",
-          "desc": "Search keywords."
+          "desc": "Search keywords (e.g. 'best restaurants in NYC')."
         },
         {
           "name": "engine",
           "type": "string",
-          "desc": "e.g. 'Google', 'Bing'."
+          "desc": "Search engine to use (e.g. 'Google')."
         }
       ],
       "return": {
-        "query": "string",
-        "engine": "string",
         "search_results": "string"
       }
     },
@@ -588,30 +560,30 @@
         {
           "name": "service",
           "type": "string",
-          "desc": "Type of service, e.g. 'dentist', 'doctor'."
+          "desc": "Type of service (e.g. 'dentist')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "MM-DD format."
+          "desc": "Date of the appointment in MM-DD format (e.g. '08-23')."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "HH:MM format (24-hour)."
+          "desc": "Time of the appointment in HH:MM (24-hour) format (e.g. '14:30')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Where the appointment occurs."
+          "desc": "Physical location or address for the appointment (e.g. '123 Dental St.')."
         }
       ],
       "return": {
-        "appointment_id": "string",
         "service": "string",
         "date": "string",
         "time": "string",
-        "location": "string"
+        "location": "string",
+        "appointment_id": "string"
       }
     },
     {
@@ -621,11 +593,10 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Recipient's phone number."
+          "desc": "Recipient's phone number for the video call (e.g. '+1 555-1234')."
         }
       ],
       "return": {
-        "phone_number": "string",
         "call_status": "string"
       }
     },
@@ -636,11 +607,10 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Recipient's phone number."
+          "desc": "Recipient's phone number for the voice call (e.g. '+1 555-1234')."
         }
       ],
       "return": {
-        "phone_number": "string",
         "call_status": "string"
       }
     },
@@ -651,11 +621,17 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "Meeting topic."
+          "desc": "Subject or agenda of the online meeting (e.g. 'Project Kickoff')."
+        },
+        {
+          "name": "meeting_time",
+          "type": "string",
+          "desc": "Scheduled time for the meeting in HH:MM (24-hour) format (e.g. '10:00')."
         }
       ],
       "return": {
         "topic": "string",
+        "meeting_time": "string",
         "meeting_status": "string"
       }
     },
@@ -666,72 +642,11 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "Meeting topic."
+          "desc": "Topic or name of the online meeting to join (e.g. 'Project Kickoff')."
         }
       ],
       "return": {
-        "topic": "string",
         "attendance_status": "string"
-      }
-    },
-    {
-      "function": "see_doctor_online",
-      "desc": "Consult a specific doctor about a particular disease.",
-      "parameters": [
-        {
-          "name": "disease",
-          "type": "string",
-          "desc": "What disease or issue to consult."
-        },
-        {
-          "name": "doctor",
-          "type": "string",
-          "desc": "Doctor's name or specialty."
-        }
-      ],
-      "return": {
-        "consultation_details": "string",
-        "medical_fee": "number"
-      }
-    },
-    {
-      "function": "consult_lawyer_online",
-      "desc": "Consult a specific lawyer for a legal issue.",
-      "parameters": [
-        {
-          "name": "issue",
-          "type": "string",
-          "desc": "Description of the legal issue."
-        },
-        {
-          "name": "lawyer",
-          "type": "string",
-          "desc": "Lawyer's name or firm."
-        }
-      ],
-      "return": {
-        "consultation_details": "string"
-      }
-    },
-    {
-      "function": "enroll_in_course",
-      "desc": "Enroll in a course at a particular university.",
-      "parameters": [
-        {
-          "name": "course",
-          "type": "string",
-          "desc": "Course name/ID."
-        },
-        {
-          "name": "university",
-          "type": "string",
-          "desc": "University name."
-        }
-      ],
-      "return": {
-        "course": "string",
-        "university": "string",
-        "enrollment_status": "string"
       }
     },
     {
@@ -741,11 +656,10 @@
         {
           "name": "job",
           "type": "string",
-          "desc": "Job position/title."
+          "desc": "Job position/title to apply for (e.g. 'Software Engineer')."
         }
       ],
       "return": {
-        "job": "string",
         "application_status": "string"
       }
     },
@@ -756,78 +670,16 @@
         {
           "name": "insurance",
           "type": "string",
-          "desc": "Type/name of the insurance."
+          "desc": "Type or name of the insurance (e.g. 'health insurance')."
         },
         {
           "name": "company",
           "type": "string",
-          "desc": "Insurance provider."
+          "desc": "Insurance provider (e.g. 'Allianz')."
         }
       ],
       "return": {
-        "insurance": "string",
-        "company": "string",
         "insurance_details": "string"
-      }
-    },
-    {
-      "function": "do_tax_return",
-      "desc": "File tax returns for a specific year.",
-      "parameters": [
-        {
-          "name": "year",
-          "type": "string",
-          "desc": "Tax year, e.g. '2023'."
-        }
-      ],
-      "return": {
-        "year": "string",
-        "tax_return_status": "string"
-      }
-    },
-    {
-      "function": "apply_for_passport",
-      "desc": "Apply for a passport in a specific country.",
-      "parameters": [
-        {
-          "name": "country",
-          "type": "string",
-          "desc": "Country of the passport."
-        }
-      ],
-      "return": {
-        "country": "string",
-        "application_status": "string"
-      }
-    },
-    {
-      "function": "auto_housework_by_robot",
-      "desc": "Command a robot to do a specific housework task.",
-      "parameters": [
-        {
-          "name": "instruction",
-          "type": "string",
-          "desc": "e.g. 'clean the floor', 'do laundry'."
-        }
-      ],
-      "return": {
-        "instruction": "string",
-        "completion_status": "string"
-      }
-    },
-    {
-      "function": "auto_driving_to_destination",
-      "desc": "Let a self-driving car travel to a specified destination.",
-      "parameters": [
-        {
-          "name": "destination",
-          "type": "string",
-          "desc": "Where the car should go."
-        }
-      ],
-      "return": {
-        "destination": "string",
-        "trip_status": "string"
       }
     },
     {
@@ -837,17 +689,15 @@
         {
           "name": "package",
           "type": "string",
-          "desc": "Description or ID of the package."
+          "desc": "Description or ID of the package (e.g. 'Order #12345')."
         },
         {
           "name": "destination",
           "type": "string",
-          "desc": "Where to deliver."
+          "desc": "Address or location to deliver the package (e.g. '456 Market St.')."
         }
       ],
       "return": {
-        "package": "string",
-        "destination": "string",
         "delivery_status": "string"
       }
     },
@@ -858,11 +708,10 @@
         {
           "name": "device_name",
           "type": "string",
-          "desc": "Bluetooth device ID or name."
+          "desc": "Bluetooth device name or ID (e.g. 'JBL Speaker')."
         }
       ],
       "return": {
-        "device_name": "string",
         "connection_status": "string"
       }
     },
@@ -873,16 +722,15 @@
         {
           "name": "music_name",
           "type": "string",
-          "desc": "Title of the music to play."
+          "desc": "Title of the music to play (e.g. 'Shape of You')."
         },
         {
           "name": "device_name",
           "type": "string",
-          "desc": "Optional Bluetooth device name (if connected)."
+          "desc": "Bluetooth device name if playback should happen on a paired device (optional)."
         }
       ],
       "return": {
-        "music_name": "string",
         "play_status": "string"
       }
     },
@@ -893,17 +741,15 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Music genre, e.g. 'pop', 'rock'."
+          "desc": "Genre of music (e.g. 'pop')."
         },
         {
           "name": "artist",
           "type": "string",
-          "desc": "Artist name."
+          "desc": "Name of the artist (e.g. 'Taylor Swift')."
         }
       ],
       "return": {
-        "genre": "string",
-        "artist": "string",
         "music_status": "string"
       }
     },
@@ -914,11 +760,10 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Song title."
+          "desc": "Exact title of the song (e.g. 'Bohemian Rhapsody')."
         }
       ],
       "return": {
-        "title": "string",
         "music_status": "string"
       }
     },
@@ -929,17 +774,17 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Music genre."
+          "desc": "Music genre preference (e.g. 'R&B')."
         },
         {
           "name": "mood",
           "type": "string",
-          "desc": "Mood, e.g. 'chill', 'energetic'."
+          "desc": "Mood or vibe (e.g. 'chill')."
         },
         {
           "name": "artist",
           "type": "string",
-          "desc": "Optional artist to base recommendations on."
+          "desc": "Optional artist to base recommendations on (e.g. 'Ed Sheeran')."
         }
       ],
       "return": {
@@ -953,22 +798,21 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Movie genre, e.g. 'action', 'comedy'."
+          "desc": "Movie genre (e.g. 'action', 'comedy')."
         },
         {
           "name": "mood",
           "type": "string",
-          "desc": "e.g. 'romantic', 'thrilling'."
+          "desc": "Movie mood (e.g. 'romantic')."
         },
         {
           "name": "actor",
           "type": "string",
-          "desc": "Optional actor name to base recommendations on."
+          "desc": "Optional actor name to base recommendations on (e.g. 'Tom Hanks')."
         }
       ],
       "return": {
-        "movie_title": "string",
-        "genre": "string"
+        "recommended_movie": "string"
       }
     },
     {
@@ -978,11 +822,10 @@
         {
           "name": "movie_title",
           "type": "string",
-          "desc": "Title of the movie."
+          "desc": "Exact title of the movie (e.g. 'Inception')."
         }
       ],
       "return": {
-        "movie_title": "string",
         "movie_status": "string"
       }
     },
@@ -993,11 +836,10 @@
         {
           "name": "content",
           "type": "string",
-          "desc": "Note text."
+          "desc": "Text content to save in the note."
         }
       ],
       "return": {
-        "content": "string",
         "note_status": "string"
       }
     },
@@ -1008,17 +850,15 @@
         {
           "name": "book",
           "type": "string",
-          "desc": "Book title or ID."
+          "desc": "Title or ID of the book to borrow (e.g. 'Harry Potter')."
         },
         {
           "name": "library",
           "type": "string",
-          "desc": "Which online library."
+          "desc": "Name of the online library or service (e.g. 'Kindle Store')."
         }
       ],
       "return": {
-        "book": "string",
-        "library": "string",
         "borrow_status": "string"
       }
     },
@@ -1029,11 +869,10 @@
         {
           "name": "content",
           "type": "string",
-          "desc": "What to record (e.g. note, memo)."
+          "desc": "Description or reason for the recording (e.g. 'Meeting notes')."
         }
       ],
       "return": {
-        "content": "string",
         "recording_status": "string"
       }
     },
@@ -1044,11 +883,10 @@
         {
           "name": "document",
           "type": "string",
-          "desc": "Document name or path."
+          "desc": "File name or path of the document (e.g. 'report.pdf')."
         }
       ],
       "return": {
-        "document": "string",
         "print_status": "string"
       }
     },
@@ -1059,18 +897,17 @@
         {
           "name": "time",
           "type": "string",
-          "desc": "HH:MM time format."
+          "desc": "Alarm time in HH:MM format (e.g. '07:00')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Optional location context."
+          "desc": "Optional location context to trigger alarm (e.g. 'Home')."
         }
       ],
       "return": {
-        "time": "string",
-        "location": "string",
-        "alarm_confirmation": "string"
+        "alarm_time": "string",
+        "alarm_set_status": "string"
       }
     },
     {
@@ -1080,12 +917,12 @@
         {
           "name": "height",
           "type": "number",
-          "desc": "Height in centimeters."
+          "desc": "Height in centimeters (e.g. 170)."
         },
         {
           "name": "weight",
           "type": "number",
-          "desc": "Weight in kilograms."
+          "desc": "Weight in kilograms (e.g. 65)."
         }
       ],
       "return": {
@@ -1099,11 +936,10 @@
         {
           "name": "tracking_number",
           "type": "string",
-          "desc": "Parcel's tracking code."
+          "desc": "Parcel's tracking code (e.g. '1Z999AA10123456784')."
         }
       ],
       "return": {
-        "tracking_number": "string",
         "delivery_status": "string"
       }
     },
@@ -1114,17 +950,15 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name of the item."
+          "desc": "Name of the item to add (e.g. 'milk')."
         },
         {
           "name": "quantity",
           "type": "number",
-          "desc": "Quantity to add."
+          "desc": "Quantity of the item (e.g. 2)."
         }
       ],
       "return": {
-        "item": "string",
-        "quantity": "number",
         "list_status": "string"
       }
     },
@@ -1135,11 +969,10 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name of the item to remove."
+          "desc": "Name of the item to remove (e.g. 'milk')."
         }
       ],
       "return": {
-        "item": "string",
         "list_status": "string"
       }
     },
@@ -1150,17 +983,15 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Item name."
+          "desc": "Name of the item to update (e.g. 'milk')."
         },
         {
           "name": "quantity",
           "type": "number",
-          "desc": "New quantity."
+          "desc": "New quantity for the item (e.g. 3)."
         }
       ],
       "return": {
-        "item": "string",
-        "quantity": "number",
         "list_status": "string"
       }
     },
@@ -1171,23 +1002,20 @@
         {
           "name": "amount",
           "type": "number",
-          "desc": "How much money to convert."
+          "desc": "Amount of money to convert (e.g. 100)."
         },
         {
           "name": "from_currency",
           "type": "string",
-          "desc": "Original currency code."
+          "desc": "Source currency code (e.g. 'USD')."
         },
         {
           "name": "to_currency",
           "type": "string",
-          "desc": "Target currency code."
+          "desc": "Target currency code (e.g. 'EUR')."
         }
       ],
       "return": {
-        "amount": "number",
-        "from_currency": "string",
-        "to_currency": "string",
         "conversion_result": "number"
       }
     },
@@ -1198,17 +1026,15 @@
         {
           "name": "start_location",
           "type": "string",
-          "desc": "Where you're starting."
+          "desc": "Starting location or address (e.g. 'Brooklyn')."
         },
         {
           "name": "end_location",
           "type": "string",
-          "desc": "Your destination."
+          "desc": "Destination location or address (e.g. 'Manhattan')."
         }
       ],
       "return": {
-        "start_location": "string",
-        "end_location": "string",
         "traffic_info": "string"
       }
     },
@@ -1219,17 +1045,15 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region of the event."
+          "desc": "City or region to find events (e.g. 'Chicago')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Event date in MM-DD format (optional)."
+          "desc": "Event date in MM-DD format (optional, e.g. '05-20')."
         }
       ],
       "return": {
-        "location": "string",
-        "date": "string",
         "event_name": "string"
       }
     },
@@ -1240,11 +1064,10 @@
         {
           "name": "amount",
           "type": "number",
-          "desc": "Amount of water in milliliters."
+          "desc": "Amount of water consumed in milliliters (e.g. 250)."
         }
       ],
       "return": {
-        "amount": "number",
         "hydration_status": "string"
       }
     },
@@ -1255,17 +1078,15 @@
         {
           "name": "goal",
           "type": "string",
-          "desc": "e.g. 'muscle building', 'weight loss'."
+          "desc": "Fitness goal (e.g. 'muscle building')."
         },
         {
           "name": "duration_weeks",
           "type": "number",
-          "desc": "Plan length in weeks."
+          "desc": "Length of the workout plan in weeks (e.g. 8)."
         }
       ],
       "return": {
-        "goal": "string",
-        "duration_weeks": "number",
         "fitness_plan": "string"
       }
     },
@@ -1276,22 +1097,22 @@
         {
           "name": "reminder_task",
           "type": "string",
-          "desc": "Description of the task to be reminded."
+          "desc": "Description of the task to be reminded about (e.g. 'Buy groceries')."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "MM-DD format (optional)."
+          "desc": "Optional date in MM-DD format (e.g. '06-01')."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "HH:MM format (optional)."
+          "desc": "Optional time in HH:MM (24-hour) format (e.g. '18:00')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Optional location context."
+          "desc": "Optional location for the reminder trigger (e.g. 'Home')."
         }
       ],
       "return": {
@@ -1305,7 +1126,7 @@
         {
           "name": "sleep_data",
           "type": "string",
-          "desc": "Sleep data in JSON or a chosen format."
+          "desc": "Sleep data in JSON or a chosen format (e.g. detailed sleep log)."
         }
       ],
       "return": {
@@ -1319,17 +1140,17 @@
         {
           "name": "source_text",
           "type": "string",
-          "desc": "Text to translate."
+          "desc": "Text to be translated."
         },
         {
           "name": "source_language",
           "type": "string",
-          "desc": "Language code, e.g. 'en'."
+          "desc": "Language code of the original text (e.g. 'en')."
         },
         {
           "name": "target_language",
           "type": "string",
-          "desc": "Language code, e.g. 'ko'."
+          "desc": "Language code to translate into (e.g. 'fr')."
         }
       ],
       "return": {
@@ -1343,7 +1164,7 @@
         {
           "name": "text_name",
           "type": "string",
-          "desc": "Name/ID of the text to summarize."
+          "desc": "Name or ID of the text to summarize (e.g. 'article1')."
         }
       ],
       "return": {
@@ -1357,23 +1178,20 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "MM-DD format."
+          "desc": "Date of the expense in MM-DD format (e.g. '06-10')."
         },
         {
           "name": "category",
           "type": "string",
-          "desc": "e.g. 'food', 'transportation'."
+          "desc": "Expense category (e.g. 'food')."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Expense amount."
+          "desc": "Amount of the expense (e.g. 20.5)."
         }
       ],
       "return": {
-        "date": "string",
-        "category": "string",
-        "amount": "number",
         "expense_status": "string"
       }
     },
@@ -1384,12 +1202,12 @@
         {
           "name": "ingredients",
           "type": "string",
-          "desc": "Comma-separated list of ingredients."
+          "desc": "Comma-separated list of ingredients (e.g. 'tomato,onion,cheese')."
         },
         {
           "name": "dietary_preference",
           "type": "string",
-          "desc": "e.g. 'vegan', 'gluten-free' (optional)."
+          "desc": "Optional dietary preference (e.g. 'vegan')."
         }
       ],
       "return": {
@@ -1403,11 +1221,10 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "Health device ID."
+          "desc": "ID or name of the health device (e.g. 'Fitbit123')."
         }
       ],
       "return": {
-        "device_id": "string",
         "average_heart_rate": "number"
       }
     },
@@ -1418,32 +1235,11 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "Health device ID."
+          "desc": "ID or name of the health device (e.g. 'BPMonitorX')."
         }
       ],
       "return": {
-        "device_id": "string",
         "average_blood_pressure": "string"
-      }
-    },
-    {
-      "function": "sign_e_document",
-      "desc": "Digitally sign an electronic document.",
-      "parameters": [
-        {
-          "name": "document_id",
-          "type": "string",
-          "desc": "Identifier of the document."
-        },
-        {
-          "name": "signature",
-          "type": "string",
-          "desc": "Signature in text or image form."
-        }
-      ],
-      "return": {
-        "document_id": "string",
-        "signed_document_status": "string"
       }
     },
     {
@@ -1453,23 +1249,20 @@
         {
           "name": "station_start",
           "type": "string",
-          "desc": "Starting station."
+          "desc": "Starting station (e.g. 'Times Square')."
         },
         {
           "name": "station_end",
           "type": "string",
-          "desc": "Destination station."
+          "desc": "Destination station (e.g. 'Grand Central')."
         },
         {
           "name": "ticket_type",
           "type": "string",
-          "desc": "e.g. 'single', 'round-trip', 'pass'."
+          "desc": "Ticket type (e.g. 'single', 'round-trip')."
         }
       ],
       "return": {
-        "station_start": "string",
-        "station_end": "string",
-        "ticket_type": "string",
         "ticket_order_status": "string"
       }
     },
@@ -1480,48 +1273,21 @@
         {
           "name": "recipient_email",
           "type": "string",
-          "desc": "Gift card recipient."
+          "desc": "Email address of the gift card recipient (e.g. 'jane@example.com')."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Gift card value."
+          "desc": "Value of the gift card (e.g. 50)."
         },
         {
           "name": "message",
           "type": "string",
-          "desc": "Optional greeting."
+          "desc": "Optional greeting or message to include with the gift card."
         }
       ],
       "return": {
-        "recipient_email": "string",
         "gift_card_status": "string"
-      }
-    },
-    {
-      "function": "plan_road_trip",
-      "desc": "Create a multi-stop road trip plan with start/end dates.",
-      "parameters": [
-        {
-          "name": "location",
-          "type": "string",
-          "desc": "Comma-separated list of places to visit."
-        },
-        {
-          "name": "start_date",
-          "type": "string",
-          "desc": "MM-DD format."
-        },
-        {
-          "name": "end_date",
-          "type": "string",
-          "desc": "MM-DD format."
-        }
-      ],
-      "return": {
-        "location": "string",
-        "start_date": "string",
-        "end_date": "string"
       }
     },
     {
@@ -1531,59 +1297,21 @@
         {
           "name": "monthly_income",
           "type": "number",
-          "desc": "Monthly income."
+          "desc": "Total monthly income (e.g. 3000)."
         },
         {
           "name": "fixed_expenses",
           "type": "string",
-          "desc": "JSON or structure listing fixed expenses."
+          "desc": "JSON or structured string listing fixed expenses (e.g. rent, utilities)."
         },
         {
           "name": "variable_expenses",
           "type": "string",
-          "desc": "JSON or structure listing variable expenses."
+          "desc": "JSON or structured string listing variable expenses (e.g. groceries)."
         }
       ],
       "return": {
-        "monthly_income": "number",
-        "fixed_expenses": "string",
-        "variable_expenses": "string",
         "budget_plan": "string"
-      }
-    },
-    {
-      "function": "buy_lottery_ticket",
-      "desc": "Purchase a lottery ticket and receive a lottery number.",
-      "parameters": [
-        {
-          "name": "lottery_type",
-          "type": "string",
-          "desc": "e.g. 'Powerball'."
-        }
-      ],
-      "return": {
-        "lottery_number": "string",
-        "ticket_date": "string"
-      }
-    },
-    {
-      "function": "check_lottery_result",
-      "desc": "Check if a lottery ticket (number + date) has won.",
-      "parameters": [
-        {
-          "name": "lottery_number",
-          "type": "string",
-          "desc": "Lottery ticket number."
-        },
-        {
-          "name": "ticket_date",
-          "type": "string",
-          "desc": "Date in MM-DD format."
-        }
-      ],
-      "return": {
-        "prize_amount": "number",
-        "prize_currency": "string"
       }
     },
     {
@@ -1593,23 +1321,20 @@
         {
           "name": "bill_type",
           "type": "string",
-          "desc": "e.g. 'electricity', 'water'."
+          "desc": "Type of utility bill (e.g. 'electricity')."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Payment amount."
+          "desc": "Payment amount for the bill (e.g. 75)."
         },
         {
           "name": "account_number",
           "type": "string",
-          "desc": "Billing account number."
+          "desc": "Billing account number (e.g. 'AC1234567')."
         }
       ],
       "return": {
-        "bill_type": "string",
-        "amount": "number",
-        "account_number": "string",
         "bill_payment_status": "string"
       }
     },
@@ -1620,11 +1345,10 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "Unique identifier of the device."
+          "desc": "Unique identifier of the mobile device (e.g. 'PixelPhone123')."
         }
       ],
       "return": {
-        "device_id": "string",
         "device_location": "string"
       }
     },
@@ -1635,17 +1359,15 @@
         {
           "name": "file_list",
           "type": "string",
-          "desc": "Comma-separated file paths."
+          "desc": "Comma-separated list of file paths to back up (e.g. 'docs/report.pdf,photos/vacation.jpg')."
         },
         {
           "name": "cloud_provider",
           "type": "string",
-          "desc": "e.g. 'Google Drive'."
+          "desc": "Cloud provider to use (e.g. 'Google Drive')."
         }
       ],
       "return": {
-        "file_list": "string",
-        "cloud_provider": "string",
         "backup_status": "string"
       }
     },
@@ -1656,17 +1378,15 @@
         {
           "name": "email",
           "type": "string",
-          "desc": "Email to subscribe."
+          "desc": "Email address to subscribe (e.g. 'alex@example.com')."
         },
         {
           "name": "newsletter_topic",
           "type": "string",
-          "desc": "e.g. 'technology', 'finance'."
+          "desc": "Topic of the newsletter (e.g. 'technology')."
         }
       ],
       "return": {
-        "email": "string",
-        "newsletter_topic": "string",
         "subscription_status": "string"
       }
     },
@@ -1677,17 +1397,16 @@
         {
           "name": "coupon_code",
           "type": "string",
-          "desc": "The coupon code."
+          "desc": "The coupon code to redeem (e.g. 'SAVE10')."
         },
         {
           "name": "order_id",
           "type": "string",
-          "desc": "Optional order number."
+          "desc": "Optional order number if the coupon applies to a specific order."
         }
       ],
       "return": {
-        "coupon_code": "string",
-        "order_id": "string"
+        "redeem_status": "string"
       }
     },
     {
@@ -1697,16 +1416,16 @@
         {
           "name": "podcast_name",
           "type": "string",
-          "desc": "Which podcast to play."
+          "desc": "Name of the podcast (e.g. 'The Daily')."
         },
         {
           "name": "episode",
           "type": "string",
-          "desc": "Episode number/title (optional)."
+          "desc": "Episode number/title (optional, e.g. 'Episode 123: Market News')."
         }
       ],
       "return": {
-        "podcast_name": "string"
+        "podcast_status": "string"
       }
     },
     {
@@ -1716,17 +1435,17 @@
         {
           "name": "length",
           "type": "number",
-          "desc": "Length in centimeters."
+          "desc": "Length of the package in centimeters."
         },
         {
           "name": "width",
           "type": "number",
-          "desc": "Width in centimeters."
+          "desc": "Width of the package in centimeters."
         },
         {
           "name": "height",
           "type": "number",
-          "desc": "Height in centimeters."
+          "desc": "Height of the package in centimeters."
         }
       ],
       "return": {
@@ -1740,17 +1459,15 @@
         {
           "name": "emergency_type",
           "type": "string",
-          "desc": "e.g. 'accident', 'fire'."
+          "desc": "Type of emergency (e.g. 'accident')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Incident location."
+          "desc": "Address or place where the emergency occurred (e.g. '10 Main St.')."
         }
       ],
       "return": {
-        "emergency_type": "string",
-        "location": "string",
         "emergency_request_status": "string"
       }
     },
@@ -1761,11 +1478,10 @@
         {
           "name": "complaint_id",
           "type": "string",
-          "desc": "Complaint reference number."
+          "desc": "Reference or tracking number for the complaint (e.g. 'CPLT1001')."
         }
       ],
       "return": {
-        "complaint_id": "string",
         "complaint_status": "string"
       }
     },
@@ -1776,23 +1492,20 @@
         {
           "name": "items",
           "type": "string",
-          "desc": "Comma-separated list of grocery items."
+          "desc": "Comma-separated list of grocery items (e.g. 'apples,bananas,milk')."
         },
         {
           "name": "delivery_location",
           "type": "string",
-          "desc": "Delivery address."
+          "desc": "Address or location for grocery delivery (e.g. '123 Main St.')."
         },
         {
           "name": "delivery_time",
           "type": "string",
-          "desc": "Preferred delivery time, HH:MM (optional)."
+          "desc": "Preferred delivery time in HH:MM (24-hour), e.g. '10:30' (optional)."
         }
       ],
       "return": {
-        "items": "string",
-        "delivery_location": "string",
-        "delivery_time": "string",
         "grocery_order_status": "string"
       }
     },
@@ -1803,511 +1516,465 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "What needs repair?"
+          "desc": "Name or description of the item needing repair (e.g. 'AC unit')."
         },
         {
           "name": "issue_description",
           "type": "string",
-          "desc": "Details of the problem."
+          "desc": "Detailed explanation of the problem (e.g. 'Not cooling properly')."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Where the service is needed."
+          "desc": "Address or place where the maintenance is needed (e.g. 'Unit 305')."
         }
       ],
       "return": {
-        "item": "string",
-        "issue_description": "string",
-        "location": "string",
         "maintenance_request_status": "string"
       }
     },
     {
-      "function": "fetch_public_transport_timetable",
-      "desc": "Retrieve timetable info for buses, subways, or public transport.",
+      "function": "check_calendar",
+      "desc": "Retrieve today's calendar events or schedule.",
+      "parameters": [],
+      "return": {
+        "events": "string"
+      }
+    },
+    {
+      "function": "set_timer",
+      "desc": "Set a countdown timer for a certain duration.",
       "parameters": [
         {
-          "name": "transport_type",
-          "type": "string",
-          "desc": "e.g. 'bus', 'subway'."
-        },
-        {
-          "name": "route_name",
-          "type": "string",
-          "desc": "Route name or number."
-        },
-        {
-          "name": "station",
-          "type": "string",
-          "desc": "Station/stop name."
+          "name": "minutes",
+          "type": "number",
+          "desc": "Number of minutes for the countdown (e.g. 30)."
         }
       ],
       "return": {
-        "transport_type": "string",
-        "route_name": "string",
-        "station_start": "string",
-        "station_end": "string",
-        "departure_times": "string"
+        "timer_status": "string"
+      }
+    },
+    {
+      "function": "open_app",
+      "desc": "Open an application by name on the device.",
+      "parameters": [
+        {
+          "name": "app_name",
+          "type": "string",
+          "desc": "Name of the application to open (e.g. 'Slack')."
+        }
+      ],
+      "return": {
+        "app_open_status": "string"
+      }
+    },
+    {
+      "function": "create_event",
+      "desc": "Add an event to the calendar with a date/time.",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "Title or description of the event (e.g. 'Project Meeting')."
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "desc": "Date of the event in MM-DD format (e.g. '07-15')."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "desc": "Time of the event in HH:MM (24-hour) format (e.g. '09:00')."
+        }
+      ],
+      "return": {
+        "event_status": "string"
+      }
+    },
+    {
+      "function": "measure_steps",
+      "desc": "Track the daily step count using a health device/app.",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string",
+          "desc": "ID or name of the step-tracking device/app (e.g. 'FitbitXYZ')."
+        }
+      ],
+      "return": {
+        "steps_count": "number"
+      }
+    },
+    {
+      "function": "get_shopping_deals",
+      "desc": "Search for available deals or coupons for online/local shopping.",
+      "parameters": [
+        {
+          "name": "store_name",
+          "type": "string",
+          "desc": "Name of the store or website to check deals for (e.g. 'Target')."
+        }
+      ],
+      "return": {
+        "available_deals": "string"
+      }
+    },
+    {
+      "function": "lookup_contact",
+      "desc": "Look up a phone number or email address by contact name.",
+      "parameters": [
+        {
+          "name": "contact_name",
+          "type": "string",
+          "desc": "Name of the contact (e.g. 'John Doe')."
+        }
+      ],
+      "return": {
+        "phone_number": "string",
+        "email": "string"
+      }
+    },
+    {
+      "function": "call_contact",
+      "desc": "Initiate a phone call to a contact by name.",
+      "parameters": [
+        {
+          "name": "contact_name",
+          "type": "string",
+          "desc": "Name of the contact to call (e.g. 'John Doe')."
+        }
+      ],
+      "return": {
+        "call_status": "string"
+      }
+    },
+    {
+      "function": "check_public_holiday",
+      "desc": "Check if a given date is a public holiday in a specified region.",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "string",
+          "desc": "Date in MM-DD format (e.g. '12-25') to check."
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "desc": "Country or region to check (e.g. 'US')."
+        }
+      ],
+      "return": {
+        "is_holiday": "boolean"
+      }
+    },
+    {
+      "function": "check_internet_speed",
+      "desc": "Run an internet speed test and get the result.",
+      "parameters": [],
+      "return": {
+        "download_speed_mbps": "number",
+        "upload_speed_mbps": "number",
+        "ping_ms": "number"
+      }
+    },
+    {
+      "function": "find_local_store",
+      "desc": "Find a local physical store by name or type in a given area.",
+      "parameters": [
+        {
+          "name": "store_name",
+          "type": "string",
+          "desc": "Name or type of the store (e.g. 'grocery')."
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "desc": "City or region to search in (e.g. 'Houston')."
+        }
+      ],
+      "return": {
+        "store_info": "string"
+      }
+    },
+    {
+      "function": "order_coffee",
+      "desc": "Place a coffee order at a nearby cafe.",
+      "parameters": [
+        {
+          "name": "cafe_name",
+          "type": "string",
+          "desc": "Name of the cafe (e.g. 'Starbucks')."
+        },
+        {
+          "name": "coffee_type",
+          "type": "string",
+          "desc": "Type of coffee (e.g. 'latte')."
+        }
+      ],
+      "return": {
+        "order_status": "string"
+      }
+    },
+    {
+      "function": "create_todo_list",
+      "desc": "Create a new to-do list with a given title.",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "Title for the new to-do list (e.g. 'Weekend Tasks')."
+        }
+      ],
+      "return": {
+        "todo_list_status": "string"
+      }
+    },
+    {
+      "function": "add_todo_item",
+      "desc": "Add an item to an existing to-do list.",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "Name of the to-do list to add the item to (e.g. 'Weekend Tasks')."
+        },
+        {
+          "name": "item",
+          "type": "string",
+          "desc": "Task or item to add (e.g. 'Buy groceries')."
+        }
+      ],
+      "return": {
+        "todo_list_status": "string"
+      }
+    },
+    {
+      "function": "mark_todo_item_done",
+      "desc": "Mark an item as completed in a to-do list.",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "desc": "Name of the to-do list containing the item (e.g. 'Weekend Tasks')."
+        },
+        {
+          "name": "item",
+          "type": "string",
+          "desc": "Task or item to mark as done (e.g. 'Buy groceries')."
+        }
+      ],
+      "return": {
+        "done_status": "string"
+      }
+    },
+    {
+      "function": "connect_wifi",
+      "desc": "Connect to a Wi-Fi network by SSID and password.",
+      "parameters": [
+        {
+          "name": "ssid",
+          "type": "string",
+          "desc": "Wi-Fi network name (SSID) (e.g. 'MyHomeWiFi')."
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "desc": "Wi-Fi network password (e.g. 'mypassword123')."
+        }
+      ],
+      "return": {
+        "connection_status": "string"
+      }
+    },
+    {
+      "function": "open_browser",
+      "desc": "Open the default web browser to a specified URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "desc": "Web address to open (e.g. 'https://www.google.com')."
+        }
+      ],
+      "return": {
+        "browser_status": "string"
+      }
+    },
+    {
+      "function": "check_battery",
+      "desc": "Check the device's battery level.",
+      "parameters": [],
+      "return": {
+        "battery_level_percent": "number"
+      }
+    },
+    {
+      "function": "organize_photos",
+      "desc": "Sort or arrange photos into albums based on a criterion (e.g. date).",
+      "parameters": [
+        {
+          "name": "album_name",
+          "type": "string",
+          "desc": "Name of the photo album to create or use (e.g. 'Vacation 2023')."
+        },
+        {
+          "name": "criterion",
+          "type": "string",
+          "desc": "Criterion for sorting (e.g. 'date', 'location')."
+        }
+      ],
+      "return": {
+        "organize_status": "string"
+      }
+    },
+    {
+      "function": "clean_notification",
+      "desc": "Clear old or read notifications from the device.",
+      "parameters": [],
+      "return": {
+        "clear_status": "string"
       }
     }
   ],
   "links": [
     {
-      "source": "get_weather",
-      "target": "find_hotel"
-    },
-    {
-      "source": "get_weather",
-      "target": "book_hotel"
-    },
-    {
-      "source": "get_weather",
-      "target": "find_local_event"
-    },
-    {
-      "source": "get_weather",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "get_weather",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_weather",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "send_email"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "send_sms"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "take_note"
-    },
-    {
-      "source": "get_news_for_topic",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "convert_currency"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "take_note"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_crypto_price",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "buy_stock"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "sell_stock"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "short_stock"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "take_note"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "get_stock_price",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "buy_stock",
-      "target": "sell_stock"
-    },
-    {
-      "source": "buy_stock",
-      "target": "short_stock"
-    },
-    {
-      "source": "buy_stock",
-      "target": "check_balance"
-    },
-    {
-      "source": "buy_stock",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "buy_stock",
-      "target": "send_email"
-    },
-    {
-      "source": "buy_stock",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "sell_stock",
-      "target": "buy_stock"
-    },
-    {
-      "source": "sell_stock",
-      "target": "short_stock"
-    },
-    {
-      "source": "sell_stock",
-      "target": "check_balance"
-    },
-    {
-      "source": "sell_stock",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "sell_stock",
-      "target": "send_email"
-    },
-    {
-      "source": "sell_stock",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "short_stock",
-      "target": "cover_stock"
-    },
-    {
-      "source": "short_stock",
-      "target": "buy_stock"
-    },
-    {
-      "source": "short_stock",
-      "target": "check_balance"
-    },
-    {
-      "source": "short_stock",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "short_stock",
-      "target": "send_email"
-    },
-    {
-      "source": "short_stock",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "cover_stock",
-      "target": "buy_stock"
-    },
-    {
-      "source": "cover_stock",
-      "target": "sell_stock"
-    },
-    {
-      "source": "cover_stock",
-      "target": "short_stock"
-    },
-    {
-      "source": "cover_stock",
-      "target": "check_balance"
-    },
-    {
-      "source": "cover_stock",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "cover_stock",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "book_flight",
-      "target": "check_flight_status"
-    },
-    {
-      "source": "book_flight",
-      "target": "order_taxi"
-    },
-    {
-      "source": "book_flight",
-      "target": "find_hotel"
-    },
-    {
-      "source": "book_flight",
-      "target": "set_reminder"
-    },
-    {
-      "source": "book_flight",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "book_flight",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "order_taxi"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "send_sms"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "set_reminder"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "find_hotel"
-    },
-    {
-      "source": "check_flight_status",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "find_hotel",
-      "target": "book_hotel"
-    },
-    {
-      "source": "find_hotel",
-      "target": "order_taxi"
-    },
-    {
-      "source": "find_hotel",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "find_hotel",
-      "target": "set_reminder"
-    },
-    {
-      "source": "find_hotel",
-      "target": "find_restaurants"
-    },
-    {
-      "source": "find_hotel",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "book_hotel",
-      "target": "find_restaurants"
-    },
-    {
-      "source": "book_hotel",
-      "target": "order_taxi"
-    },
-    {
-      "source": "book_hotel",
-      "target": "check_balance"
-    },
-    {
-      "source": "book_hotel",
-      "target": "send_email"
-    },
-    {
-      "source": "book_hotel",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "book_hotel",
-      "target": "share_by_social_network"
-    },
-    {
       "source": "find_restaurants",
       "target": "book_restaurant"
     },
     {
-      "source": "find_restaurants",
-      "target": "order_food_dinein"
-    },
-    {
-      "source": "find_restaurants",
-      "target": "order_food_delivery"
-    },
-    {
-      "source": "find_restaurants",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "find_restaurants",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "find_restaurants",
-      "target": "set_reminder"
-    },
-    {
       "source": "book_restaurant",
-      "target": "order_food_dinein"
+      "target": "set_alarm"
     },
     {
-      "source": "book_restaurant",
-      "target": "order_taxi"
+      "source": "find_hotel",
+      "target": "book_hotel"
     },
     {
-      "source": "book_restaurant",
-      "target": "set_reminder"
-    },
-    {
-      "source": "book_restaurant",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "book_restaurant",
-      "target": "send_email"
-    },
-    {
-      "source": "book_restaurant",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "check_balance"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "send_sms"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "take_note"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "order_food_dinein",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "check_balance"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "send_sms"
-    },
-    {
-      "source": "order_food_delivery",
-      "target": "take_note"
+      "source": "book_hotel",
+      "target": "set_alarm"
     },
     {
       "source": "find_car",
       "target": "book_car"
     },
     {
-      "source": "find_car",
-      "target": "order_taxi"
+      "source": "book_car",
+      "target": "set_alarm"
     },
     {
-      "source": "find_car",
-      "target": "check_traffic"
+      "source": "book_flight",
+      "target": "set_alarm"
     },
     {
-      "source": "find_car",
+      "source": "recommend_recipe",
+      "target": "order_food_delivery"
+    },
+    {
+      "source": "recommend_recipe",
+      "target": "order_food_dinein"
+    },
+    {
+      "source": "book_hotel",
+      "target": "create_event"
+    },
+    {
+      "source": "book_restaurant",
+      "target": "create_event"
+    },
+    {
+      "source": "recommend_recipe",
       "target": "set_reminder"
     },
     {
-      "source": "find_car",
-      "target": "search_by_engine"
+      "source": "lookup_contact",
+      "target": "send_sms"
     },
     {
-      "source": "find_car",
+      "source": "lookup_contact",
+      "target": "call_contact"
+    },
+    {
+      "source": "book_car",
+      "target": "set_alarm"
+    },
+    {
+      "source": "book_flight",
+      "target": "schedule_appointment"
+    },
+    {
+      "source": "order_food_delivery",
+      "target": "set_alarm"
+    },
+    {
+      "source": "book_hotel",
       "target": "share_by_social_network"
     },
     {
-      "source": "book_car",
-      "target": "check_traffic"
+      "source": "recommend_recipe",
+      "target": "order_groceries"
     },
     {
-      "source": "book_car",
-      "target": "order_taxi"
+      "source": "recommend_recipe",
+      "target": "add_item"
+    },
+    
+    {
+      "source": "get_weather",
+      "target": "send_sms"
     },
     {
-      "source": "book_car",
-      "target": "set_reminder"
-    },
-    {
-      "source": "book_car",
-      "target": "check_balance"
-    },
-    {
-      "source": "book_car",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "book_car",
+      "source": "get_weather",
       "target": "share_by_social_network"
     },
     {
-      "source": "order_taxi",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "order_taxi",
-      "target": "check_balance"
-    },
-    {
-      "source": "order_taxi",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_taxi",
+      "source": "get_weather",
       "target": "take_note"
     },
     {
-      "source": "order_taxi",
+      "source": "get_weather",
       "target": "search_by_engine"
     },
     {
-      "source": "order_taxi",
+      "source": "get_news_for_topic",
+      "target": "take_note"
+    },
+    {
+      "source": "get_news_for_topic",
       "target": "share_by_social_network"
+    },
+    {
+      "source": "get_news_for_topic",
+      "target": "send_email"
+    },
+    {
+      "source": "get_crypto_price",
+      "target": "convert_currency"
+    },
+    {
+      "source": "get_stock_price",
+      "target": "buy_stock"
+    },
+    {
+      "source": "buy_stock",
+      "target": "schedule_appointment"
+    },
+    {
+      "source": "buy_stock",
+      "target": "set_reminder"
+    },
+    {
+      "source": "sell_stock",
+      "target": "set_reminder"
+    },
+    {
+      "source": "get_shopping_deals",
+      "target": "shop_online"
+    },
+    {
+      "source": "shop_online",
+      "target": "pay_for_credit_card"
     },
     {
       "source": "check_balance",
@@ -2318,1748 +1985,340 @@
       "target": "pay_for_credit_card"
     },
     {
-      "source": "check_balance",
-      "target": "monitor_expenses"
+      "source": "pay_for_credit_card",
+      "target": "take_note"
     },
     {
-      "source": "check_balance",
-      "target": "convert_currency"
+      "source": "subscribe_newsletter",
+      "target": "send_email"
     },
     {
-      "source": "check_balance",
+      "source": "find_local_store",
+      "target": "set_reminder"
+    },
+    {
+      "source": "find_local_store",
+      "target": "request_maintenance"
+    },
+    {
+      "source": "check_calendar",
+      "target": "make_video_call"
+    },
+    {
+      "source": "check_calendar",
+      "target": "set_reminder"
+    },
+    {
+      "source": "check_internet_speed",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "check_internet_speed",
+      "target": "send_sms"
+    },
+    {
+      "source": "borrow_book_online",
+      "target": "take_note"
+    },
+    {
+      "source": "measure_heart_rate",
+      "target": "set_reminder"
+    },
+    {
+      "source": "measure_blood_pressure",
+      "target": "set_reminder"
+    },
+    {
+      "source": "track_parcel",
+      "target": "send_sms"
+    },
+    {
+      "source": "track_parcel",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "track_parcel",
+      "target": "take_note"
+    },
+    {
+      "source": "measure_steps",
+      "target": "set_alarm"
+    },
+    {
+      "source": "track_water_intake",
+      "target": "set_reminder"
+    },
+    {
+      "source": "track_water_intake",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "create_fitness_plan",
+      "target": "set_reminder"
+    },
+    {
+      "source": "monitor_expenses",
+      "target": "schedule_appointment"
+    },
+    {
+      "source": "measure_heart_rate",
+      "target": "take_note"
+    },
+    {
+      "source": "measure_blood_pressure",
+      "target": "take_note"
+    },
+    {
+      "source": "find_local_event",
+      "target": "create_event"
+    },
+    {
+      "source": "find_local_event",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "redeem_coupon",
       "target": "shop_online"
     },
     {
-      "source": "check_balance",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "take_note"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "convert_currency"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "pay_utility_bill"
-    },
-    {
-      "source": "withdraw_cash",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "pay_for_credit_card",
-      "target": "check_balance"
-    },
-    {
-      "source": "pay_for_credit_card",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "pay_for_credit_card",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "pay_for_credit_card",
-      "target": "take_note"
-    },
-    {
-      "source": "pay_for_credit_card",
+      "source": "shop_online",
       "target": "set_reminder"
     },
     {
-      "source": "pay_for_credit_card",
-      "target": "send_email"
-    },
-    {
       "source": "shop_online",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "shop_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "shop_online",
-      "target": "take_note"
-    },
-    {
-      "source": "shop_online",
-      "target": "send_email"
-    },
-    {
-      "source": "shop_online",
-      "target": "redeem_coupon"
-    },
-    {
-      "source": "shop_online",
-      "target": "check_balance"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "check_balance"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "take_note"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "send_email"
-    },
-    {
-      "source": "sell_item_online",
-      "target": "pay_for_credit_card"
-    },
-    {
-      "source": "send_email",
-      "target": "take_note"
-    },
-    {
-      "source": "send_email",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "send_email",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "send_email",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "send_email",
       "target": "add_item"
     },
     {
-      "source": "send_email",
-      "target": "set_reminder"
-    },
-    {
-      "source": "send_sms",
-      "target": "make_voice_call"
-    },
-    {
-      "source": "send_sms",
-      "target": "make_video_call"
-    },
-    {
-      "source": "send_sms",
-      "target": "take_note"
-    },
-    {
-      "source": "send_sms",
+      "source": "sell_item_online",
       "target": "share_by_social_network"
-    },
-    {
-      "source": "send_sms",
-      "target": "set_reminder"
-    },
-    {
-      "source": "send_sms",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "take_note"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "set_reminder"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "share_by_social_network",
-      "target": "send_email"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "take_note"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "set_reminder"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "search_by_engine",
-      "target": "send_email"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "order_taxi"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "set_reminder"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "send_email"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "schedule_appointment",
-      "target": "take_note"
-    },
-    {
-      "source": "make_video_call",
-      "target": "send_sms"
-    },
-    {
-      "source": "make_video_call",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "make_video_call",
-      "target": "take_note"
-    },
-    {
-      "source": "make_video_call",
-      "target": "set_reminder"
-    },
-    {
-      "source": "make_video_call",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "make_video_call",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "send_sms"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "take_note"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "set_reminder"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "make_voice_call",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "attend_meeting_online"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "send_email"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "set_reminder"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "take_note"
-    },
-    {
-      "source": "organize_meeting_online",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "take_note"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "send_email"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "set_reminder"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "attend_meeting_online",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "check_balance"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "set_reminder"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "take_note"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "pay_for_credit_card"
-    },
-    {
-      "source": "see_doctor_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "take_note"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "check_balance"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "pay_for_credit_card"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "consult_lawyer_online",
-      "target": "set_reminder"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "set_reminder"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "take_note"
-    },
-    {
-      "source": "enroll_in_course",
-      "target": "send_email"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "send_email"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "set_reminder"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "take_note"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "apply_for_job",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "check_balance"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "take_note"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "buy_insurance",
-      "target": "set_reminder"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "check_balance"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "send_email"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "take_note"
-    },
-    {
-      "source": "do_tax_return",
-      "target": "set_reminder"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "set_reminder"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "take_note"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "send_email"
-    },
-    {
-      "source": "apply_for_passport",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "set_reminder"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "take_note"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "send_email"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "auto_housework_by_robot",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "find_hotel"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "find_restaurants"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "check_traffic"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "order_taxi"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "set_reminder"
-    },
-    {
-      "source": "auto_driving_to_destination",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "deliver_package",
-      "target": "track_parcel"
-    },
-    {
-      "source": "deliver_package",
-      "target": "set_reminder"
-    },
-    {
-      "source": "deliver_package",
-      "target": "send_sms"
-    },
-    {
-      "source": "deliver_package",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "deliver_package",
-      "target": "take_note"
-    },
-    {
-      "source": "deliver_package",
-      "target": "monitor_expenses"
     },
     {
       "source": "connect_bluetooth_device",
       "target": "play_music"
     },
     {
-      "source": "connect_bluetooth_device",
-      "target": "play_music_by_artist_and_genre"
-    },
-    {
-      "source": "connect_bluetooth_device",
-      "target": "play_music_by_title"
-    },
-    {
-      "source": "connect_bluetooth_device",
-      "target": "make_voice_call"
-    },
-    {
-      "source": "connect_bluetooth_device",
-      "target": "make_video_call"
-    },
-    {
-      "source": "connect_bluetooth_device",
-      "target": "take_note"
-    },
-    {
       "source": "play_music",
-      "target": "connect_bluetooth_device"
+      "target": "set_timer"
     },
     {
-      "source": "play_music",
-      "target": "set_reminder"
-    },
-    {
-      "source": "play_music",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "play_music",
-      "target": "take_note"
-    },
-    {
-      "source": "play_music",
-      "target": "recording_audio"
-    },
-    {
-      "source": "play_music",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "play_music"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "take_note"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "recording_audio"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "play_music_by_artist_and_genre",
-      "target": "set_reminder"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "play_music"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "take_note"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "recording_audio"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "play_music_by_title",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "play_music"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "play_music_by_title"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "take_note"
-    },
-    {
-      "source": "get_music_recommendation",
-      "target": "search_by_engine"
+      "source": "play_movie",
+      "target": "set_timer"
     },
     {
       "source": "get_movie_recommendation",
       "target": "play_movie"
     },
     {
+      "source": "measure_heart_rate",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "measure_blood_pressure",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "measure_steps",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "play_podcast",
+      "target": "set_timer"
+    },
+    {
+      "source": "track_parcel",
+      "target": "set_reminder"
+    },
+    {
+      "source": "pay_utility_bill",
+      "target": "take_note"
+    },
+    {
+      "source": "pay_utility_bill",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "create_event",
+      "target": "set_alarm"
+    },
+    {
+      "source": "monitor_expenses",
+      "target": "take_note"
+    },
+    {
+      "source": "create_event",
+      "target": "set_reminder"
+    },
+    {
+      "source": "get_weather",
+      "target": "send_email"
+    },
+    {
+      "source": "check_flight_status",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "translate_text",
+      "target": "send_email"
+    },
+    {
+      "source": "translate_text",
+      "target": "share_by_social_network"
+    },
+    {
       "source": "get_movie_recommendation",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "get_movie_recommendation",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_movie_recommendation",
       "target": "share_by_social_network"
     },
     {
-      "source": "get_movie_recommendation",
-      "target": "take_note"
-    },
-    {
-      "source": "get_movie_recommendation",
-      "target": "recording_audio"
-    },
-    {
-      "source": "play_movie",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "play_movie",
+      "source": "get_music_recommendation",
       "target": "share_by_social_network"
     },
     {
-      "source": "play_movie",
+      "source": "measure_steps",
       "target": "take_note"
     },
     {
-      "source": "play_movie",
-      "target": "recording_audio"
-    },
-    {
-      "source": "play_movie",
-      "target": "set_reminder"
-    },
-    {
-      "source": "play_movie",
-      "target": "make_video_call"
-    },
-    {
-      "source": "take_note",
+      "source": "check_battery",
       "target": "share_by_social_network"
     },
     {
-      "source": "take_note",
-      "target": "send_email"
-    },
-    {
-      "source": "take_note",
-      "target": "recording_audio"
-    },
-    {
-      "source": "take_note",
-      "target": "print_document"
-    },
-    {
-      "source": "take_note",
+      "source": "deliver_package",
       "target": "set_reminder"
     },
     {
-      "source": "take_note",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "take_note"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "set_reminder"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "recording_audio"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "borrow_book_online",
-      "target": "send_email"
-    },
-    {
-      "source": "recording_audio",
-      "target": "take_note"
-    },
-    {
-      "source": "recording_audio",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "recording_audio",
-      "target": "send_email"
-    },
-    {
-      "source": "recording_audio",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "recording_audio",
-      "target": "set_reminder"
-    },
-    {
-      "source": "recording_audio",
-      "target": "print_document"
-    },
-    {
-      "source": "print_document",
-      "target": "set_reminder"
-    },
-    {
-      "source": "print_document",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "print_document",
-      "target": "take_note"
-    },
-    {
-      "source": "print_document",
-      "target": "recording_audio"
-    },
-    {
-      "source": "print_document",
-      "target": "send_email"
-    },
-    {
-      "source": "print_document",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "set_alarm",
-      "target": "auto_driving_to_destination"
-    },
-    {
-      "source": "set_alarm",
-      "target": "order_taxi"
-    },
-    {
-      "source": "set_alarm",
-      "target": "set_reminder"
-    },
-    {
-      "source": "set_alarm",
-      "target": "take_note"
-    },
-    {
-      "source": "set_alarm",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "set_alarm",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "create_fitness_plan"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "take_note"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "set_reminder"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "calculate_bmi",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "track_parcel",
-      "target": "send_sms"
-    },
-    {
-      "source": "track_parcel",
-      "target": "set_reminder"
-    },
-    {
-      "source": "track_parcel",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "track_parcel",
-      "target": "take_note"
-    },
-    {
-      "source": "track_parcel",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "track_parcel",
-      "target": "send_email"
-    },
-    {
-      "source": "add_item",
-      "target": "remove_item"
-    },
-    {
-      "source": "add_item",
-      "target": "update_item"
-    },
-    {
-      "source": "add_item",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "add_item",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "add_item",
-      "target": "set_reminder"
-    },
-    {
-      "source": "add_item",
-      "target": "take_note"
-    },
-    {
-      "source": "remove_item",
-      "target": "add_item"
-    },
-    {
-      "source": "remove_item",
-      "target": "update_item"
-    },
-    {
-      "source": "remove_item",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "remove_item",
-      "target": "take_note"
-    },
-    {
-      "source": "remove_item",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "remove_item",
-      "target": "set_reminder"
-    },
-    {
-      "source": "update_item",
-      "target": "add_item"
-    },
-    {
-      "source": "update_item",
-      "target": "remove_item"
-    },
-    {
-      "source": "update_item",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "update_item",
-      "target": "take_note"
-    },
-    {
-      "source": "update_item",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "update_item",
-      "target": "set_reminder"
-    },
-    {
-      "source": "convert_currency",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "convert_currency",
-      "target": "shop_online"
-    },
-    {
-      "source": "convert_currency",
-      "target": "take_note"
-    },
-    {
-      "source": "convert_currency",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "convert_currency",
-      "target": "check_balance"
-    },
-    {
-      "source": "convert_currency",
-      "target": "set_reminder"
+      "source": "order_subway_tickets",
+      "target": "set_alarm"
     },
     {
       "source": "check_traffic",
-      "target": "auto_driving_to_destination"
-    },
-    {
-      "source": "check_traffic",
-      "target": "order_taxi"
+      "target": "set_alarm"
     },
     {
       "source": "check_traffic",
       "target": "set_reminder"
     },
     {
-      "source": "check_traffic",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "check_traffic",
-      "target": "take_note"
-    },
-    {
-      "source": "check_traffic",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "find_local_event",
-      "target": "set_reminder"
-    },
-    {
-      "source": "find_local_event",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "find_local_event",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "find_local_event",
-      "target": "book_hotel"
-    },
-    {
-      "source": "find_local_event",
-      "target": "order_taxi"
-    },
-    {
-      "source": "find_local_event",
-      "target": "take_note"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "create_fitness_plan"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "set_reminder"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "take_note"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "track_water_intake",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "set_reminder"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "take_note"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "create_fitness_plan",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "set_reminder",
-      "target": "take_note"
-    },
-    {
-      "source": "set_reminder",
-      "target": "send_email"
-    },
-    {
-      "source": "set_reminder",
-      "target": "send_sms"
-    },
-    {
-      "source": "set_reminder",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "set_reminder",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "set_reminder",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "create_fitness_plan"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "set_reminder"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "take_note"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "analyze_sleep",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "translate_text",
-      "target": "send_email"
-    },
-    {
-      "source": "translate_text",
-      "target": "send_sms"
-    },
-    {
-      "source": "translate_text",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "translate_text",
-      "target": "take_note"
-    },
-    {
-      "source": "translate_text",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "translate_text",
-      "target": "print_document"
-    },
-    {
-      "source": "summarize_text",
-      "target": "take_note"
-    },
-    {
-      "source": "summarize_text",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "summarize_text",
-      "target": "send_email"
-    },
-    {
-      "source": "summarize_text",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "summarize_text",
-      "target": "set_reminder"
-    },
-    {
-      "source": "summarize_text",
-      "target": "print_document"
-    },
-    {
-      "source": "monitor_expenses",
-      "target": "check_balance"
-    },
-    {
-      "source": "monitor_expenses",
-      "target": "create_budget_plan"
-    },
-    {
-      "source": "monitor_expenses",
+      "source": "print_document",
       "target": "take_note"
     },
     {
       "source": "monitor_expenses",
-      "target": "share_by_social_network"
+      "target": "pay_utility_bill"
     },
     {
-      "source": "monitor_expenses",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "monitor_expenses",
+      "source": "create_event",
       "target": "set_reminder"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "order_food_delivery"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "order_food_dinein"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "take_note"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "recommend_recipe",
-      "target": "set_reminder"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "create_fitness_plan"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "see_doctor_online"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "take_note"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "measure_heart_rate",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "see_doctor_online"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "create_fitness_plan"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "take_note"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "measure_blood_pressure",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "send_email"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "print_document"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "take_note"
-    },
-    {
-      "source": "sign_e_document",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "check_traffic"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "order_subway_tickets",
-      "target": "take_note"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "send_email"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "take_note"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "check_balance"
-    },
-    {
-      "source": "send_gift_card",
-      "target": "set_reminder"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "book_hotel"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "check_traffic"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "auto_driving_to_destination"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "find_restaurants"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "set_reminder"
-    },
-    {
-      "source": "plan_road_trip",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "check_balance"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "send_email"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "take_note"
-    },
-    {
-      "source": "create_budget_plan",
-      "target": "set_reminder"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "check_lottery_result"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "send_email"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "take_note"
-    },
-    {
-      "source": "buy_lottery_ticket",
-      "target": "set_reminder"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "convert_currency"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "check_balance"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "take_note"
-    },
-    {
-      "source": "check_lottery_result",
-      "target": "send_email"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "check_balance"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "take_note"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "set_reminder"
-    },
-    {
-      "source": "pay_utility_bill",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "auto_driving_to_destination"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "order_taxi"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "set_reminder"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "take_note"
-    },
-    {
-      "source": "locate_mobile_device",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "send_email"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "take_note"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "set_reminder"
-    },
-    {
-      "source": "backup_files_cloud",
-      "target": "print_document"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "take_note"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "set_reminder"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "send_email"
-    },
-    {
-      "source": "subscribe_newsletter",
-      "target": "monitor_expenses"
     },
     {
       "source": "redeem_coupon",
       "target": "shop_online"
     },
     {
-      "source": "redeem_coupon",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "redeem_coupon",
-      "target": "check_balance"
-    },
-    {
-      "source": "redeem_coupon",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "redeem_coupon",
-      "target": "take_note"
-    },
-    {
-      "source": "redeem_coupon",
+      "source": "deliver_package",
       "target": "set_reminder"
     },
     {
-      "source": "play_podcast",
-      "target": "recording_audio"
+      "source": "find_local_store",
+      "target": "set_alarm"
     },
     {
-      "source": "play_podcast",
+      "source": "subscribe_newsletter",
       "target": "share_by_social_network"
     },
     {
-      "source": "play_podcast",
-      "target": "take_note"
+      "source": "connect_bluetooth_device",
+      "target": "set_alarm"
     },
     {
-      "source": "play_podcast",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "play_podcast",
+      "source": "order_subway_tickets",
       "target": "set_reminder"
     },
     {
-      "source": "play_podcast",
-      "target": "connect_bluetooth_device"
-    },
-    {
-      "source": "check_package_size",
-      "target": "deliver_package"
-    },
-    {
-      "source": "check_package_size",
+      "source": "get_weather",
       "target": "set_reminder"
     },
     {
-      "source": "check_package_size",
-      "target": "take_note"
-    },
-    {
-      "source": "check_package_size",
+      "source": "search_by_engine",
       "target": "share_by_social_network"
     },
     {
-      "source": "check_package_size",
-      "target": "search_by_engine"
+      "source": "search_by_engine",
+      "target": "take_note"
     },
     {
-      "source": "check_package_size",
-      "target": "schedule_appointment"
+      "source": "deliver_package",
+      "target": "take_note"
     },
     {
-      "source": "request_emergency_services",
-      "target": "send_sms"
+      "source": "monitor_expenses",
+      "target": "shop_online"
     },
     {
-      "source": "request_emergency_services",
+      "source": "measure_heart_rate",
+      "target": "create_fitness_plan"
+    },
+    {
+      "source": "measure_blood_pressure",
+      "target": "create_fitness_plan"
+    },
+    {
+      "source": "order_food_delivery",
+      "target": "summarize_text"
+    },
+    {
+      "source": "order_food_dinein",
+      "target": "take_note"
+    },
+    {
+      "source": "lookup_contact",
       "target": "make_voice_call"
     },
     {
-      "source": "request_emergency_services",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "request_emergency_services",
+      "source": "find_restaurants",
       "target": "take_note"
     },
     {
-      "source": "request_emergency_services",
-      "target": "send_email"
-    },
-    {
-      "source": "request_emergency_services",
-      "target": "set_reminder"
-    },
-    {
-      "source": "get_complaint_status",
-      "target": "send_email"
-    },
-    {
-      "source": "get_complaint_status",
-      "target": "take_note"
-    },
-    {
-      "source": "get_complaint_status",
+      "source": "borrow_book_online",
       "target": "share_by_social_network"
     },
     {
-      "source": "get_complaint_status",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "get_complaint_status",
+      "source": "find_local_event",
       "target": "set_reminder"
     },
     {
-      "source": "get_complaint_status",
+      "source": "attend_meeting_online",
+      "target": "take_note"
+    },
+    {
+      "source": "organize_meeting_online",
+      "target": "set_reminder"
+    },
+    {
+      "source": "schedule_appointment",
+      "target": "share_by_social_network"
+    },
+    {
+      "source": "convert_currency",
+      "target": "take_note"
+    },
+    {
+      "source": "convert_currency",
       "target": "send_sms"
     },
     {
-      "source": "order_groceries",
-      "target": "monitor_expenses"
-    },
-    {
-      "source": "order_groceries",
-      "target": "check_balance"
-    },
-    {
-      "source": "order_groceries",
-      "target": "set_reminder"
-    },
-    {
-      "source": "order_groceries",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "order_groceries",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "order_groceries",
+      "source": "sell_item_online",
       "target": "take_note"
     },
     {
-      "source": "request_maintenance",
-      "target": "set_reminder"
+      "source": "book_flight",
+      "target": "create_event"
     },
     {
-      "source": "request_maintenance",
+      "source": "order_coffee",
       "target": "take_note"
     },
     {
-      "source": "request_maintenance",
+      "source": "recording_audio",
       "target": "share_by_social_network"
-    },
-    {
-      "source": "request_maintenance",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "request_maintenance",
-      "target": "send_email"
-    },
-    {
-      "source": "request_maintenance",
-      "target": "order_taxi"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "order_subway_tickets"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "search_by_engine"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "set_reminder"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "take_note"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "share_by_social_network"
-    },
-    {
-      "source": "fetch_public_transport_timetable",
-      "target": "monitor_expenses"
     }
   ]
 }

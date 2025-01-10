@@ -5,7 +5,7 @@ agent: 3
 round: 1
 
 # define dataset iteration (number of data)
-iter: 1
+iter: 5
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
@@ -22,7 +22,7 @@ functions:
 fewshot: ""
 
 # define tasks: 'S-M', 'M-S', 'S-S', 'M-M'
-task: "S-M"
-# output path
-output_path: "dialogue/SS"
+task: "S-M"  # 앵커 정의
 
+# output path
+output_path: "dialogue/"S-M""  # 앵커를 참조

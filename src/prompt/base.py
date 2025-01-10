@@ -54,7 +54,7 @@ orchestrator_system_message = """
 
 task_desc = {
     'S-S': 'This task is called Single Round and Single Tool Task where only one tool is used in a single round. Therefore, the conversation should contain the information of a single tool and its parameters very naturally.',
-    'S-M': 'This task is called Single Round and Multi Tools Task where multiple tools are used in a single round. Therefore, the conversation should contain the information of multiple tools and their parameters very naturally.' 
+    'S-M': 'This task is called Single Round and Multi Tools Task where multiple tools are used in a single round. Therefore, the conversation should contain the information of multiple tools and their parameters very naturally. The conversation should call AI at the end and ask AI to use the all the tools.', 
 }
 
 
