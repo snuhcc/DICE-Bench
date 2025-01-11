@@ -1,5 +1,5 @@
 {
-  "functions": [
+  "nodes": [
     {
       "function": "get_weather",
       "desc": "Retrieve weather information for a specific location and date.",
@@ -1958,10 +1958,6 @@
     },
     {
       "source": "buy_stock",
-      "target": "schedule_appointment"
-    },
-    {
-      "source": "buy_stock",
       "target": "set_reminder"
     },
     {
@@ -2007,10 +2003,6 @@
     {
       "source": "check_calendar",
       "target": "set_reminder"
-    },
-    {
-      "source": "check_internet_speed",
-      "target": "share_by_social_network"
     },
     {
       "source": "check_internet_speed",
