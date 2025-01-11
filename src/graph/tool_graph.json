@@ -2201,10 +2201,6 @@
       "target": "set_reminder"
     },
     {
-      "source": "redeem_coupon",
-      "target": "shop_online"
-    },
-    {
       "source": "deliver_package",
       "target": "set_reminder"
     },
