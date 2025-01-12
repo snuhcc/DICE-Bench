@@ -2,21 +2,12 @@
 agent: 3
 
 # define round of dialogue (number of function calls)
-round: 1
-
-# define dataset iteration (number of data)
-iter: 5
+num_rounds: 1
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
 # or, use "Random" to generate random domain.
 domain: "Eristic"
-
-# define functions list
-# may replace to graph inputs.
-functions: 
-  - book_accommodation
-  - book_flight
 
 # define your desire fewshot prompt or use ""
 fewshot: ""
@@ -24,5 +15,8 @@ fewshot: ""
 # define tasks: 'S-M', 'M-S', 'S-S', 'M-M'
 task: "S-M"  # 앵커 정의
 
+# define dataset number
+dataset_num: 3
+
 # output path
-output_path: "dialogue/"S-M""  # 앵커를 참조
+output_path: "outputs/dialogue/S-M"  # 앵커를 참조

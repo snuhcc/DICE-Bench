@@ -8,8 +8,9 @@ MAX_MSG = 15
 basic_message = """
     You are a cooperative AI assistant in a multi-agent system designed to generate purposeful and contextually relevant conversations.
 
-    - Work collaboratively with other User Agents and the orchestrator to create a very natural, engaging, and coherent discussion based on the following domain definition:
+    - Work collaboratively with other User Agents and the orchestrator to create a very natural, engaging, and coherent multi party conversation based on the **following domain definition**:
     "{domain_definition}"
+    - You must progress the conversation so that the characteristics of the domain described in the domain description are clearly revealed. 
     - Maintain consistency in your character and role, ensuring your contributions align with your designated persona throughout the conversation.
     - Develop the conversation naturally, referencing previous turns and contributing meaningful insights while adhering to the orchestrator’s guidance.
     - Ensure the conversation spans at least {max_msg} turns, excluding the orchestrator’s messages.
@@ -21,12 +22,12 @@ agent_system_message = """
     You are an Agent {agent_char} participating in a multi-agent conversation system.
     - Actively advance the {domain} conversation by fully embodying the domain's definition:
     "{domain_definition}"
-    - Discuss and negotiate the following parameters as part of the conversation:
-    {parameters}.
+    - Discuss and negotiate the following parameters as part of the conversation:\n
+    {parameters}
     - Ensure your responses build naturally on prior turns and contribute to achieving the conversation’s goals.
     - Maintain your designated persona and role, tailoring your tone, reasoning, and style accordingly.
     - Provide only one concise and relevant sentence per turn to keep the conversation focused and efficient.
-    - Ensure that the conversation organically introduces the function "{func}" and its parameter values without making them appear forced or unnatural.
+    - Ensure that the conversation organically introduces the function "\n{func}\n" and its parameter values "\n{parameters}\n" without making them appear forced or unnatural.
 """
 
 # 3개 돌려쓰기.
@@ -51,10 +52,25 @@ orchestrator_system_message = """
     - Make sure that the order of agents speak must be random.
 """
 
-
 task_desc = {
-    'S-S': 'This task is called Single Round and Single Tool Task where only one tool is used in a single round. Therefore, the conversation should contain the information of a single tool and its parameters very naturally.',
-    'S-M': 'This task is called Single Round and Multi Tools Task where multiple tools are used in a single round. Therefore, the conversation should contain the information of multiple tools and their parameters very naturally. The conversation should call AI at the end and ask AI to use the all the tools.', 
+    "S-S": """This is called the Single Round and Single Tool Task.
+        Only one tool (function) is used in a single round of conversation.
+        Hence, the conversation should naturally include information about this single tool and its parameters.
+        At the end of the conversation, you should request the AI to use the tool.""",
+    "S-M": """This is called the Single Round and Multi Tools Task.
+        Multiple tools (functions) are used within a single round of conversation.
+        Therefore, the conversation should naturally include information about all tools and their parameters.
+        At the end of the conversation, you should request the AI to use all the tools.""",
+    "M-S": """This is called the Multi Round and Single Tool Task.
+        A single tool (function) will be used in every round.
+        There can be more than two rounds, and each round is one dialogue between multiple parties and the AI assistant.
+        The conversation should naturally include information about the single tool and its parameters in each round.
+        At the end of the final round, you should request the AI to use the tool.""",
+    "M-M": """This is called the Multi Round and Multi Tools Task.
+        Multiple tools (functions) will be used in every round.
+        There can be more than two rounds, and each round is one dialogue between multiple parties and the AI assistant.
+        The conversation should naturally include information about all the tools and their parameters in each round.
+        At the end of the final round, you should request the AI to use all the tools.""",
 }
 
 
@@ -66,23 +82,26 @@ data_message = """
     Carry out a natural and casual conversation similar to everyday life scenarios.  
     - Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively. Speaker selection will be determined by the orchestrator.
     - {task_desc}
-    - The conversation must naturally and explicitly incorporate all parameter values provided in {func}. These values should seamlessly fit into the context and contribute meaningfully to the flow of the dialogue.
     - At the end of the conversation, one of the agents should summarize the key decisions and call the function "{func}" with the determined parameter values, {parameter_values}.
     - The orchestrator will conclude the conversation with '[NEXT: END]' after all conditions are met.
+    - The conversation must naturally and explicitly incorporate all parameter values provided in the function. These values should seamlessly fit into the context and contribute meaningfully to the flow of the dialogue.
     - The final utterance from the last agent should address the AI. But, make sure that the last utterance should not include any information about parameter values. It can only at least mention 'AI' using the function name. For example, if the function name is 'turn_on_computer_at_the_given_time', then the last utterance should be like 'AI, please turn on the computer.'
     - Try to progress the conversation at least {max_msg} messages, and orchestrator should only generate {agents} or '[NEXT: END]'. **Do not add any extra text, explanations, or comments.**
+    - Make sure the dialogue that you generate will be {domain_definition}.
+    - write in korean
 """
 
 
 class PromptMaker:
-    def __init__(self, agent_num, round, fewshot, func, parameter_values, domain, iter, task):
+    def __init__(
+        self, agent_num, round, fewshot, func, parameter_values, domain, task
+    ):
         self.agent_num = agent_num
         self.round = round
         self.fewshot = fewshot
         self.func = func
         self.parameter_values = parameter_values
         self.domain = domain
-        # self.now_domains = [self.get_domain() for i in range(iter)]
         self.domain_ctr = 0
         self.task = task
 
@@ -98,7 +117,9 @@ class PromptMaker:
     def agent_prompt(self, agent_type):
         domain, domain_definition = self.get_domain()
         prompt = basic_message.format(
-            agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG, domain_definition=domain_definition
+            agents=self.orchestrator_agent_prompt,
+            max_msg=MAX_MSG,
+            domain_definition=domain_definition,
         )
 
         if agent_type == "orch":
@@ -106,7 +127,7 @@ class PromptMaker:
                 agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG, round=self.round
             )
         else:
-            
+
             self.domain_ctr += 1
             prompt += agent_system_message.format(
                 agent_char=agent_type,
@@ -114,11 +135,13 @@ class PromptMaker:
                 domain=domain,
                 domain_definition=domain_definition,
                 parameters=self.parameter_values,
-                func=self.func
+                func=self.func,
             )
         return prompt
 
     def data_prompt(self):
+        domain, domain_definition = self.get_domain()
+
         prompt = data_message.format(
             fewshot=self.fewshot,
             simple_agents=self.simple_agent_prompt,
@@ -127,7 +150,9 @@ class PromptMaker:
             func=self.func,
             parameter_values=self.parameter_values,
             agents=self.orchestrator_agent_prompt,
-            task_desc=task_desc[self.task]
+            task_desc=task_desc[self.task],
+            task=self.task,
+            domain_definition=domain_definition
         )
         return prompt
 

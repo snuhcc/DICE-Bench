@@ -4,7 +4,7 @@ import random
 import networkx as nx
 from matplotlib import pyplot as plt
 
-from utils import (
+from src.graph.utils import (
     check_tree_level_count,
     check_tree_connectivity,
     print_tree_text,

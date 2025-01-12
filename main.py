@@ -1,203 +1,145 @@
-import click
-import yaml
+import os
 import json
+import yaml
+from pathlib import Path
+import pprint
+
+import click
 from langchain_core.messages import HumanMessage
+
+# 내부 라이브러리 임포트
 from src.agent.base import make_agent_pipeline
 from src.prompt.base import PromptMaker
 from src.function.base import BaseFunctionList
-from src.utils.utils import save_data
-import os
-from pathlib import Path
-
-
-def get_unique_folder_name(folder_path: str) -> str:
-    """
-    입력받은 folder_path가 이미 존재한다면,
-    숫자를 하나씩 붙여가며 존재하지 않는 폴더 경로를 반환.
-    """
-    if not os.path.exists(folder_path):
-        return folder_path
-
-    base_path = folder_path
-    counter = 1
-    while os.path.exists(folder_path):
-        folder_path = f"{base_path}_{counter}"
-        counter += 1
-    return folder_path
-
-
-def get_unique_filename(filename):
-    """
-    파일이 존재한다면, 숫자를 하나씩 붙여가며 존재하지 않는
-    파일 경로를 만들어 반환.
-    """
-    base, ext = os.path.splitext(filename)
-    counter = 1
-    while os.path.exists(filename):
-        filename = f"{base}{counter}{ext}"
-        counter += 1
-    return filename
-
-def draw_langgraph(main_graph, save_path):
-    from IPython.display import Image, display
-
-    try:
-        image_data = main_graph.get_graph(xray=True).draw_mermaid_png()
-
-        # 이미지 파일 경로
-        image_path = os.path.join(save_path, "main_graph.png")
-        image_path = get_unique_filename(image_path)
-
-        # 이미지 파일 저장
-        with open(image_path, "wb") as f:
-            f.write(image_data)
-        print(f"Image saved as '{image_path}'")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        pass
+from src.utils import utils
+from src.graph.sample_subgraph import ToolGraphSampler
 
 
 @click.command()
-@click.option("--agent", default=3, help="Number of agents.")
-@click.option("--round", default=1, help="Number of rounds")
-@click.option("--fewshot", default="", help="fewshot use")
-@click.option("--iter", default=1, help="number of iteration")
-@click.option("--domain", default="Persuasion", help="domain")
-@click.option("--output_path", default="outputs/test.json", help="Output_path")
-@click.option("--task", default="S-S", help="Task")
-@click.option("--yaml_path", default=None, help="Predefined yaml import")
+@click.option("--yaml_path", default=None, help="Path to a predefined YAML file.")
+def main(
+    yaml_path,
+):
 
-def main(agent, round, fewshot, iter, domain, output_path, task, yaml_path):
-    # YAML 파일이 지정된 경우 설정 불러오기
+    # 1. YAML 파일이 지정된 경우: 해당 파일에서 설정 읽어 오기
     if yaml_path is not None:
         with open(yaml_path, encoding="utf-8") as f:
             yaml_data = yaml.full_load(f)
-        agent = yaml_data["agent"]
-        round = yaml_data["round"]
+
+        # YAML 데이터에 있는 설정을 우선적으로 사용
+        num_agents = yaml_data["agent"]
+        num_rounds = yaml_data["num_rounds"]
         fewshot = yaml_data["fewshot"]
-        iter = yaml_data["iter"]
         domain = yaml_data["domain"]
-        functions = yaml_data["functions"]
         output_path = yaml_data["output_path"]
         task = yaml_data["task"]
+        dataset_num = yaml_data["dataset_num"]
+    else:
+        # YAML 없는 경우, 기본값 또는 CLI 옵션 사용
+        functions = None
 
-    # 출력 경로에서 폴더와 파일명 분리
-    output_path = Path(output_path)
-    folder_name = "outputs" / output_path.parent
-    file_name = output_path.name
+    # 2. 출력 경로를 기반으로 폴더와 파일명 분리
+    output_path_obj = Path(output_path)
+    folder_path = output_path_obj.parent  # 예: "outputs"
+    file_name = output_path_obj.name      # 예: "test.json"
 
-    # 폴더 이름 고유화
-    unique_folder = get_unique_folder_name(folder_name)
-    os.makedirs(unique_folder, exist_ok=True)  # 폴더 생성
+    # 3. 폴더 이름 고유화 & 폴더 생성
+    unique_folder_path = Path(utils.get_unique_folder_name(folder_path))
+    os.makedirs(unique_folder_path, exist_ok=True)
 
-    # 파일 이름도 고유화
-    unique_output_path = os.path.join(unique_folder, file_name)
-    unique_output_path = get_unique_filename(unique_output_path)
-
-    # Few-shot 프롬프트
-    fewshot = fewshot
-
-    # 함수 정보
-    func = """
-        "functions": [
-            {
-                "function": "get_weather",
-                "desc": "Retrieve weather information for a specific location and date.",
-                "parameters": [
-                    {
-                        "name": "location",
-                        "type": "string",
-                        "desc": "The city or region to check weather for."
-                    },
-                    {
-                        "name": "date",
-                        "type": "string",
-                        "desc": "Date in MM-DD format."
-                    }
-                ],
-                "return": {
-                    "location": "string",
-                    "date": "string",
-                    "forecast": "string"
-                }
-            },
-            {
-                "function": "book_hotel",
-                "desc": "Book a specific hotel on a given date and location.",
-                "parameters": [
-                    {
-                        "name": "hotel_name",
-                        "type": "string",
-                        "desc": "Name of the hotel."
-                    },
-                    {
-                        "name": "date",
-                        "type": "string",
-                        "desc": "Date in MM-DD format."
-                    },
-                    {
-                        "name": "location",
-                        "type": "string",
-                        "desc": "Location of the hotel."
-                    }
-                ],
-                "return": {
-                    "hotel_name": "string",
-                    "location": "string",
-                    "check_in_date": "string",
-                    "hotel_booking_confirmation": "string"
-                }
-            }
-        ]
+    # 4. 파일 이름도 고유화
+    unique_output_file = utils.get_unique_filename(str(unique_folder_path / file_name))
     
-    """
+    with open('src/graph/tool_graph.json', 'r') as f:
+        tool_graph = json.load(f)
 
-    parameter_values = """
-    {'function': "get_weather", 'parameters': {"location": "Thailand", "date": "06-07"}}
-    {'function': "book_hotel", 'parameters': {"hotel_name": "Hilton Bangkok", "date": "06-07", "location": "Thailand"}}
-    """
+    graph_sampler = ToolGraphSampler(tool_graph)
+    
+    function_list = []
+    for i in range(dataset_num):
+        if task == 'S-S':
+            func = graph_sampler.sample_node()
+            function_list.append(func)
+        elif task == 'S-M':
+            func = graph_sampler.sample_undirected_path(num_nodes=2)
+            function_list.append(func)
+        elif task == 'M-S':
+            func = graph_sampler.sample_directed_path(num_nodes=2)
+            function_list.append(func)
+        elif task == 'M-M':
+            level_functions, edges = graph_sampler.sample_tree(num_levels=2, nodes_per_level=2)
+            function_list.extend((level_functions, edges))
+        else:
+            raise ValueError(f"Invalid task: {task}")
+        
+    
+    
+        
+    
+    # 6. 함수 파라미터 예시(실행 시 활용할 수 있는 값)
 
-    # LangGraph 파이프라인 생성
-    pm = PromptMaker(agent, round, fewshot, func, parameter_values, domain, iter, task)
-    main_graph = make_agent_pipeline(pm)
 
-    # LangGraph 그리기
-    draw_langgraph(main_graph, unique_folder)
+    print(f'function_list: {function_list}')
 
-    # 데이터 생성
-    events_list = []
-    domain_list = list(pm.get_domain()[0])
-
-    for i in range(iter):
-        data_prompt = pm.data_prompt()
-        print(f"data_prompt: {data_prompt}")
-        events = main_graph.stream(
-            {"messages": [HumanMessage(content=data_prompt)]},
-            {"recursion_limit": 40},
+    for i in range(dataset_num):
+        function_json = utils.get_functions_from_tool_graph(function_list[i], json_file_path='src/graph/tool_graph.json')
+        
+        functions_per_dialogue = json.dumps(function_json, ensure_ascii=False, indent=4)
+        print(f'\nfunctions_per_dialogue: {functions_per_dialogue}\n')
+        parameter_values = utils.get_parameter_values(functions_per_dialogue)
+        print(f'\nparameter_values: {parameter_values}\n')  
+        
+        # 7. LangChain Prompt 설정
+        pm = PromptMaker(
+            num_agents,
+            num_rounds,
+            fewshot,
+            functions_per_dialogue,
+            parameter_values,
+            domain,
+            task,
         )
 
-        print(f"events: {events}")
+        # # 8. LangChain 파이프라인 생성
+        # main_graph = make_agent_pipeline(pm)
 
-        events_list.append(events)
+        # # 9. 파이프라인 구조 시각화 후 저장
+        # utils.draw_langgraph(main_graph, unique_folder_path)
 
-    # JSON 저장
-    output_file = unique_output_path
-    save_dicts, metadata_dicts = save_data(events_list, f"{output_file}.json")
+        # # 10. 결과 이벤트 목록 생성
+        # events_list = []
+        # # 도메인은 pm.get_domain()[0]이 튜플이나 리스트를 반환한다고 가정
+        # # (사용처에 따라 수정 필요)
+        # domain_list = list(pm.get_domain()[0])
+        
+        
+    #     data_prompt = pm.data_prompt()
 
-    # 메타데이터 저장
-    metadata_path = os.path.splitext(output_file)[0] + "_metadata.json"
-    metadata = {
-        "domain": domain_list,
-        "round": round,
-        "funclist": func,
-        "parameter_values": parameter_values,
-        "orchestrator": metadata_dicts,
-    }
-    with open(metadata_path, "w", encoding="utf-8") as f:
-        json.dump(metadata, f, ensure_ascii=False)
-    print(f"Data saved to '{output_file}'")
-    print(f"Metadata saved to '{metadata_path}'")
+    #     # main_graph.stream 호출
+    #     events = main_graph.stream(
+    #         {"messages": [HumanMessage(content=data_prompt)]},
+    #         {"recursion_limit": 40},
+    #     )
+
+    #     events_list.append(events)
+
+    # # 11. 결과 JSON 저장
+    # save_dicts, metadata_dicts = utils.save_data(events_list, f"{unique_output_file}.json")
+
+    # # 12. 메타데이터 저장
+    # metadata_path = os.path.splitext(unique_output_file)[0] + "_metadata.json"
+    # metadata = {
+    #     "domain": domain_list,
+    #     "round": num_rounds,
+    #     "funclist": func,
+    #     "parameter_values": parameter_values,
+    #     "orchestrator": metadata_dicts,
+    # }
+    # with open(metadata_path, "w", encoding="utf-8") as f:
+    #     json.dump(metadata, f, ensure_ascii=False)
+
+    # print(f"Data saved to '{unique_output_file}'")
+    # print(f"Metadata saved to '{metadata_path}'")
 
 
 if __name__ == "__main__":
