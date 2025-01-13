@@ -19,15 +19,15 @@ basic_message = """
 
 # prompt for user agent
 agent_system_message = """
-    You are an Agent {agent_char} participating in a multi-agent conversation system.
+    You are an Agent participating in a multi-agent conversation system with the persona: {persona}.
     - Actively advance the {domain} conversation by fully embodying the domain's definition:
     "{domain_definition}"
-    - Discuss and negotiate the following parameters as part of the conversation:\n
-    {parameters}
+    - Discuss and negotiate the following parameters as part of the conversation:
+    {parameter_values}
     - Ensure your responses build naturally on prior turns and contribute to achieving the conversation’s goals.
     - Maintain your designated persona and role, tailoring your tone, reasoning, and style accordingly.
     - Provide only one concise and relevant sentence per turn to keep the conversation focused and efficient.
-    - Ensure that the conversation organically introduces the function "\n{func}\n" and its parameter values "\n{parameters}\n" without making them appear forced or unnatural.
+    - Ensure that the conversation organically introduces the function "\n{func}\n" and its parameter values "\n{parameter_values}\n" without making them appear forced or unnatural.
 """
 
 # 3개 돌려쓰기.
@@ -134,7 +134,7 @@ class PromptMaker:
                 persona=agent_personas[(ord(agent_type) - 97) % 3],
                 domain=domain,
                 domain_definition=domain_definition,
-                parameters=self.parameter_values,
+                parameters_values=self.parameter_values,
                 func=self.func,
             )
         return prompt

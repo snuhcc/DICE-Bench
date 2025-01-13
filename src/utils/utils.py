@@ -1,6 +1,8 @@
 import json
 import os
 from openai import OpenAI
+import re
+from src.prompt.domain_prompt import domain_prompt_dict
 
 def get_parameter_values(functions):
     client = OpenAI()
@@ -96,6 +98,55 @@ def get_parameter_values(functions):
         ],
         temperature=0.0,
     )
+    
+    return completion.choices[0].message.content
+
+def get_personas(domain, function_list, parameter_values, persona_num=3):
+    domain_desc = domain_prompt_dict[domain]
+    
+    client = OpenAI()
+    prompt = """
+        You are a helpful and ethical assistant. Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list} and corresponding parameter values: {parameter_values}.
+
+        **Guidelines for generating the personas:**
+        - Ensure each persona has a clear and distinct role, personality traits, and communication style while adhering to ethical standards.
+        - Avoid including or reinforcing stereotypes, biases, or potentially offensive traits in the personas.
+        - Tailor the personas to contribute effectively to the conversation's goals, maintain balance within the group dynamics, and promote positive and inclusive interactions.
+        - Use concise yet descriptive language to outline the persona’s primary focus and approach to the discussion.
+        - Avoid repetitive characteristics across different personas to ensure diversity and fairness.
+        - Incorporate elements from the provided domain description when generating conversation: {domain_desc}.
+        - Ensure that all personas align with ethical communication practices and promote a respectful, constructive dialogue.
+
+        **Examples of personas:**
+        1. A thoughtful and resourceful problem-solver who likes optimizing plans for the group's benefit. You focus on finding the best options for costs, convenience, and logistics while considering everyone's preferences.
+        2. A detail-oriented and practical thinker who ensures that the plans are realistic and well-organized. You focus on logistics like scheduling and timing, balancing fun with practicality, and ensuring inclusivity.
+        3. A spontaneous and energetic planner who loves initiating plans and suggesting creative ideas. Your focus is on creating exciting plans, fostering enthusiasm, and ensuring that all participants feel included in the conversation.
+
+        **Response format:**
+        Provide the requested number of personas in the following format:
+        - **Agent 1 Persona**: [Description of the persona, including personality traits, role, focus in the conversation, and commitment to inclusivity.]
+        - **Agent 2 Persona**: [Description of the persona, including personality traits, role, focus in the conversation, and commitment to inclusivity.]
+        - (Continue for the specified number of agents.)
+
+        Now, generate {persona_num} personas for the agents in the conversation.
+        """
+
+    
+    filled_prompt = prompt.replace("{persona_num}", str(persona_num)).replace("{function_list}", function_list).replace("{parameter_values}", parameter_values).replace("{domain_desc}", domain_desc)
+    
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": filled_prompt
+            }
+        ],
+        temperature=0.5,
+    )
+    
+    print(f'filled_prompt: {filled_prompt}')
     
     return completion.choices[0].message.content
 
@@ -207,3 +258,31 @@ def get_functions_from_tool_graph(tool_list, json_file_path='tool_graph.json'):
     }
 
     return result
+
+"""
+`extract_json` and `parse_json_functions` are used to extract and parse JSON-formatted parameter values from GPT-4 responses.
+
+1. `extract_json(text)`: Extracts the JSON block enclosed in ```json ... ``` from the text.
+2. `parse_json_functions(text)`: Parses the extracted JSON to return function names, parameters, and a formatted function call string.
+"""
+def extract_json(text):
+    match = re.search(r"```json(.*?)```", text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    raise ValueError("JSON section not found in the text.")
+
+# 2. JSON 파싱
+def parse_json_functions(text):
+    json_data = extract_json(text)
+    parameter_values = json.loads(json_data)
+    parsed_results = []
+    for item in parameter_values:
+        function_name = item.get("function")
+        parameters = item.get("parameters", {})
+        params_string = ", ".join(f"{key}={value}" for key, value in parameters.items())
+        parsed_results.append({
+            "function_name": function_name,
+            "parameters": parameters,
+            "formatted": f"{function_name}({params_string})"
+        })
+    return parsed_results

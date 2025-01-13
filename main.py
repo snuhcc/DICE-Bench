@@ -3,6 +3,7 @@ import json
 import yaml
 from pathlib import Path
 import pprint
+import re
 
 import click
 from langchain_core.messages import HumanMessage
@@ -27,7 +28,7 @@ def main(
             yaml_data = yaml.full_load(f)
 
         # YAML 데이터에 있는 설정을 우선적으로 사용
-        num_agents = yaml_data["agent"]
+        agents_num = yaml_data["agent_num"]
         num_rounds = yaml_data["num_rounds"]
         fewshot = yaml_data["fewshot"]
         domain = yaml_data["domain"]
@@ -84,14 +85,27 @@ def main(
     for i in range(dataset_num):
         function_json = utils.get_functions_from_tool_graph(function_list[i], json_file_path='src/graph/tool_graph.json')
         
+        # generate functions for dialogue
         functions_per_dialogue = json.dumps(function_json, ensure_ascii=False, indent=4)
-        print(f'\nfunctions_per_dialogue: {functions_per_dialogue}\n')
+        
+        # generate paramters
         parameter_values = utils.get_parameter_values(functions_per_dialogue)
-        print(f'\nparameter_values: {parameter_values}\n')  
+        
+        # generate personas
+        personas = utils.get_personas(domain, functions_per_dialogue, parameter_values, persona_num=agents_num)
+        
+        print(f'personas: {personas}')
+        
+        
+
+        # 함수 정보 추출
+        # parsed_details = utils.parse_json_functions(parameter_values)
+        # print(f'\nparsed_details: {parsed_details}\n')
+        # print(f'\ntype(parsed_details): {type(parsed_details)}\n')  
         
         # 7. LangChain Prompt 설정
         pm = PromptMaker(
-            num_agents,
+            agents_num,
             num_rounds,
             fewshot,
             functions_per_dialogue,

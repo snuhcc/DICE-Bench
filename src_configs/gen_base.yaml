@@ -1,5 +1,5 @@
 # define number of agent (1~26)
-agent: 3
+agent_num: 3
 
 # define round of dialogue (number of function calls)
 num_rounds: 1
@@ -16,7 +16,7 @@ fewshot: ""
 task: "S-M"  # 앵커 정의
 
 # define dataset number
-dataset_num: 3
+dataset_num: 1
 
 # output path
 output_path: "outputs/dialogue/S-M"  # 앵커를 참조
