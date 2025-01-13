@@ -74,11 +74,7 @@ def main(
             raise ValueError(f"Invalid task: {task}")
         
     
-    
-        
-    
     # 6. 함수 파라미터 예시(실행 시 활용할 수 있는 값)
-
 
     print(f'function_list: {function_list}')
 
@@ -103,13 +99,13 @@ def main(
         
         # 7. LangChain Prompt 설정
         pm = PromptMaker(
-            agents_num,
-            rounds_num,
-            fewshot,
-            functions_per_dialogue,
-            parameter_values,
-            domain,
-            task,
+            agent_num=agents_num,
+            rounds_num=rounds_num,
+            fewshot=fewshot,
+            functions_per_dialogue=functions_per_dialogue,
+            parameter_values=parameter_values,
+            domain=domain,
+            task=task,
         )
 
         # 8. LangChain 파이프라인 생성
