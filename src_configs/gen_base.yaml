@@ -2,7 +2,7 @@
 agent_num: 3
 
 # define round of dialogue (number of function calls)
-num_rounds: 1
+rounds_num: 1
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"

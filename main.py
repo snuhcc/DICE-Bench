@@ -29,7 +29,7 @@ def main(
 
         # YAML 데이터에 있는 설정을 우선적으로 사용
         agents_num = yaml_data["agent_num"]
-        num_rounds = yaml_data["num_rounds"]
+        rounds_num = yaml_data["rounds_num"]
         fewshot = yaml_data["fewshot"]
         domain = yaml_data["domain"]
         output_path = yaml_data["output_path"]
@@ -96,17 +96,15 @@ def main(
         
         print(f'personas: {personas}')
         
-        
-
         # 함수 정보 추출
-        # parsed_details = utils.parse_json_functions(parameter_values)
+        # parsed_details = utils.pars_json_functions(parameter_values)
         # print(f'\nparsed_details: {parsed_details}\n')
         # print(f'\ntype(parsed_details): {type(parsed_details)}\n')  
         
         # 7. LangChain Prompt 설정
         pm = PromptMaker(
             agents_num,
-            num_rounds,
+            rounds_num,
             fewshot,
             functions_per_dialogue,
             parameter_values,
@@ -114,28 +112,24 @@ def main(
             task,
         )
 
-        # # 8. LangChain 파이프라인 생성
-        # main_graph = make_agent_pipeline(pm)
+        # 8. LangChain 파이프라인 생성
+        main_graph = make_agent_pipeline(pm)
 
-        # # 9. 파이프라인 구조 시각화 후 저장
-        # utils.draw_langgraph(main_graph, unique_folder_path)
+        # 9. 파이프라인 구조 시각화 후 저장
+        utils.draw_langgraph(main_graph, unique_folder_path)
 
-        # # 10. 결과 이벤트 목록 생성
-        # events_list = []
-        # # 도메인은 pm.get_domain()[0]이 튜플이나 리스트를 반환한다고 가정
-        # # (사용처에 따라 수정 필요)
-        # domain_list = list(pm.get_domain()[0])
-        
-        
-    #     data_prompt = pm.data_prompt()
+        # 10. 결과 이벤트 목록 생성
+        events_list = []
 
-    #     # main_graph.stream 호출
-    #     events = main_graph.stream(
-    #         {"messages": [HumanMessage(content=data_prompt)]},
-    #         {"recursion_limit": 40},
-    #     )
+        data_prompt = pm.data_prompt()
 
-    #     events_list.append(events)
+        # main_graph.stream 호출
+        events = main_graph.stream(
+            {"messages": [HumanMessage(content=data_prompt)]},
+            {"recursion_limit": 40},
+        )
+
+        events_list.append(events)
 
     # # 11. 결과 JSON 저장
     # save_dicts, metadata_dicts = utils.save_data(events_list, f"{unique_output_file}.json")
@@ -144,7 +138,7 @@ def main(
     # metadata_path = os.path.splitext(unique_output_file)[0] + "_metadata.json"
     # metadata = {
     #     "domain": domain_list,
-    #     "round": num_rounds,
+    #     "round": rounds_num,
     #     "funclist": func,
     #     "parameter_values": parameter_values,
     #     "orchestrator": metadata_dicts,

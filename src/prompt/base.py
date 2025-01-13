@@ -94,10 +94,10 @@ data_message = """
 
 class PromptMaker:
     def __init__(
-        self, agent_num, round, fewshot, func, parameter_values, domain, task
+        self, agent_num, rounds_num, fewshot, func, parameter_values, domain, task
     ):
         self.agent_num = agent_num
-        self.round = round
+        self.rounds_num = rounds_num
         self.fewshot = fewshot
         self.func = func
         self.parameter_values = parameter_values
@@ -124,7 +124,7 @@ class PromptMaker:
 
         if agent_type == "orch":
             prompt += orchestrator_system_message.format(
-                agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG, round=self.round
+                agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG
             )
         else:
 
