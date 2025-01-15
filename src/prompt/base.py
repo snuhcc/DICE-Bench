@@ -2,7 +2,7 @@ import re  # CHANGED: 정규식 사용을 위한 import
 import random
 from src.prompt.domain_prompt import domain_prompt_dict
 from src.utils import utils
-
+from openai import OpenAI
 ## define agent prompt here
 MAX_MSG = 15
 
@@ -84,10 +84,13 @@ data_message = """
     - write in korean
 """
 
+    
+
+
 
 class PromptMaker:
     def __init__(
-        self, agent_num, rounds_num, fewshot, function_dumps_per_dialogue, domain, task
+        self, agent_num, rounds_num, fewshot, function_dumps_per_dialogue, domain, task, personas
     ):
         self.agent_num = agent_num
         self.rounds_num = rounds_num
@@ -95,22 +98,11 @@ class PromptMaker:
         self.function_dumps_per_dialogue = function_dumps_per_dialogue
         self.domain = domain
         self.task = task
+        self.personas = personas
 
         self.agent_names = [f"agent_{chr(97+i)}" for i in range(self.agent_num)]  
-        self.persona_gpt = utils.get_personas(  
-            self.domain, self.get_domain()[1], self.function_dumps_per_dialogue, persona_num=self.agent_num
-        )
-        self.pattern = r"- \*\*Agent \d Persona\*\*: (.*?)(?=\n- \*\*Agent|\Z)"
         
-        self.persona_prompts = None
-        try:
-            self.persona_prompts = re.findall(self.pattern, self.persona_gpt, flags=re.DOTALL)
-        except ValueError as e:
-            print(f"[ERROR] GPT 응답 형식 불일치: {e}")
-            print(f"GPT 응답:\n{response_text}")
-            return None
-
-        self.personas = [self.persona_prompts[i % self.agent_num] for i in range(self.agent_num)]
+        # self.personas = [personas[i % self.agent_num] for i in range(self.agent_num)]
         
         self.next_agent_list = "".join(
             [f"""'[NEXT: {self.agent_names[i]}]',""" for i in range(self.agent_num)]  
@@ -126,7 +118,6 @@ class PromptMaker:
             domain_definition=domain_definition,
             function_dumps_per_dialogue=self.function_dumps_per_dialogue,
         )
-
         if agent_type == "orch":
             prompt += orchestrator_system_message.format(
                 agents=self.next_agent_list,
@@ -135,7 +126,7 @@ class PromptMaker:
         else:
             prompt += agent_system_message.format(
                 agent_char=agent_type,
-                persona=self.persona_prompts[(ord(agent_type) - 97) % self.agent_num],
+                persona=self.personas[(ord(agent_type) - 97) % self.agent_num],
                 domain=domain,
                 domain_definition=domain_definition,
                 function_dumps_per_dialogue=self.function_dumps_per_dialogue,

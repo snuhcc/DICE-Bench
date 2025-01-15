@@ -7,12 +7,12 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "The city or region to get the weather information for (e.g. 'New York')."
+          "desc": "The city or region to get the weather information for."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format (e.g. '04-15')."
+          "desc": "Date in MM-DD format."
         }
       ],
       "return": {
@@ -26,7 +26,7 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "A keyword or topic to search news for (e.g. 'technology')."
+          "desc": "A keyword or topic to search news for."
         }
       ],
       "return": {
@@ -40,12 +40,12 @@
         {
           "name": "currency",
           "type": "string",
-          "desc": "Name of the cryptocurrency (e.g. 'bitcoin')."
+          "desc": "Name of the cryptocurrency."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format (e.g. '06-20') for which you want the price."
+          "desc": "Date in MM-DD format for which you want the price."
         }
       ],
       "return": {
@@ -59,7 +59,7 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name (e.g. 'AAPL')."
+          "desc": "Stock symbol or name."
         }
       ],
       "return": {
@@ -73,12 +73,12 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name (e.g. 'AAPL') to buy."
+          "desc": "Stock symbol or name to buy."
         },
         {
           "name": "shares",
           "type": "number",
-          "desc": "Number of shares you want to purchase (e.g. 10)."
+          "desc": "Number of shares you want to purchase."
         }
       ],
       "return": {
@@ -93,12 +93,12 @@
         {
           "name": "stock",
           "type": "string",
-          "desc": "Stock symbol or name (e.g. 'AAPL') to sell."
+          "desc": "Stock symbol or name to sell."
         },
         {
           "name": "shares",
           "type": "number",
-          "desc": "Number of shares you want to sell (e.g. 5)."
+          "desc": "Number of shares you want to sell."
         }
       ],
       "return": {
@@ -113,22 +113,22 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "Flight departure date in MM-DD format (e.g. '09-15')."
+          "desc": "Flight departure date in MM-DD format."
         },
         {
           "name": "from",
           "type": "string",
-          "desc": "Departure airport or city (e.g. 'JFK')."
+          "desc": "Departure airport or city."
         },
         {
           "name": "to",
           "type": "string",
-          "desc": "Arrival airport or city (e.g. 'LAX')."
+          "desc": "Arrival airport or city."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Departure time in HH:MM 24-hour format (e.g. '09:30')."
+          "desc": "Departure time in HH:MM 24-hour format."
         }
       ],
       "return": {
@@ -147,12 +147,12 @@
         {
           "name": "flight_number",
           "type": "string",
-          "desc": "Flight number (e.g. 'AA100') to check status for."
+          "desc": "Flight number to check status for."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format (e.g. '09-15') of the flight."
+          "desc": "Date in MM-DD format of the flight."
         }
       ],
       "return": {
@@ -166,12 +166,12 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region to search for hotels (e.g. 'Las Vegas')."
+          "desc": "City or region to search for hotels."
         },
         {
           "name": "check_in",
           "type": "string",
-          "desc": "Check-in date in MM-DD format (e.g. '10-05')."
+          "desc": "Check-in date in MM-DD format."
         }
       ],
       "return": {
@@ -185,22 +185,22 @@
         {
           "name": "hotel_name",
           "type": "string",
-          "desc": "Name of the hotel to book (e.g. 'Grand Hyatt')."
+          "desc": "Name of the hotel to book."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region of the hotel (e.g. 'Las Vegas')."
+          "desc": "City or region of the hotel."
         },
         {
           "name": "check_in_date",
           "type": "string",
-          "desc": "Check-in date in MM-DD format (e.g. '10-05')."
+          "desc": "Check-in date in MM-DD format."
         },
         {
           "name": "check_in_time",
           "type": "string",
-          "desc": "Approximate check-in time (HH:MM, 24-hour) (e.g. '15:00')."
+          "desc": "Approximate check-in time (HH:MM, 24-hour)."
         }
       ],
       "return": {
@@ -218,12 +218,12 @@
         {
           "name": "cuisine",
           "type": "string",
-          "desc": "Type of cuisine (e.g. 'Italian')."
+          "desc": "Type of cuisine."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or area to search for restaurants (e.g. 'San Francisco')."
+          "desc": "City or area to search for restaurants."
         }
       ],
       "return": {
@@ -237,22 +237,22 @@
         {
           "name": "restaurant_name",
           "type": "string",
-          "desc": "Name of the restaurant to reserve a table at (e.g. 'Olive Garden')."
+          "desc": "Name of the restaurant to reserve a table at."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date for the reservation in MM-DD format (e.g. '03-10')."
+          "desc": "Date for the reservation in MM-DD format."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Time for the reservation in HH:MM (24-hour) format (e.g. '19:00')."
+          "desc": "Time for the reservation in HH:MM (24-hour) format."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Restaurant's location or address (e.g. '123 Main St')."
+          "desc": "Restaurant's location or address."
         }
       ],
       "return": {
@@ -275,7 +275,7 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Menu item to order (e.g. 'Margherita Pizza')."
+          "desc": "Menu item to order."
         }
       ],
       "return": {
@@ -289,17 +289,17 @@
         {
           "name": "food",
           "type": "string",
-          "desc": "Name of the food item to order (e.g. 'Pepperoni Pizza')."
+          "desc": "Name of the food item to order."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Delivery address (e.g. '123 Main St')."
+          "desc": "Delivery address."
         },
         {
           "name": "platform",
           "type": "string",
-          "desc": "Delivery service platform (e.g. 'Uber Eats')."
+          "desc": "Delivery service platform."
         }
       ],
       "return": {
@@ -313,12 +313,12 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "Pickup date in MM-DD format (e.g. '07-01')."
+          "desc": "Pickup date in MM-DD format."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or location to pick up the rental car (e.g. 'Miami')."
+          "desc": "City or location to pick up the rental car."
         }
       ],
       "return": {
@@ -332,22 +332,22 @@
         {
           "name": "car_name",
           "type": "string",
-          "desc": "Name or model of the car to rent (e.g. 'Toyota Camry')."
+          "desc": "Name or model of the car to rent."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or location to pick up the rental car (e.g. 'Miami')."
+          "desc": "City or location to pick up the rental car."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Pickup date in MM-DD format (e.g. '07-02')."
+          "desc": "Pickup date in MM-DD format."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Pickup time in HH:MM (24-hour) format (e.g. '10:30')."
+          "desc": "Pickup time in HH:MM (24-hour) format."
         }
       ],
       "return": {
@@ -365,12 +365,12 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "Pickup address or location (e.g. '55 5th Ave')."
+          "desc": "Pickup address or location."
         },
         {
           "name": "platform",
           "type": "string",
-          "desc": "Taxi service platform (e.g. 'Uber')."
+          "desc": "Taxi service platform."
         }
       ],
       "return": {
@@ -384,17 +384,17 @@
         {
           "name": "bank",
           "type": "string",
-          "desc": "Name of the bank (e.g. 'Chase')."
+          "desc": "Name of the bank."
         },
         {
           "name": "account_type",
           "type": "string",
-          "desc": "Account type (e.g. 'savings', 'checking')."
+          "desc": "Account type."
         },
         {
           "name": "currency",
           "type": "string",
-          "desc": "Currency code (e.g. 'USD')."
+          "desc": "Currency code."
         }
       ],
       "return": {
@@ -408,17 +408,17 @@
         {
           "name": "bank",
           "type": "string",
-          "desc": "Name of the bank to withdraw from (e.g. 'Chase')."
+          "desc": "Name of the bank to withdraw from."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Amount of money to withdraw (e.g. 200)."
+          "desc": "Amount of money to withdraw."
         },
         {
           "name": "currency",
           "type": "string",
-          "desc": "Currency code (e.g. 'USD')."
+          "desc": "Currency code."
         }
       ],
       "return": {
@@ -432,7 +432,7 @@
         {
           "name": "credit_card",
           "type": "string",
-          "desc": "Credit card identifier (e.g. last 4 digits)."
+          "desc": "Credit card identifier."
         }
       ],
       "return": {
@@ -446,12 +446,12 @@
         {
           "name": "website",
           "type": "string",
-          "desc": "Website or marketplace to buy from (e.g. 'Amazon')."
+          "desc": "Website or marketplace to buy from."
         },
         {
           "name": "product",
           "type": "string",
-          "desc": "Name or description of the product (e.g. 'wireless mouse')."
+          "desc": "Name or description of the product."
         }
       ],
       "return": {
@@ -465,12 +465,12 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name/description of the item to sell (e.g. 'used iPhone X')."
+          "desc": "Name/description of the item to sell."
         },
         {
           "name": "store",
           "type": "string",
-          "desc": "Online marketplace (e.g. 'Ebay')."
+          "desc": "Online marketplace."
         }
       ],
       "return": {
@@ -484,7 +484,7 @@
         {
           "name": "email_address",
           "type": "string",
-          "desc": "Recipient's email address (e.g. 'john@example.com')."
+          "desc": "Recipient's email address."
         },
         {
           "name": "content",
@@ -503,7 +503,7 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Destination phone number (e.g. '+1 555-1234')."
+          "desc": "Destination phone number."
         },
         {
           "name": "content",
@@ -527,7 +527,7 @@
         {
           "name": "social_network",
           "type": "string",
-          "desc": "Name of the social platform (e.g. 'Facebook')."
+          "desc": "Name of the social platform."
         }
       ],
       "return": {
@@ -541,12 +541,12 @@
         {
           "name": "query",
           "type": "string",
-          "desc": "Search keywords (e.g. 'best restaurants in NYC')."
+          "desc": "Search keywords."
         },
         {
           "name": "engine",
           "type": "string",
-          "desc": "Search engine to use (e.g. 'Google')."
+          "desc": "Search engine to use."
         }
       ],
       "return": {
@@ -560,22 +560,22 @@
         {
           "name": "service",
           "type": "string",
-          "desc": "Type of service (e.g. 'dentist')."
+          "desc": "Type of service."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date of the appointment in MM-DD format (e.g. '08-23')."
+          "desc": "Date of the appointment in MM-DD format."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Time of the appointment in HH:MM (24-hour) format (e.g. '14:30')."
+          "desc": "Time of the appointment in HH:MM (24-hour) format."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Physical location or address for the appointment (e.g. '123 Dental St.')."
+          "desc": "Physical location or address for the appointment."
         }
       ],
       "return": {
@@ -593,7 +593,7 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Recipient's phone number for the video call (e.g. '+1 555-1234')."
+          "desc": "Recipient's phone number for the video call."
         }
       ],
       "return": {
@@ -607,7 +607,7 @@
         {
           "name": "phone_number",
           "type": "string",
-          "desc": "Recipient's phone number for the voice call (e.g. '+1 555-1234')."
+          "desc": "Recipient's phone number for the voice call."
         }
       ],
       "return": {
@@ -621,12 +621,12 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "Subject or agenda of the online meeting (e.g. 'Project Kickoff')."
+          "desc": "Subject or agenda of the online meeting."
         },
         {
           "name": "meeting_time",
           "type": "string",
-          "desc": "Scheduled time for the meeting in HH:MM (24-hour) format (e.g. '10:00')."
+          "desc": "Scheduled time for the meeting in HH:MM (24-hour) format."
         }
       ],
       "return": {
@@ -642,7 +642,7 @@
         {
           "name": "topic",
           "type": "string",
-          "desc": "Topic or name of the online meeting to join (e.g. 'Project Kickoff')."
+          "desc": "Topic or name of the online meeting to join."
         }
       ],
       "return": {
@@ -656,7 +656,7 @@
         {
           "name": "job",
           "type": "string",
-          "desc": "Job position/title to apply for (e.g. 'Software Engineer')."
+          "desc": "Job position/title to apply for."
         }
       ],
       "return": {
@@ -670,12 +670,12 @@
         {
           "name": "insurance",
           "type": "string",
-          "desc": "Type or name of the insurance (e.g. 'health insurance')."
+          "desc": "Type or name of the insurance."
         },
         {
           "name": "company",
           "type": "string",
-          "desc": "Insurance provider (e.g. 'Allianz')."
+          "desc": "Insurance provider."
         }
       ],
       "return": {
@@ -689,12 +689,12 @@
         {
           "name": "package",
           "type": "string",
-          "desc": "Description or ID of the package (e.g. 'Order #12345')."
+          "desc": "Description or ID of the package."
         },
         {
           "name": "destination",
           "type": "string",
-          "desc": "Address or location to deliver the package (e.g. '456 Market St.')."
+          "desc": "Address or location to deliver the package."
         }
       ],
       "return": {
@@ -708,7 +708,7 @@
         {
           "name": "device_name",
           "type": "string",
-          "desc": "Bluetooth device name or ID (e.g. 'JBL Speaker')."
+          "desc": "Bluetooth device name or ID."
         }
       ],
       "return": {
@@ -722,7 +722,7 @@
         {
           "name": "music_name",
           "type": "string",
-          "desc": "Title of the music to play (e.g. 'Shape of You')."
+          "desc": "Title of the music to play."
         },
         {
           "name": "device_name",
@@ -741,12 +741,12 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Genre of music (e.g. 'pop')."
+          "desc": "Genre of music."
         },
         {
           "name": "artist",
           "type": "string",
-          "desc": "Name of the artist (e.g. 'Taylor Swift')."
+          "desc": "Name of the artist."
         }
       ],
       "return": {
@@ -760,7 +760,7 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Exact title of the song (e.g. 'Bohemian Rhapsody')."
+          "desc": "Exact title of the song."
         }
       ],
       "return": {
@@ -774,17 +774,17 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Music genre preference (e.g. 'R&B')."
+          "desc": "Music genre preference."
         },
         {
           "name": "mood",
           "type": "string",
-          "desc": "Mood or vibe (e.g. 'chill')."
+          "desc": "Mood or vibe."
         },
         {
           "name": "artist",
           "type": "string",
-          "desc": "Optional artist to base recommendations on (e.g. 'Ed Sheeran')."
+          "desc": "Optional artist to base recommendations on."
         }
       ],
       "return": {
@@ -798,17 +798,17 @@
         {
           "name": "genre",
           "type": "string",
-          "desc": "Movie genre (e.g. 'action', 'comedy')."
+          "desc": "Movie genre."
         },
         {
           "name": "mood",
           "type": "string",
-          "desc": "Movie mood (e.g. 'romantic')."
+          "desc": "Movie mood."
         },
         {
           "name": "actor",
           "type": "string",
-          "desc": "Optional actor name to base recommendations on (e.g. 'Tom Hanks')."
+          "desc": "Optional actor name to base recommendations on."
         }
       ],
       "return": {
@@ -822,7 +822,7 @@
         {
           "name": "movie_title",
           "type": "string",
-          "desc": "Exact title of the movie (e.g. 'Inception')."
+          "desc": "Exact title of the movie."
         }
       ],
       "return": {
@@ -850,12 +850,12 @@
         {
           "name": "book",
           "type": "string",
-          "desc": "Title or ID of the book to borrow (e.g. 'Harry Potter')."
+          "desc": "Title or ID of the book to borrow."
         },
         {
           "name": "library",
           "type": "string",
-          "desc": "Name of the online library or service (e.g. 'Kindle Store')."
+          "desc": "Name of the online library or service."
         }
       ],
       "return": {
@@ -869,7 +869,7 @@
         {
           "name": "content",
           "type": "string",
-          "desc": "Description or reason for the recording (e.g. 'Meeting notes')."
+          "desc": "Description or reason for the recording."
         }
       ],
       "return": {
@@ -883,7 +883,7 @@
         {
           "name": "document",
           "type": "string",
-          "desc": "File name or path of the document (e.g. 'report.pdf')."
+          "desc": "File name or path of the document."
         }
       ],
       "return": {
@@ -897,12 +897,12 @@
         {
           "name": "time",
           "type": "string",
-          "desc": "Alarm time in HH:MM format (e.g. '07:00')."
+          "desc": "Alarm time in HH:MM format."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Optional location context to trigger alarm (e.g. 'Home')."
+          "desc": "Optional location context to trigger alarm."
         }
       ],
       "return": {
@@ -917,12 +917,12 @@
         {
           "name": "height",
           "type": "number",
-          "desc": "Height in centimeters (e.g. 170)."
+          "desc": "Height in centimeters."
         },
         {
           "name": "weight",
           "type": "number",
-          "desc": "Weight in kilograms (e.g. 65)."
+          "desc": "Weight in kilograms."
         }
       ],
       "return": {
@@ -936,7 +936,7 @@
         {
           "name": "tracking_number",
           "type": "string",
-          "desc": "Parcel's tracking code (e.g. '1Z999AA10123456784')."
+          "desc": "Parcel's tracking code."
         }
       ],
       "return": {
@@ -950,12 +950,12 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name of the item to add (e.g. 'milk')."
+          "desc": "Name of the item to add."
         },
         {
           "name": "quantity",
           "type": "number",
-          "desc": "Quantity of the item (e.g. 2)."
+          "desc": "Quantity of the item."
         }
       ],
       "return": {
@@ -969,7 +969,7 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name of the item to remove (e.g. 'milk')."
+          "desc": "Name of the item to remove."
         }
       ],
       "return": {
@@ -983,12 +983,12 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name of the item to update (e.g. 'milk')."
+          "desc": "Name of the item to update."
         },
         {
           "name": "quantity",
           "type": "number",
-          "desc": "New quantity for the item (e.g. 3)."
+          "desc": "New quantity for the item."
         }
       ],
       "return": {
@@ -1002,17 +1002,17 @@
         {
           "name": "amount",
           "type": "number",
-          "desc": "Amount of money to convert (e.g. 100)."
+          "desc": "Amount of money to convert."
         },
         {
           "name": "from_currency",
           "type": "string",
-          "desc": "Source currency code (e.g. 'USD')."
+          "desc": "Source currency code."
         },
         {
           "name": "to_currency",
           "type": "string",
-          "desc": "Target currency code (e.g. 'EUR')."
+          "desc": "Target currency code."
         }
       ],
       "return": {
@@ -1026,12 +1026,12 @@
         {
           "name": "start_location",
           "type": "string",
-          "desc": "Starting location or address (e.g. 'Brooklyn')."
+          "desc": "Starting location or address."
         },
         {
           "name": "end_location",
           "type": "string",
-          "desc": "Destination location or address (e.g. 'Manhattan')."
+          "desc": "Destination location or address."
         }
       ],
       "return": {
@@ -1045,12 +1045,12 @@
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region to find events (e.g. 'Chicago')."
+          "desc": "City or region to find events."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Event date in MM-DD format (optional, e.g. '05-20')."
+          "desc": "Event date in MM-DD format (optional)."
         }
       ],
       "return": {
@@ -1064,7 +1064,7 @@
         {
           "name": "amount",
           "type": "number",
-          "desc": "Amount of water consumed in milliliters (e.g. 250)."
+          "desc": "Amount of water consumed in milliliters."
         }
       ],
       "return": {
@@ -1078,12 +1078,12 @@
         {
           "name": "goal",
           "type": "string",
-          "desc": "Fitness goal (e.g. 'muscle building')."
+          "desc": "Fitness goal."
         },
         {
           "name": "duration_weeks",
           "type": "number",
-          "desc": "Length of the workout plan in weeks (e.g. 8)."
+          "desc": "Length of the workout plan in weeks."
         }
       ],
       "return": {
@@ -1097,22 +1097,22 @@
         {
           "name": "reminder_task",
           "type": "string",
-          "desc": "Description of the task to be reminded about (e.g. 'Buy groceries')."
+          "desc": "Description of the task to be reminded about."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Optional date in MM-DD format (e.g. '06-01')."
+          "desc": "Optional date in MM-DD format."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Optional time in HH:MM (24-hour) format (e.g. '18:00')."
+          "desc": "Optional time in HH:MM (24-hour) format."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Optional location for the reminder trigger (e.g. 'Home')."
+          "desc": "Optional location for the reminder trigger."
         }
       ],
       "return": {
@@ -1126,7 +1126,7 @@
         {
           "name": "sleep_data",
           "type": "string",
-          "desc": "Sleep data in JSON or a chosen format (e.g. detailed sleep log)."
+          "desc": "Sleep data in JSON or a chosen format."
         }
       ],
       "return": {
@@ -1145,12 +1145,12 @@
         {
           "name": "source_language",
           "type": "string",
-          "desc": "Language code of the original text (e.g. 'en')."
+          "desc": "Language code of the original text."
         },
         {
           "name": "target_language",
           "type": "string",
-          "desc": "Language code to translate into (e.g. 'fr')."
+          "desc": "Language code to translate into."
         }
       ],
       "return": {
@@ -1164,7 +1164,7 @@
         {
           "name": "text_name",
           "type": "string",
-          "desc": "Name or ID of the text to summarize (e.g. 'article1')."
+          "desc": "Name or ID of the text to summarize."
         }
       ],
       "return": {
@@ -1178,17 +1178,17 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "Date of the expense in MM-DD format (e.g. '06-10')."
+          "desc": "Date of the expense in MM-DD format."
         },
         {
           "name": "category",
           "type": "string",
-          "desc": "Expense category (e.g. 'food')."
+          "desc": "Expense category."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Amount of the expense (e.g. 20.5)."
+          "desc": "Amount of the expense."
         }
       ],
       "return": {
@@ -1202,12 +1202,12 @@
         {
           "name": "ingredients",
           "type": "string",
-          "desc": "Comma-separated list of ingredients (e.g. 'tomato,onion,cheese')."
+          "desc": "Comma-separated list of ingredients."
         },
         {
           "name": "dietary_preference",
           "type": "string",
-          "desc": "Optional dietary preference (e.g. 'vegan')."
+          "desc": "Optional dietary preference."
         }
       ],
       "return": {
@@ -1221,7 +1221,7 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "ID or name of the health device (e.g. 'Fitbit123')."
+          "desc": "ID or name of the health device."
         }
       ],
       "return": {
@@ -1235,7 +1235,7 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "ID or name of the health device (e.g. 'BPMonitorX')."
+          "desc": "ID or name of the health device."
         }
       ],
       "return": {
@@ -1249,17 +1249,17 @@
         {
           "name": "station_start",
           "type": "string",
-          "desc": "Starting station (e.g. 'Times Square')."
+          "desc": "Starting station."
         },
         {
           "name": "station_end",
           "type": "string",
-          "desc": "Destination station (e.g. 'Grand Central')."
+          "desc": "Destination station."
         },
         {
           "name": "ticket_type",
           "type": "string",
-          "desc": "Ticket type (e.g. 'single', 'round-trip')."
+          "desc": "Ticket type."
         }
       ],
       "return": {
@@ -1273,12 +1273,12 @@
         {
           "name": "recipient_email",
           "type": "string",
-          "desc": "Email address of the gift card recipient (e.g. 'jane@example.com')."
+          "desc": "Email address of the gift card recipient."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Value of the gift card (e.g. 50)."
+          "desc": "Value of the gift card."
         },
         {
           "name": "message",
@@ -1297,17 +1297,17 @@
         {
           "name": "monthly_income",
           "type": "number",
-          "desc": "Total monthly income (e.g. 3000)."
+          "desc": "Total monthly income."
         },
         {
           "name": "fixed_expenses",
           "type": "string",
-          "desc": "JSON or structured string listing fixed expenses (e.g. rent, utilities)."
+          "desc": "JSON or structured string listing fixed expenses."
         },
         {
           "name": "variable_expenses",
           "type": "string",
-          "desc": "JSON or structured string listing variable expenses (e.g. groceries)."
+          "desc": "JSON or structured string listing variable expenses."
         }
       ],
       "return": {
@@ -1321,17 +1321,17 @@
         {
           "name": "bill_type",
           "type": "string",
-          "desc": "Type of utility bill (e.g. 'electricity')."
+          "desc": "Type of utility bill."
         },
         {
           "name": "amount",
           "type": "number",
-          "desc": "Payment amount for the bill (e.g. 75)."
+          "desc": "Payment amount for the bill."
         },
         {
           "name": "account_number",
           "type": "string",
-          "desc": "Billing account number (e.g. 'AC1234567')."
+          "desc": "Billing account number."
         }
       ],
       "return": {
@@ -1345,7 +1345,7 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "Unique identifier of the mobile device (e.g. 'PixelPhone123')."
+          "desc": "Unique identifier of the mobile device."
         }
       ],
       "return": {
@@ -1359,12 +1359,12 @@
         {
           "name": "file_list",
           "type": "string",
-          "desc": "Comma-separated list of file paths to back up (e.g. 'docs/report.pdf,photos/vacation.jpg')."
+          "desc": "Comma-separated list of file paths to back up."
         },
         {
           "name": "cloud_provider",
           "type": "string",
-          "desc": "Cloud provider to use (e.g. 'Google Drive')."
+          "desc": "Cloud provider to use."
         }
       ],
       "return": {
@@ -1378,12 +1378,12 @@
         {
           "name": "email",
           "type": "string",
-          "desc": "Email address to subscribe (e.g. 'alex@example.com')."
+          "desc": "Email address to subscribe."
         },
         {
           "name": "newsletter_topic",
           "type": "string",
-          "desc": "Topic of the newsletter (e.g. 'technology')."
+          "desc": "Topic of the newsletter."
         }
       ],
       "return": {
@@ -1397,7 +1397,7 @@
         {
           "name": "coupon_code",
           "type": "string",
-          "desc": "The coupon code to redeem (e.g. 'SAVE10')."
+          "desc": "The coupon code to redeem."
         },
         {
           "name": "order_id",
@@ -1416,12 +1416,12 @@
         {
           "name": "podcast_name",
           "type": "string",
-          "desc": "Name of the podcast (e.g. 'The Daily')."
+          "desc": "Name of the podcast."
         },
         {
           "name": "episode",
           "type": "string",
-          "desc": "Episode number/title (optional, e.g. 'Episode 123: Market News')."
+          "desc": "Episode number/title (optional)."
         }
       ],
       "return": {
@@ -1459,12 +1459,12 @@
         {
           "name": "emergency_type",
           "type": "string",
-          "desc": "Type of emergency (e.g. 'accident')."
+          "desc": "Type of emergency."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Address or place where the emergency occurred (e.g. '10 Main St.')."
+          "desc": "Address or place where the emergency occurred."
         }
       ],
       "return": {
@@ -1478,7 +1478,7 @@
         {
           "name": "complaint_id",
           "type": "string",
-          "desc": "Reference or tracking number for the complaint (e.g. 'CPLT1001')."
+          "desc": "Reference or tracking number for the complaint."
         }
       ],
       "return": {
@@ -1492,17 +1492,17 @@
         {
           "name": "items",
           "type": "string",
-          "desc": "Comma-separated list of grocery items (e.g. 'apples,bananas,milk')."
+          "desc": "Comma-separated list of grocery items."
         },
         {
           "name": "delivery_location",
           "type": "string",
-          "desc": "Address or location for grocery delivery (e.g. '123 Main St.')."
+          "desc": "Address or location for grocery delivery."
         },
         {
           "name": "delivery_time",
           "type": "string",
-          "desc": "Preferred delivery time in HH:MM (24-hour), e.g. '10:30' (optional)."
+          "desc": "Preferred delivery time in HH:MM (24-hour), (optional)."
         }
       ],
       "return": {
@@ -1516,17 +1516,17 @@
         {
           "name": "item",
           "type": "string",
-          "desc": "Name or description of the item needing repair (e.g. 'AC unit')."
+          "desc": "Name or description of the item needing repair."
         },
         {
           "name": "issue_description",
           "type": "string",
-          "desc": "Detailed explanation of the problem (e.g. 'Not cooling properly')."
+          "desc": "Detailed explanation of the problem."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "Address or place where the maintenance is needed (e.g. 'Unit 305')."
+          "desc": "Address or place where the maintenance is needed."
         }
       ],
       "return": {
@@ -1548,7 +1548,7 @@
         {
           "name": "minutes",
           "type": "number",
-          "desc": "Number of minutes for the countdown (e.g. 30)."
+          "desc": "Number of minutes for the countdown."
         }
       ],
       "return": {
@@ -1562,7 +1562,7 @@
         {
           "name": "app_name",
           "type": "string",
-          "desc": "Name of the application to open (e.g. 'Slack')."
+          "desc": "Name of the application to open."
         }
       ],
       "return": {
@@ -1576,17 +1576,17 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Title or description of the event (e.g. 'Project Meeting')."
+          "desc": "Title or description of the event."
         },
         {
           "name": "date",
           "type": "string",
-          "desc": "Date of the event in MM-DD format (e.g. '07-15')."
+          "desc": "Date of the event in MM-DD format."
         },
         {
           "name": "time",
           "type": "string",
-          "desc": "Time of the event in HH:MM (24-hour) format (e.g. '09:00')."
+          "desc": "Time of the event in HH:MM (24-hour) format."
         }
       ],
       "return": {
@@ -1600,7 +1600,7 @@
         {
           "name": "device_id",
           "type": "string",
-          "desc": "ID or name of the step-tracking device/app (e.g. 'FitbitXYZ')."
+          "desc": "ID or name of the step-tracking device/app."
         }
       ],
       "return": {
@@ -1614,7 +1614,7 @@
         {
           "name": "store_name",
           "type": "string",
-          "desc": "Name of the store or website to check deals for (e.g. 'Target')."
+          "desc": "Name of the store or website to check deals for."
         }
       ],
       "return": {
@@ -1628,7 +1628,7 @@
         {
           "name": "contact_name",
           "type": "string",
-          "desc": "Name of the contact (e.g. 'John Doe')."
+          "desc": "Name of the contact."
         }
       ],
       "return": {
@@ -1643,7 +1643,7 @@
         {
           "name": "contact_name",
           "type": "string",
-          "desc": "Name of the contact to call (e.g. 'John Doe')."
+          "desc": "Name of the contact to call."
         }
       ],
       "return": {
@@ -1657,12 +1657,12 @@
         {
           "name": "date",
           "type": "string",
-          "desc": "Date in MM-DD format (e.g. '12-25') to check."
+          "desc": "Date in MM-DD format to check."
         },
         {
           "name": "region",
           "type": "string",
-          "desc": "Country or region to check (e.g. 'US')."
+          "desc": "Country or region to check."
         }
       ],
       "return": {
@@ -1686,12 +1686,12 @@
         {
           "name": "store_name",
           "type": "string",
-          "desc": "Name or type of the store (e.g. 'grocery')."
+          "desc": "Name or type of the store."
         },
         {
           "name": "location",
           "type": "string",
-          "desc": "City or region to search in (e.g. 'Houston')."
+          "desc": "City or region to search in."
         }
       ],
       "return": {
@@ -1705,12 +1705,12 @@
         {
           "name": "cafe_name",
           "type": "string",
-          "desc": "Name of the cafe (e.g. 'Starbucks')."
+          "desc": "Name of the cafe."
         },
         {
           "name": "coffee_type",
           "type": "string",
-          "desc": "Type of coffee (e.g. 'latte')."
+          "desc": "Type of coffee."
         }
       ],
       "return": {
@@ -1724,7 +1724,7 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Title for the new to-do list (e.g. 'Weekend Tasks')."
+          "desc": "Title for the new to-do list."
         }
       ],
       "return": {
@@ -1738,12 +1738,12 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Name of the to-do list to add the item to (e.g. 'Weekend Tasks')."
+          "desc": "Name of the to-do list to add the item to."
         },
         {
           "name": "item",
           "type": "string",
-          "desc": "Task or item to add (e.g. 'Buy groceries')."
+          "desc": "Task or item to add."
         }
       ],
       "return": {
@@ -1757,12 +1757,12 @@
         {
           "name": "title",
           "type": "string",
-          "desc": "Name of the to-do list containing the item (e.g. 'Weekend Tasks')."
+          "desc": "Name of the to-do list containing the item."
         },
         {
           "name": "item",
           "type": "string",
-          "desc": "Task or item to mark as done (e.g. 'Buy groceries')."
+          "desc": "Task or item to mark as done."
         }
       ],
       "return": {
@@ -1776,12 +1776,12 @@
         {
           "name": "ssid",
           "type": "string",
-          "desc": "Wi-Fi network name (SSID) (e.g. 'MyHomeWiFi')."
+          "desc": "Wi-Fi network name (SSID)."
         },
         {
           "name": "password",
           "type": "string",
-          "desc": "Wi-Fi network password (e.g. 'mypassword123')."
+          "desc": "Wi-Fi network password."
         }
       ],
       "return": {
@@ -1795,7 +1795,7 @@
         {
           "name": "url",
           "type": "string",
-          "desc": "Web address to open (e.g. 'https://www.google.com')."
+          "desc": "Web address to open."
         }
       ],
       "return": {
@@ -1812,17 +1812,17 @@
     },
     {
       "function": "organize_photos",
-      "desc": "Sort or arrange photos into albums based on a criterion (e.g. date).",
+      "desc": "Sort or arrange photos into albums based on a criterion.",
       "parameters": [
         {
           "name": "album_name",
           "type": "string",
-          "desc": "Name of the photo album to create or use (e.g. 'Vacation 2023')."
+          "desc": "Name of the photo album to create or use."
         },
         {
           "name": "criterion",
           "type": "string",
-          "desc": "Criterion for sorting (e.g. 'date', 'location')."
+          "desc": "Criterion for sorting."
         }
       ],
       "return": {
@@ -1919,7 +1919,6 @@
       "source": "recommend_recipe",
       "target": "add_item"
     },
-    
     {
       "source": "get_weather",
       "target": "send_sms"

@@ -11,20 +11,18 @@ from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 # 내부 라이브러리 임포트
 from src.agent.base import make_agent_pipeline
 from src.prompt.base import PromptMaker
-from src.function.base import BaseFunctionList
 from src.utils import utils
 from src.graph.sample_subgraph import ToolGraphSampler
 from dotenv import load_dotenv
+from src.prompt.domain_prompt import domain_prompt_dict
+
 
 load_dotenv()
 
 @click.command()
 @click.option("--yaml_path", default=None, help="Path to a predefined YAML file.")
-def main(
-    yaml_path,
-):
+def main(yaml_path):
 
-    # 1. YAML 파일이 지정된 경우: 해당 파일에서 설정 읽어 오기
     if yaml_path is not None:
         if not os.path.exists(yaml_path):
             raise FileNotFoundError(f"YAML file not found: {yaml_path}")
@@ -42,18 +40,8 @@ def main(
             dataset_num = yaml_data["dataset_num"]
         except KeyError as e:
             raise KeyError(f"Required key is missing in the YAML file: {e}")
-    else:
-        ### 개선 포인트 2: yaml_path가 없는 경우 기본값(혹은 에러) 처리.
-        ### 필요에 따라 아래 값을 프로젝트에 맞게 수정하세요.
-        agents_num = 2
-        rounds_num = 1
-        fewshot = ""
-        domain = "random"
-        output_path = "outputs/dialogue"
-        task = "single_round"
-        dataset_num = 1
 
-    # 2. 출력 경로 생성
+    # create new output path every time
     unique_output_fp = utils.create_unique_output_path(output_path, task)
 
     with open("src/graph/tool_graph.json", "r", encoding="utf-8") as f:
@@ -61,22 +49,12 @@ def main(
 
 
     for i in range(dataset_num):
-        graph_sampler = ToolGraphSampler(tool_graph)
-
-        # sample function list from tool graph
-        function_list = utils._sample_function_list(
-            graph_sampler, task, rounds_num
+        function_list, function_dumps_per_dialogue = utils.sample_functions_from_graph_and_get_json(
+            tool_graph, task, rounds_num
         )
-        print(f"function_list: {function_list}")
-
-        # get function json from function list
-        function_json = utils.get_functions_from_tool_graph(
-            function_list, json_file_path="src/graph/tool_graph.json"
-        )
-
-        # convert to function definition which is a str type
-        function_dumps_per_dialogue = json.dumps(function_json, ensure_ascii=False, indent=4)
-        print(f"\function_dumps_per_dialogue: {function_dumps_per_dialogue}\n")
+        
+        # Generate personas using function, domain_desc
+        personas = utils.get_persona_prompts(agents_num, function_dumps_per_dialogue, domain_prompt_dict[domain])
         
         # 7. LangChain Prompt 설정
         pm = PromptMaker(
@@ -86,8 +64,15 @@ def main(
             function_dumps_per_dialogue=function_dumps_per_dialogue,
             domain=domain,
             task=task,
+            personas=personas
         )
 
+        for idx, persona in enumerate(personas):
+            print(f"persona {idx} in main: {persona}")
+            print('---'*10)
+            
+        print(f"\function_dumps_per_dialogue: {function_dumps_per_dialogue}\n")
+        
         # 8. LangChain 파이프라인 생성
         main_graph = make_agent_pipeline(pm)
 
@@ -105,7 +90,6 @@ def main(
         next_parameter = None
         for rdx in range(actual_rounds):
             print(f"\n=== [Dataset {i+1}] Round {rdx+1} ===")
-
             round_function_list = function_list[rdx]
 
             round_function_json = utils.get_functions_from_tool_graph(
@@ -159,41 +143,23 @@ def main(
                 is_multi_round and rdx < actual_rounds - 1
             ):  # if it is not the last round
 
-                if task == "M-M":
-                    source_function_desc = utils.get_functions_from_tool_graph(
-                        [edges[rdx][0]], json_file_path="src/graph/tool_graph.json"
-                    )
-                    source_function_str = json.dumps(
-                        source_function_desc, ensure_ascii=False, indent=4
-                    )
 
-                    source_parameter_value_str = str(
-                        [
-                            func_dict
-                            for func_dict in parsed_details
-                            if func_dict["function_name"] == edges[rdx][0]
-                        ][0]
-                    )
-                    print(
-                        f"\nsource_parameter_value_str: {source_parameter_value_str}\n"
-                    )
+                source_function_str = round_function_def
+                print(f'source_function_str: {source_function_str}')
+                source_parameter_value_str = round_parameters
+                print(f'source_parameter_value_str: {source_parameter_value_str}')
+
+                if task == "single_round":
+                    break
                 else:
-                    source_function_str = round_function_def
-                    source_parameter_value_str = round_parameters
-
-                virtual_output = utils.virtual_function_call(
-                    source_function_str, source_parameter_value_str
-                )
+                    virtual_output = utils.virtual_function_call(
+                        source_function_str, source_parameter_value_str
+                    )
                 print(f"\nvirtual_output: {virtual_output}\n")
 
-                if task == "M-M":
+                if task == "multi_round":
                     next_parameter = {
-                        "target_function": edges[rdx][1],
-                        "target_parameter": virtual_output,
-                    }
-                else:
-                    next_parameter = {
-                        "target_function": function_list_flatten[rdx + 1],
+                        "target_function": function_list[rdx + 1],
                         "target_parameter": virtual_output,
                     }
 
@@ -217,7 +183,6 @@ def main(
             "domain": domain,
             "round": rounds_num,
             "funclist": function_list,
-            "edge": edges,
             "parameter": "not yet decided",
             "orchestrator": metadata_dicts,
         }

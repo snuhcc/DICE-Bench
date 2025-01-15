@@ -4,6 +4,8 @@ from openai import OpenAI
 import re
 from src.prompt.domain_prompt import domain_prompt_dict
 from pathlib import Path
+from src.graph.sample_subgraph import ToolGraphSampler
+
 
 def get_parameter_values(functions, target_function=None, target_parameter=None):
     client = OpenAI()
@@ -108,51 +110,6 @@ def get_parameter_values(functions, target_function=None, target_parameter=None)
     
     return completion.choices[0].message.content
 
-def get_personas(domain, domain_desc, function_list, persona_num):
-    client = OpenAI()
-    prompt = """
-        You are a helpful and ethical assistant. Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list}.
-
-        **Guidelines for generating the personas:**
-        - Ensure each persona has a clear and distinct role, personality traits, and communication style while adhering to ethical standards.
-        - Avoid including or reinforcing stereotypes, biases, or potentially offensive traits in the personas.
-        - Tailor the personas to contribute effectively to the conversation's goals, maintain balance within the group dynamics, and promote positive and inclusive interactions.
-        - Use concise yet descriptive language to outline the persona’s primary focus and approach to the discussion.
-        - Avoid repetitive characteristics across different personas to ensure diversity and fairness.
-        - Incorporate elements from the provided domain description when generating conversation: {domain_desc}.
-        - Ensure that all personas align with ethical communication practices and promote a respectful, constructive dialogue.
-
-        **Examples of personas:**
-        1. A thoughtful and resourceful problem-solver who likes optimizing plans for the group's benefit. You focus on finding the best options for costs, convenience, and logistics while considering everyone's preferences.
-        2. A detail-oriented and practical thinker who ensures that the plans are realistic and well-organized. You focus on logistics like scheduling and timing, balancing fun with practicality, and ensuring inclusivity.
-        3. A spontaneous and energetic planner who loves initiating plans and suggesting creative ideas. Your focus is on creating exciting plans, fostering enthusiasm, and ensuring that all participants feel included in the conversation.
-
-        **Response format:**
-        Provide the requested number of personas in the following format:
-        - **Agent 1 Persona**: [Description of the persona, including personality traits, role, focus in the conversation, and commitment to inclusivity.]
-        - **Agent 2 Persona**: [Description of the persona, including personality traits, role, focus in the conversation, and commitment to inclusivity.]
-        - (Continue for the specified number of agents.)
-
-        Now, generate {persona_num} personas for the agents in the conversation.
-        """
-
-    
-    filled_prompt = prompt.replace("{persona_num}", str(persona_num)).replace("{function_list}", function_list).replace("{domain_desc}", domain_desc)
-    
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {
-                "role": "user",
-                "content": filled_prompt
-            }
-        ],
-        temperature=0.5,
-    )
-        
-    return completion.choices[0].message.content
-
 def save_data(events_list, save_path=None):
     save_dicts = {}
     metadata_dicts = {}
@@ -254,6 +211,8 @@ def get_functions_from_tool_graph(tool_list, json_file_path='tool_graph.json'):
     json_file_path: tool_graph.json 파일 경로
     return: tool_list에 포함된 함수들만 골라서 반환하는 dict 예시
     """
+    tool_list = [tool_list] if isinstance(tool_list, str) else tool_list
+    
     with open(json_file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
@@ -315,6 +274,158 @@ def system_prompt_per_round(functions_per_round, parameter_values_per_round):
 
     return prompt
 
+# utils.py (새로운 함수 예시)
+def save_as_custom_format(
+    dataset_index: int,
+    rounds_events_list,
+    personas,
+    domain,
+    function_list,
+    output_json_path: str
+):
+    """
+    1) rounds_events_list(각 라운드 대화)와 personas를 합쳐
+       원하는 JSON 구조를 만든다.
+    2) 해당 JSON을 output_json_path에 저장한다.
+    """
+
+    # 1. 대화 하나(=1 dataset)에 대한 dict 구성
+    conversation_dict = {
+        "metadata": {
+            "diag_id": dataset_index + 1,
+            "users": {},         # user1, user2 ...
+            "category": domain,  # 또는 domain_prompt_dict[domain] 등
+            "functions": {},     # round별 함수
+            "turn_count": 0
+        },
+        "messages": []
+    }
+
+    # 2. users 부분 생성 (예: agent_num=3 → user1, user2, user3)
+    #    persona_name은 임의로 붙이고, persona는 pm.personas[idx] 사용
+    for idx, persona_text in enumerate(personas):
+        user_key = f"user{idx+1}"
+        conversation_dict["metadata"]["users"][user_key] = {
+            "persona_name": f"User{idx+1}",  # 실제 이름이 필요하면 별도로 부여
+            "persona": persona_text
+        }
+
+    # 3. rounds_events_list 순회하며 messages 생성
+    #    rounds_events_list는 [ [event1, event2, ...], [event3, event4, ...], ... ] 형태로 추정
+    #    각 event는 보통 {"agent_a": {"messages":[...]} } 같은 구조로 구성됨
+    messages_flat = []
+    for round_idx, round_events in enumerate(rounds_events_list, start=1):
+        for event in round_events:
+            if isinstance(event, dict):
+                # 예: { "agent_a": { "messages": [AIMessage(...), ...] }}
+                for agent_name, node_data in event.items():
+                    if "messages" in node_data:
+                        for msg in node_data["messages"]:
+                            user_label = agent_name  # "agent_a"
+                            # 혹은 user1, user2로 매핑하려면 별도 dict 필요
+                            # 일단 여기서는 agent_a→"agent_a" 그대로 두되,
+                            # user 이름을 "User1" 등으로 바꾸고 싶으면 매핑 로직 추가.
+
+                            messages_flat.append({
+                                "user": user_label,  
+                                "message": msg.content
+                            })
+
+    conversation_dict["messages"] = messages_flat
+    conversation_dict["metadata"]["turn_count"] = len(messages_flat)
+
+    # 4. “functions” 필드: 각 round의 함수 사용 정보를 어떻게 추출?
+    #    - 예: round1→function_list[0], round2→function_list[1] ...
+    #    - 아래는 간단 예시:
+    func_map = {}
+    for rdx, f_list in enumerate(function_list, start=1):
+        round_key = f"round{rdx}"
+        # f_list가 ['get_weather', 'book_hotel'] 처럼 함수명 목록이라면:
+        func_map[round_key] = {f: [] for f in f_list}
+
+    conversation_dict["metadata"]["functions"] = func_map
+
+    # 5. 최종 저장
+    #    conversations가 여러개 누적될 수 있으므로, output_json_path에
+    #    이미 기존 내용이 있으면 불러온 뒤, "conversations" 배열에 추가하고 다시 저장.
+    #    또는 데이터셋마다 별도 파일로 저장해도 됨.
+    all_data = {"conversations": []}
+
+    # 기존에 파일이 있으면 load
+    if os.path.exists(output_json_path):
+        with open(output_json_path, "r", encoding="utf-8") as f:
+            all_data = json.load(f)
+
+    # 대화 하나를 추가
+    all_data["conversations"].append(conversation_dict)
+
+    # write
+    with open(output_json_path, "w", encoding="utf-8") as f:
+        json.dump(all_data, f, ensure_ascii=False, indent=2)
+
+    print(f"[INFO] Saved custom conversation format to: {output_json_path}")
+
+def get_persona_prompts(agent_num, function_dumps_per_dialogue, domain_desc):
+    
+    persona_generation_prompt = """
+        Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list}.
+
+        **Guidelines for generating the personas:**
+        - Ensure each persona has a clear and distinct role, personality traits, and communication style while adhering to ethical standards.
+        - Avoid including or reinforcing stereotypes, biases, or potentially offensive traits in the personas.
+        - Tailor the personas to contribute effectively to the conversation's goals, maintain balance within the group dynamics, and promote positive and inclusive interactions.
+        - Use concise yet descriptive language to outline the persona’s primary focus and approach to the discussion.
+        - Avoid repetitive characteristics across different personas to ensure diversity and fairness.
+        - Incorporate elements from the provided domain description when generating conversation: \n{domain_desc}.
+        - Ensure that all personas align with ethical communication practices and promote a respectful, constructive dialogue.
+
+        **Examples of personas:**
+        1. A thoughtful and resourceful problem-solver who likes optimizing plans for the group's benefit. You focus on finding the best options for costs, convenience, and logistics while considering everyone's preferences.
+        2. A detail-oriented and practical thinker who ensures that the plans are realistic and well-organized. You focus on logistics like scheduling and timing, balancing fun with practicality, and ensuring inclusivity.
+        3. A spontaneous and energetic planner who loves initiating plans and suggesting creative ideas. Your focus is on creating exciting plans, fostering enthusiasm, and ensuring that all participants feel included in the conversation.
+
+        **Response format:**
+        Provide the requested number of personas in the following format:
+        - **Agent 1 Persona**: [Description of the persona, including personality traits, role in the conversation, and commitment to inclusivity.]
+        - **Agent 2 Persona**: [Description of the persona, including personality traits, role in the conversation, and commitment to inclusivity.]
+        - (Continue for the specified number of agents.)
+
+        Now, generate {persona_num} personas for the agents in the conversation.
+        """
+    
+    client = OpenAI()
+    filled_persona_generation_prompt = persona_generation_prompt.format(
+        persona_num=agent_num,
+        function_list=function_dumps_per_dialogue,
+        domain_desc=domain_desc
+    )
+    
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful and ethical assistant. "},
+            {
+                "role": "user",
+                "content": filled_persona_generation_prompt
+            }
+        ],
+        temperature=0.3,
+    )
+        
+    resp = completion.choices[0].message.content
+    
+    pattern = r"- \*\*Agent \d Persona\*\*: (.*?)(?=\n- \*\*Agent|\Z)"
+    
+    persona_prompts = None
+    try:
+        persona_prompts = re.findall(pattern, resp, flags=re.DOTALL)
+    except ValueError as e:
+        print(f"[ERROR] GPT 응답 형식 불일치: {e}")
+        print(f"GPT 응답:\n{resp}")
+        return None
+    
+    return persona_prompts
+
 def virtual_function_call(function_to_call, parameter_values):
     client = OpenAI()
     prompt = """   
@@ -368,3 +479,15 @@ def _sample_function_list(graph_sampler, task, rounds_num):
         raise ValueError(f"Invalid task: {task}")
     
     return function_list
+
+def sample_functions_from_graph_and_get_json(
+    tool_graph: dict, 
+    task: str, 
+    rounds_num: int, 
+    tool_graph_file: str = "src/graph/tool_graph.json"
+) -> str:
+    """샘플링 후 JSON.dumps까지 해서 반환."""
+    graph_sampler = ToolGraphSampler(tool_graph)
+    function_list = _sample_function_list(graph_sampler, task, rounds_num)
+    function_json = get_functions_from_tool_graph(function_list, tool_graph_file)
+    return function_list, json.dumps(function_json, ensure_ascii=False, indent=4)
