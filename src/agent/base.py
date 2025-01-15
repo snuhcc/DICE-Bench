@@ -26,7 +26,7 @@ def find_next_agent(message):
         text = str(message)  # 그렇지 않으면 문자열로 변환 (예외 상황 대비)
 
     # 정규식을 사용하여 [NEXT: ...] 부분 추출
-    match = re.search(r"\[NEXT: ([^\]]+)\]", text)
+    match = re.search(r"\[NEXT:\s*([^\]]+)\]", text)
     
     if match:
         next_agent = match.group(1)  # 그룹 1에 원하는 값이 들어있음
@@ -88,12 +88,12 @@ def make_agent_pipeline(pm):
     
     agent_names = [f'agent_{chr(97+i)}' for i in range(pm.agent_num)]
     for i in range(pm.agent_num):
-        ag = create_agent(llm, pm.agent_prompt(chr(97+i)))
+        ag = create_agent(llm, pm.agent_prompt(chr(97+i), pm.agent_num))
         agent_nodes.append(functools.partial(agent_node, agent=ag, name=agent_names[i]))
         cond_dict[agent_names[i]] = agent_names[i]
         
     # orchestrator
-    ag = create_agent(llm, pm.agent_prompt('orch'))
+    ag = create_agent(llm, pm.agent_prompt('orch', pm.agent_num))
     orchestrator_node = functools.partial(agent_node, agent=ag, name="orchestrator")
     cond_dict['continue'] = 'orchestrator'
     

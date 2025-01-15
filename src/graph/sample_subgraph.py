@@ -33,15 +33,15 @@ class ToolGraphSampler:
             if s in self.node_id_list and t in self.node_id_list:
                 self._directed_graph.add_edge(s, t)
 
-    def sample_subgraph(self, subgraph_type="node", num_nodes=3, num_levels=2):
+    def sample_subgraph(self, subgraph_type="node", rounds_num=1):
         if subgraph_type == "node":
             return self._sample_subgraph_node()
-        elif subgraph_type == "undirected_path":
-            return self._sample_subgraph_undirected_path(num_nodes)
-        elif subgraph_type == "directed_path":
-            return self._sample_subgraph_directed_path(num_nodes)
+        elif subgraph_type == "undirected_graph":
+            return self._sample_subgraph_undirected_graph(rounds_num)
+        elif subgraph_type == "directed_graph":
+            return self._sample_subgraph_directed_graph(rounds_num)
         elif subgraph_type == "tree":
-            return self._sample_subgraph_tree(num_levels=num_levels, nodes_per_level=num_nodes)
+            return self._sample_subgraph_tree(rounds_num=rounds_num, nodes_per_level=num_nodes)
         else:
             raise ValueError(f"Invalid subgraph_type: {subgraph_type}")
 
@@ -51,7 +51,7 @@ class ToolGraphSampler:
         G.add_node(chosen_fn)
         return G
 
-    def _sample_subgraph_undirected_path(self, num_nodes):
+    def _sample_subgraph_undirected_graph(self, num_nodes):
         num_nodes = min(num_nodes, len(self.node_id_list))
         chosen_fns = random.sample(self.node_id_list, num_nodes)
         G = nx.Graph()
@@ -60,16 +60,16 @@ class ToolGraphSampler:
             G.add_edge(chosen_fns[i], chosen_fns[i + 1])
         return G
 
-    def _sample_subgraph_directed_path(self, num_nodes):
-        if num_nodes < 1:
-            raise ValueError("num_nodes should be >= 1")
+    def _sample_subgraph_directed_graph(self, rounds_num):
+        if rounds_num < 1:
+            raise ValueError("rounds_num should be >= 1")
 
         all_paths = []
         for start in self.node_id_list:
             stack = [(start, [start])]
             while stack:
                 current, path = stack.pop()
-                if len(path) == num_nodes:
+                if len(path) == rounds_num:
                     all_paths.append(path)
                     continue
                 successors = list(self._directed_graph.successors(current))
@@ -78,7 +78,7 @@ class ToolGraphSampler:
                         stack.append((nxt, path + [nxt]))
 
         if not all_paths:
-            print(f"No directed path of length {num_nodes} found.")
+            print(f"No directed path of length {rounds_num} found.")
             return nx.DiGraph()
 
         chosen_path = random.choice(all_paths)
@@ -191,38 +191,21 @@ class ToolGraphSampler:
         else:
             plt.show()
     
-    
+    # single round
     def sample_node(self):
         G1 = self.sample_subgraph("node")
         return list(G1.nodes())
+
     
-    def sample_undirected_path(self, num_nodes=2):
-        G2 = self.sample_subgraph("undirected_path", num_nodes=num_nodes)
-        return list(G2.nodes())
-    
-    def sample_directed_path(self, num_nodes=2):
-        G3 = self.sample_subgraph("directed_path", num_nodes=num_nodes)
+    # multi round
+    def sample_graph(self, rounds_num):
+        G3 = self.sample_subgraph("directed_graph", rounds_num=rounds_num)
         
         while not is_sequential(G3, list(G3.nodes())):
-            print("Retrying... in sample_directed_path")
-            G3 = self.sample_subgraph("directed_path", num_nodes=num_nodes)
+            print("Retrying... in sample_directed_graph")
+            G3 = self.sample_subgraph("directed_graph", rounds_num=rounds_num)
             
-        return [[node] for node in G3.nodes()]
-    
-    def sample_tree(self, num_levels=2, nodes_per_level=2):
-        G4, levels4 = self.sample_subgraph("tree", num_nodes=nodes_per_level, num_levels=num_levels)
-        
-        level_count_ok = check_tree_level_count(levels4, num_levels, nodes_per_level)
-        connection_list = check_tree_connectivity(self._directed_graph, levels4)
-
-        while not (level_count_ok and len(connection_list)):
-            print("Retrying...\n")
-            G4, levels4 = self.sample_subgraph("tree", num_nodes=nodes_per_level, num_levels=num_levels)
-
-            level_count_ok = check_tree_level_count(levels4, num_levels, nodes_per_level)
-            connection_list = check_tree_connectivity(self._directed_graph, levels4)
-        
-        return levels4, connection_list 
+        return [node for node in G3.nodes()]
 
 def main():
     # 1) tool_graph.json 로드
@@ -253,25 +236,25 @@ def main():
     )
     print()
 
-    # 2) undirected_path
-    print("# 2) undirected_path")
-    G2 = sampler.sample_subgraph("undirected_path", num_nodes=3)
+    # 2) undirected_graph
+    print("# 2) undirected_graph")
+    G2 = sampler.sample_subgraph("undirected_graph", num_nodes=3)
     print("Nodes:", list(G2.nodes()))
     print("Edges:", list(G2.edges()))
     sampler.plot_subgraph(
         G2,
         title="Sample Undirected Path Graph",
-        save_path=os.path.join(folder_name, "sample_undirected_path.png")
+        save_path=os.path.join(folder_name, "sample_undirected_graph.png")
     )
     print()
 
-    # 3) directed_path
-    print("# 3) directed_path")
-    G3 = sampler.sample_subgraph("directed_path", num_nodes=4)
+    # 3) directed_graph
+    print("# 3) directed_graph")
+    G3 = sampler.sample_subgraph("directed_graph", num_nodes=4)
     
     while not is_sequential(G3, list(G3.nodes())):
         print("Retrying...")
-        G3 = sampler.sample_subgraph("directed_path", num_nodes=4)
+        G3 = sampler.sample_subgraph("directed_graph", num_nodes=4)
         
     print("Nodes:", list(G3.nodes()))
     print("Edges:", list(G3.edges()))
@@ -279,7 +262,7 @@ def main():
     sampler.plot_subgraph(
         G3,
         title="Sample Directed Path Graph",
-        save_path=os.path.join(folder_name, "sample_directed_path.png")
+        save_path=os.path.join(folder_name, "sample_directed_graph.png")
     )
     print()
 

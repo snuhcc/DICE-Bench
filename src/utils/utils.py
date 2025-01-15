@@ -3,6 +3,7 @@ import os
 from openai import OpenAI
 import re
 from src.prompt.domain_prompt import domain_prompt_dict
+from pathlib import Path
 
 def get_parameter_values(functions, target_function=None, target_parameter=None):
     client = OpenAI()
@@ -107,9 +108,7 @@ def get_parameter_values(functions, target_function=None, target_parameter=None)
     
     return completion.choices[0].message.content
 
-def get_personas(domain, function_list, persona_num=3):
-    domain_desc = domain_prompt_dict[domain]
-    
+def get_personas(domain, domain_desc, function_list, persona_num):
     client = OpenAI()
     prompt = """
         You are a helpful and ethical assistant. Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list}.
@@ -141,7 +140,7 @@ def get_personas(domain, function_list, persona_num=3):
     filled_prompt = prompt.replace("{persona_num}", str(persona_num)).replace("{function_list}", function_list).replace("{domain_desc}", domain_desc)
     
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {
@@ -151,9 +150,7 @@ def get_personas(domain, function_list, persona_num=3):
         ],
         temperature=0.5,
     )
-    
-    # print(f'filled_prompt: {filled_prompt}')
-    
+        
     return completion.choices[0].message.content
 
 def save_data(events_list, save_path=None):
@@ -194,6 +191,15 @@ def save_data(events_list, save_path=None):
 
     return save_dicts, metadata_dicts
 
+def create_unique_output_path(output_path: str, task: str) -> str:
+    folder_path = Path(output_path)  # "outputs/dialogue/"
+    unique_folder_path = get_unique_folder_name(str(folder_path))
+    os.makedirs(unique_folder_path, exist_ok=True)
+    file_name = f'{task}.json'
+    
+    unique_output_fp = Path(unique_folder_path) / file_name
+    
+    return unique_output_fp
 
 def get_unique_folder_name(folder_path: str) -> str:
     """
@@ -330,7 +336,7 @@ def virtual_function_call(function_to_call, parameter_values):
     try:
         # Make the API call to GPT
         completion = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a virtual Python runtime environment."},
                 {
@@ -348,27 +354,17 @@ def virtual_function_call(function_to_call, parameter_values):
     except client.error.OpenAIError as e:
         return f"An error occurred: {e}"
     
-def _sample_function_list(graph_sampler, task, rounds_num, nodes_per_level):
+def _sample_function_list(graph_sampler, task, rounds_num):
     edges = None
     function_list = []
-
-    if task == "S-S":
-        func = graph_sampler.sample_node()
-        function_list.append(func)
-
-    elif task == "S-M":
-        func = graph_sampler.sample_undirected_path(num_nodes=nodes_per_level)
-        function_list.append(func)
-
-    elif task == "M-S":
-        func = graph_sampler.sample_directed_path(num_nodes=rounds_num)
-        function_list.extend(func)
-
-    elif task == "M-M":
-        function_list, edges = graph_sampler.sample_tree(
-            num_levels=rounds_num, nodes_per_level=nodes_per_level
-        )
+    
+    if task == "single_round":
+        function_list = graph_sampler.sample_node()
+    
+    elif task == "multi_round":
+        function_list = graph_sampler.sample_graph(rounds_num=rounds_num)
+        
     else:
         raise ValueError(f"Invalid task: {task}")
-
-    return function_list, edges
+    
+    return function_list

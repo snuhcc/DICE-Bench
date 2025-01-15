@@ -1,26 +1,21 @@
 # define number of agent (1~26)
-agent_num: 3
+agent_num: 5
+
+# define tasks: 'single_round', 'multi_round'
+task: "multi_round"  # 앵커 정의
 
 # define round of dialogue (number of function calls)
-rounds_num: 2
-
-nodes_per_level: 1
+rounds_num: 3
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
-# or, use "Random" to generate random domain.
 domain: "Eristic"
-
-
-
-# define your desire fewshot prompt or use ""
-fewshot: ""
-
-# define tasks: 'S-M', 'M-S', 'S-S', 'M-M'
-task: "M-S"  # 앵커 정의
 
 # define dataset number
 dataset_num: 1
 
+# define your desire fewshot prompt or use ""
+fewshot: ""
+
 # output path 
-output_path: "outputs/dialogue/M-S"
+output_path: "outputs/dialogue"

@@ -1,5 +1,7 @@
+import re  # CHANGED: 정규식 사용을 위한 import
 import random
 from src.prompt.domain_prompt import domain_prompt_dict
+from src.utils import utils
 
 ## define agent prompt here
 MAX_MSG = 15
@@ -15,7 +17,7 @@ basic_message = """
     - Develop the conversation naturally, referencing previous turns and contributing meaningful insights while adhering to the orchestrator’s guidance.
     - Ensure the conversation spans at least {max_msg} turns, excluding the orchestrator’s messages.
     - Strive for logical consistency and maintain alignment with the domain’s goals in every turn, making sure the dialogue remains clear, focused, and goal-driven.
-    - Ensure that the conversation organically introduces the function "\n{functions_per_dialogue}\n" in the entire round without making them appear forced or unnatural.
+    - Ensure that the conversation organically introduces the function "\n{function_dumps_per_dialogue}\n" in the entire round without making them appear forced or unnatural.
 """
 
 # prompt for user agent
@@ -28,49 +30,40 @@ agent_system_message = """
     - Provide only one concise and relevant sentence per turn to keep the conversation focused and efficient.
 """
 
-
-
-# 3개 돌려쓰기.
-agent_personas = [
-    """a thoughtful and resourceful problem-solver who likes optimizing plans for the group's benefit. 
-    You focus on finding the best options for costs, convenience, and logistics.""",
-    """a detail-oriented and practical thinker who ensures that the plans are realistic and well-organized. 
-    You focus on logistics like scheduling and timing, balancing fun with practicality.""",
-    """a spontaneous and energetic planner who loves initiating plans and suggesting ideas.
-    Your focus is on creating exciting plans and keeping the conversation dynamic and engaging.""",
-]
-
 # TODO: graph based generation
 orchestrator_system_message = """
     You are the orchestrator, responsible for managing the speaking order in this multi-agent conversation.
 
-    - Select the next agent from {agents} based on the conversation’s context and the relevance of their role to the ongoing discussion.
-    - Avoid consecutive turns by the same agent unless absolutely necessary for maintaining coherence or resolving a critical point.
-    - Conclude the conversation after at least {max_msg} turns with '[NEXT: END]'.
-    - Only respond strictly with one of the following options: {agents} or '[NEXT: END]'. **Do not add any extra text, explanations, or comments.**
-    - Ensure the speaking order is varied and random, while maintaining alignment with the agents’ personas and the overall flow of the conversation.
-    - Make sure that the order of agents speak must be random.
+    Instructions:
+    1. In each response, you must output exactly one of the following **strictly**:
+    - "[NEXT: agent_a]"
+    - "[NEXT: agent_b]"
+    - ...
+    - "[NEXT: END]"
+
+    2. Do not add any extra text, explanations, or comments. **Output one line only** in the format: [NEXT: ...]. 
+    - For example: [NEXT: agent_a]
+    - Any additional text or formatting may break the system.
+
+    3. Select the next agent from {agents} based on:
+    - The conversation’s current context.
+    - The relevance of each agent’s role and persona.
+    - Avoid choosing the same agent consecutively unless absolutely necessary for coherence or conflict resolution.
+
+    4. After at least {max_msg} turns have been reached, choose "[NEXT: END]" to conclude the conversation.
+
+    5. Make sure the speaking order is varied and random over time, unless context demands otherwise.
+
+    6. Any deviation from the strict format "[NEXT: ...]" could cause errors. Always ensure the brackets are included and properly closed.
 """
 
 task_desc = {
-    "S-S": """This is called the Single Round and Single Tool Task.
-        Only one tool (function) is used in a single round of conversation.
-        Hence, the conversation should naturally include information about this single tool and its parameters.
-        At the end of the conversation, you should request the AI to use the tool.""",
-    "S-M": """This is called the Single Round and Multi Tools Task.
-        Multiple tools (functions) are used within a single round of conversation.
-        Therefore, the conversation should naturally include information about all tools and their parameters.
-        At the end of the conversation, you should request the AI to use all the tools.""",
-    "M-S": """This is called the Multi Round and Single Tool Task.
-        A single tool (function) will be used in every round.
-        There can be more than two rounds, and each round is one dialogue between multiple parties and the AI assistant.
-        The conversation should naturally include information about the single tool and its parameters in each round.
-        At the end of the final round, you should request the AI to use the tool.""",
-    "M-M": """This is called the Multi Round and Multi Tools Task.
-        Multiple tools (functions) will be used in every round.
-        There can be more than two rounds, and each round is one dialogue between multiple parties and the AI assistant.
-        The conversation should naturally include information about all the tools and their parameters in each round.
-        At the end of the final round, you should request the AI to use all the tools.""",
+    "single_round": """
+    The conversation to be generated this time is a single-round conversation. A round refers to a dialogue exchanged between multiple parties, concluding with a function call made by the AI assistant. In this task, it is crucial to generate a conversation that allows the given function and parameters to be used while maintaining a natural flow.
+    """,
+    "multi_round": """
+    The conversation to be generated this time is a multi-round conversation. A round refers to a dialogue exchanged between multiple parties, concluding with a function call made by the AI assistant. In this task, it is essential to ensure that the given function and parameters can be utilized. Starting from the second round, the conversation should be created in a way that the virtual output from the previous round is used in the function call of the current round. All rounds should be connected to each other, and the conversation should flow naturally.
+    """,
 }
 
 
@@ -91,65 +84,73 @@ data_message = """
     - write in korean
 """
 
-# - At the end of the conversation, one of the agents should summarize the key decisions and call the function "{functions_per_dialogue}" with the determined parameter values, {parameter_values}.
-
 
 class PromptMaker:
     def __init__(
-        self, agent_num, rounds_num, fewshot, functions_per_dialogue, domain, task
+        self, agent_num, rounds_num, fewshot, function_dumps_per_dialogue, domain, task
     ):
         self.agent_num = agent_num
         self.rounds_num = rounds_num
         self.fewshot = fewshot
-        self.functions_per_dialogue = functions_per_dialogue
+        self.function_dumps_per_dialogue = function_dumps_per_dialogue
         self.domain = domain
-        self.domain_ctr = 0
         self.task = task
 
-        agent_names = [f"agent_{chr(97+i)}" for i in range(agent_num)]
-        self.personas = [agent_personas[i % 3] for i in range(agent_num)]
-        self.orchestrator_agent_prompt = "".join(
-            [f"""'[NEXT: {agent_names[i]}]',""" for i in range(agent_num)]
+        self.agent_names = [f"agent_{chr(97+i)}" for i in range(self.agent_num)]  
+        self.persona_gpt = utils.get_personas(  
+            self.domain, self.get_domain()[1], self.function_dumps_per_dialogue, persona_num=self.agent_num
+        )
+        self.pattern = r"- \*\*Agent \d Persona\*\*: (.*?)(?=\n- \*\*Agent|\Z)"
+        
+        self.persona_prompts = None
+        try:
+            self.persona_prompts = re.findall(self.pattern, self.persona_gpt, flags=re.DOTALL)
+        except ValueError as e:
+            print(f"[ERROR] GPT 응답 형식 불일치: {e}")
+            print(f"GPT 응답:\n{response_text}")
+            return None
+
+        self.personas = [self.persona_prompts[i % self.agent_num] for i in range(self.agent_num)]
+        
+        self.next_agent_list = "".join(
+            [f"""'[NEXT: {self.agent_names[i]}]',""" for i in range(self.agent_num)]  
         )
         self.simple_agent_prompt = " ".join(
-            [agent_names[i][-1].capitalize() for i in range(agent_num)]
+            [self.agent_names[i][-1].capitalize() for i in range(self.agent_num)]  
         )
 
-    def agent_prompt(self, agent_type):
+    def agent_prompt(self, agent_type, agent_num):
         domain, domain_definition = self.get_domain()
         prompt = basic_message.format(
-            agents=self.orchestrator_agent_prompt,
             max_msg=MAX_MSG,
             domain_definition=domain_definition,
-            functions_per_dialogue=self.functions_per_dialogue,
+            function_dumps_per_dialogue=self.function_dumps_per_dialogue,
         )
 
         if agent_type == "orch":
             prompt += orchestrator_system_message.format(
-                agents=self.orchestrator_agent_prompt, max_msg=MAX_MSG
+                agents=self.next_agent_list,
+                max_msg=MAX_MSG
             )
         else:
-
-            self.domain_ctr += 1
             prompt += agent_system_message.format(
                 agent_char=agent_type,
-                persona=agent_personas[(ord(agent_type) - 97) % 3],
+                persona=self.persona_prompts[(ord(agent_type) - 97) % self.agent_num],
                 domain=domain,
                 domain_definition=domain_definition,
-                functions_per_dialogue=self.functions_per_dialogue,
+                function_dumps_per_dialogue=self.function_dumps_per_dialogue,
             )
         return prompt
 
     def data_prompt(self):
         domain, domain_definition = self.get_domain()
-
         prompt = data_message.format(
             fewshot=self.fewshot,
             simple_agents=self.simple_agent_prompt,
             max_msg=MAX_MSG,
             rounds_num=self.rounds_num,
-            functions_per_dialogue=self.functions_per_dialogue,
-            agents=self.orchestrator_agent_prompt,
+            function_dumps_per_dialogue=self.function_dumps_per_dialogue,
+            agents=self.next_agent_list,
             task_desc=task_desc[self.task],
             task=self.task,
             domain_definition=domain_definition
@@ -171,6 +172,3 @@ class PromptMaker:
             return r_domain, domain_prompt_dict[r_domain]
         else:
             return self.domain, domain_prompt_dict[self.domain]
-
-        
-    
