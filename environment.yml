@@ -7,6 +7,7 @@ channels:
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
+  - python=3.11.10
   - _libgcc_mutex=0.1
   - _openmp_mutex=5.1
   - _sysroot_linux-64_curr_repodata_hack=3
@@ -216,7 +217,6 @@ dependencies:
   - pycparser=2.21
   - pygments=2.15.1
   - pysocks=1.7.1
-  - python=3.11.10
   - python-dateutil=2.9.0post0
   - python-fastjsonschema=2.16.2
   - python-json-logger=2.0.7
