@@ -88,7 +88,7 @@ def make_agent_pipeline(pm):
     
     agent_names = [f'agent_{chr(97+i)}' for i in range(pm.agent_num)]
     for i in range(pm.agent_num):
-        ag = create_agent(llm, f"You are {agent_names[i]}. " + {pm.agent_prompt(chr(97+i), pm.agent_num)}")
+        ag = create_agent(llm, f"You are {agent_names[i]}. " + pm.agent_prompt(chr(97+i), pm.agent_num))
         agent_nodes.append(functools.partial(agent_node, agent=ag, name=agent_names[i]))
         cond_dict[agent_names[i]] = agent_names[i]
         
