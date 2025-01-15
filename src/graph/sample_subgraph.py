@@ -207,7 +207,7 @@ class ToolGraphSampler:
             print("Retrying... in sample_directed_path")
             G3 = self.sample_subgraph("directed_path", num_nodes=num_nodes)
             
-        return list(G3.nodes())
+        return [[node] for node in G3.nodes()]
     
     def sample_tree(self, num_levels=2, nodes_per_level=2):
         G4, levels4 = self.sample_subgraph("tree", num_nodes=nodes_per_level, num_levels=num_levels)

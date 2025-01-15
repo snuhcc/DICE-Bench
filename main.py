@@ -6,7 +6,7 @@ import pprint
 import re
 
 import click
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 # 내부 라이브러리 임포트
 from src.agent.base import make_agent_pipeline
@@ -24,25 +24,39 @@ def main(
 
     # 1. YAML 파일이 지정된 경우: 해당 파일에서 설정 읽어 오기
     if yaml_path is not None:
-        with open(yaml_path, encoding="utf-8") as f:
-            yaml_data = yaml.full_load(f)
+        if not os.path.exists(yaml_path):
+            raise FileNotFoundError(f"YAML file not found: {yaml_path}")
 
-        # YAML 데이터에 있는 설정을 우선적으로 사용
-        agents_num = yaml_data["agent_num"]
-        rounds_num = yaml_data["rounds_num"]
-        fewshot = yaml_data["fewshot"]
-        domain = yaml_data["domain"]
-        output_path = yaml_data["output_path"]
-        task = yaml_data["task"]
-        dataset_num = yaml_data["dataset_num"]
+        with open(yaml_path, encoding="utf-8") as f:
+            yaml_data = yaml.safe_load(f)
+
+        try:
+            agents_num = yaml_data["agent_num"]
+            rounds_num = yaml_data["rounds_num"]
+            fewshot = yaml_data["fewshot"]
+            domain = yaml_data["domain"]
+            output_path = yaml_data["output_path"]
+            task = yaml_data["task"]
+            dataset_num = yaml_data["dataset_num"]
+            nodes_per_level = yaml_data["nodes_per_level"]
+        except KeyError as e:
+            raise KeyError(f"Required key is missing in the YAML file: {e}")
     else:
-        # YAML 없는 경우, 기본값 또는 CLI 옵션 사용
-        functions = None
+        ### 개선 포인트 2: yaml_path가 없는 경우 기본값(혹은 에러) 처리.
+        ### 필요에 따라 아래 값을 프로젝트에 맞게 수정하세요.
+        agents_num = 2
+        rounds_num = 1
+        fewshot = ""
+        domain = "default_domain"
+        output_path = "outputs/default_output.json"
+        task = "S-S"
+        dataset_num = 1
+        nodes_per_level = 1
 
     # 2. 출력 경로를 기반으로 폴더와 파일명 분리
     output_path_obj = Path(output_path)
     folder_path = output_path_obj.parent  # 예: "outputs"
-    file_name = output_path_obj.name      # 예: "test.json"
+    file_name = output_path_obj.name  # 예: "test.json"
 
     # 3. 폴더 이름 고유화 & 폴더 생성
     unique_folder_path = Path(utils.get_unique_folder_name(folder_path))
@@ -50,60 +64,46 @@ def main(
 
     # 4. 파일 이름도 고유화
     unique_output_file = utils.get_unique_filename(str(unique_folder_path / file_name))
-    
-    with open('src/graph/tool_graph.json', 'r') as f:
+
+    with open("src/graph/tool_graph.json", "r", encoding="utf-8") as f:
         tool_graph = json.load(f)
 
-    graph_sampler = ToolGraphSampler(tool_graph)
-    
-    function_list = []
-    for i in range(dataset_num):
-        if task == 'S-S':
-            func = graph_sampler.sample_node()
-            function_list.append(func)
-        elif task == 'S-M':
-            func = graph_sampler.sample_undirected_path(num_nodes=2)
-            function_list.append(func)
-        elif task == 'M-S':
-            func = graph_sampler.sample_directed_path(num_nodes=2)
-            function_list.append(func)
-        elif task == 'M-M':
-            level_functions, edges = graph_sampler.sample_tree(num_levels=2, nodes_per_level=2)
-            function_list.extend((level_functions, edges))
-        else:
-            raise ValueError(f"Invalid task: {task}")
-        
-    
-    # 6. 함수 파라미터 예시(실행 시 활용할 수 있는 값)
-
-    print(f'function_list: {function_list}')
+    edges = None  # for M-M
 
     for i in range(dataset_num):
-        function_json = utils.get_functions_from_tool_graph(function_list[i], json_file_path='src/graph/tool_graph.json')
-        
-        # generate functions for dialogue
+        graph_sampler = ToolGraphSampler(tool_graph)
+
+        function_list, edges = utils._sample_function_list(
+            graph_sampler, task, rounds_num, nodes_per_level
+        )
+
+        print(f"function_list: {function_list}")
+
+        # make it flat
+        function_list_flatten = [item for sublist in function_list for item in sublist]
+        print(f"\nfunction_list_flatten: {function_list_flatten}")
+
+        function_json = utils.get_functions_from_tool_graph(
+            function_list_flatten, json_file_path="src/graph/tool_graph.json"
+        )
+
+        # convert to function definition which is a str type
         functions_per_dialogue = json.dumps(function_json, ensure_ascii=False, indent=4)
-        
-        # generate paramters
-        parameter_values = utils.get_parameter_values(functions_per_dialogue)
-        
+        print(f"\nfunctions_per_dialogue: {functions_per_dialogue}\n")
+
         # generate personas
-        personas = utils.get_personas(domain, functions_per_dialogue, parameter_values, persona_num=agents_num)
-        
-        print(f'personas: {personas}')
-        
-        # 함수 정보 추출
-        # parsed_details = utils.pars_json_functions(parameter_values)
-        # print(f'\nparsed_details: {parsed_details}\n')
-        # print(f'\ntype(parsed_details): {type(parsed_details)}\n')  
-        
+        personas = utils.get_personas(
+            domain, functions_per_dialogue, persona_num=agents_num
+        )
+
+        # print(f'personas: {personas}')
+
         # 7. LangChain Prompt 설정
         pm = PromptMaker(
             agent_num=agents_num,
             rounds_num=rounds_num,
             fewshot=fewshot,
             functions_per_dialogue=functions_per_dialogue,
-            parameter_values=parameter_values,
             domain=domain,
             task=task,
         )
@@ -114,36 +114,138 @@ def main(
         # 9. 파이프라인 구조 시각화 후 저장
         utils.draw_langgraph(main_graph, unique_folder_path)
 
-        # 10. 결과 이벤트 목록 생성
-        events_list = []
-
         data_prompt = pm.data_prompt()
+        messages = [HumanMessage(content=data_prompt)]
 
-        # main_graph.stream 호출
-        events = main_graph.stream(
-            {"messages": [HumanMessage(content=data_prompt)]},
-            {"recursion_limit": 40},
-        )
+        rounds_events_list = []
 
-        events_list.append(events)
+        is_multi_round = True if task in ["M-S", "M-M"] else False
+        actual_rounds = rounds_num if is_multi_round else 1
 
-    # # 11. 결과 JSON 저장
-    # save_dicts, metadata_dicts = utils.save_data(events_list, f"{unique_output_file}.json")
+        next_parameter = None
+        for rdx in range(actual_rounds):
+            print(f"\n=== [Dataset {i+1}] Round {rdx+1} ===")
 
-    # # 12. 메타데이터 저장
-    # metadata_path = os.path.splitext(unique_output_file)[0] + "_metadata.json"
-    # metadata = {
-    #     "domain": domain_list,
-    #     "round": rounds_num,
-    #     "funclist": func,
-    #     "parameter_values": parameter_values,
-    #     "orchestrator": metadata_dicts,
-    # }
-    # with open(metadata_path, "w", encoding="utf-8") as f:
-    #     json.dump(metadata, f, ensure_ascii=False)
+            round_function_list = function_list[rdx]
 
-    # print(f"Data saved to '{unique_output_file}'")
-    # print(f"Metadata saved to '{metadata_path}'")
+            round_function_json = utils.get_functions_from_tool_graph(
+                round_function_list, json_file_path="src/graph/tool_graph.json"
+            )
+
+            # convert to function definition which is a str type
+            round_function_def = json.dumps(
+                round_function_json, ensure_ascii=False, indent=4
+            )
+            print(f"\nfunctions_per_round: {round_function_def}\n")
+
+            # generate paramters
+            if next_parameter:  # if it is not the first round
+                round_parameters = utils.get_parameter_values(
+                    functions=round_function_def,
+                    target_function=next_parameter["target_function"],
+                    target_parameter=next_parameter["target_parameter"],
+                )
+                print(
+                    f"\nnext_parameter['target_function']: {next_parameter['target_function']}"
+                )
+                print(
+                    f"next_parameter['target_parameter']: {next_parameter['target_parameter']}"
+                )
+            else:  # if it is the first round
+                round_parameters = utils.get_parameter_values(round_function_def)
+
+            print(f"\nround_parameters: {round_parameters}\n")
+
+            # 함수 정보 추출
+            parsed_details = utils.parse_json_functions(round_parameters)
+            print(f"\nparsed_details: {parsed_details}\n")
+
+            round_prompt = utils.system_prompt_per_round(
+                round_function_def, round_parameters
+            )
+            messages.append(HumanMessage(content=round_prompt))
+
+            events_gen = main_graph.stream(
+                {"messages": messages},
+                {"recursion_limit": 40},
+            )
+
+            # generator -> list로 변환
+            rounds_events = list(events_gen)
+            rounds_events_list.append(rounds_events)
+
+            virtual_output = None
+            if (
+                is_multi_round and rdx < actual_rounds - 1
+            ):  # if it is not the last round
+
+                if task == "M-M":
+                    source_function_desc = utils.get_functions_from_tool_graph(
+                        [edges[rdx][0]], json_file_path="src/graph/tool_graph.json"
+                    )
+                    source_function_str = json.dumps(
+                        source_function_desc, ensure_ascii=False, indent=4
+                    )
+
+                    source_parameter_value_str = str(
+                        [
+                            func_dict
+                            for func_dict in parsed_details
+                            if func_dict["function_name"] == edges[rdx][0]
+                        ][0]
+                    )
+                    print(
+                        f"\nsource_parameter_value_str: {source_parameter_value_str}\n"
+                    )
+                else:
+                    source_function_str = round_function_def
+                    source_parameter_value_str = round_parameters
+
+                virtual_output = utils.virtual_function_call(
+                    source_function_str, source_parameter_value_str
+                )
+                print(f"\nvirtual_output: {virtual_output}\n")
+
+                if task == "M-M":
+                    next_parameter = {
+                        "target_function": edges[rdx][1],
+                        "target_parameter": virtual_output,
+                    }
+                else:
+                    next_parameter = {
+                        "target_function": function_list_flatten[rdx + 1],
+                        "target_parameter": virtual_output,
+                    }
+
+            if virtual_output:
+                messages.append(
+                    AIMessage(
+                        content=f"[Return Value from Round {rdx+1}]: {virtual_output}\n"
+                        "You should use the return value to progress the next round conversation so that the return value can be used as a parameter for the next function call.",
+                        name="AI_Assistant",
+                    )
+                )
+
+    # 11. 결과 JSON 저장
+    save_dicts, metadata_dicts = utils.save_data(
+        rounds_events_list, f"{unique_output_file}.json"
+    )
+
+    # 12. 메타데이터 저장
+    metadata_path = os.path.splitext(unique_output_file)[0] + "_metadata.json"
+    metadata = {
+        "domain": domain,
+        "round": rounds_num,
+        "funclist": function_list,
+        "edge": edges,
+        "parameter": "not yet decided",
+        "orchestrator": metadata_dicts,
+    }
+    with open(metadata_path, "w", encoding="utf-8") as f:
+        json.dump(metadata, f, ensure_ascii=False)
+
+    print(f"Data saved to '{unique_output_file}'")
+    print(f"Metadata saved to '{metadata_path}'")
 
 
 if __name__ == "__main__":

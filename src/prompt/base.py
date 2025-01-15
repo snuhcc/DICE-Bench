@@ -15,6 +15,7 @@ basic_message = """
     - Develop the conversation naturally, referencing previous turns and contributing meaningful insights while adhering to the orchestrator’s guidance.
     - Ensure the conversation spans at least {max_msg} turns, excluding the orchestrator’s messages.
     - Strive for logical consistency and maintain alignment with the domain’s goals in every turn, making sure the dialogue remains clear, focused, and goal-driven.
+    - Ensure that the conversation organically introduces the function "\n{functions_per_dialogue}\n" in the entire round without making them appear forced or unnatural.
 """
 
 # prompt for user agent
@@ -22,13 +23,12 @@ agent_system_message = """
     You are an Agent participating in a multi-agent conversation system with the persona: {persona}.
     - Actively advance the {domain} conversation by fully embodying the domain's definition:
     "{domain_definition}"
-    - Discuss and negotiate the following parameters as part of the conversation:
-    {parameter_values}
     - Ensure your responses build naturally on prior turns and contribute to achieving the conversation’s goals.
     - Maintain your designated persona and role, tailoring your tone, reasoning, and style accordingly.
     - Provide only one concise and relevant sentence per turn to keep the conversation focused and efficient.
-    - Ensure that the conversation organically introduces the function "\n{functions_per_dialogue}\n" and its parameter values "\n{parameter_values}\n" without making them appear forced or unnatural.
 """
+
+
 
 # 3개 돌려쓰기.
 agent_personas = [
@@ -82,7 +82,7 @@ data_message = """
     Carry out a natural and casual conversation similar to everyday life scenarios.  
     - Ensure the conversation flows smoothly, with agents {simple_agents} speaking in random order and never repeating consecutively. Speaker selection will be determined by the orchestrator.
     - {task_desc}
-    - At the end of the conversation, one of the agents should summarize the key decisions and call the function "{functions_per_dialogue}" with the determined parameter values, {parameter_values}.
+    - At the end of the conversation, one of the agents should summarize the key decisions and call the AI to use the required functions.
     - The orchestrator will conclude the conversation with '[NEXT: END]' after all conditions are met.
     - The conversation must naturally and explicitly incorporate all parameter values provided in the function. These values should seamlessly fit into the context and contribute meaningfully to the flow of the dialogue.
     - The final utterance from the last agent should address the AI. But, make sure that the last utterance should not include any information about parameter values. It can only at least mention 'AI' using the function name. For example, if the function name is 'turn_on_computer_at_the_given_time', then the last utterance should be like 'AI, please turn on the computer.'
@@ -91,16 +91,17 @@ data_message = """
     - write in korean
 """
 
+# - At the end of the conversation, one of the agents should summarize the key decisions and call the function "{functions_per_dialogue}" with the determined parameter values, {parameter_values}.
+
 
 class PromptMaker:
     def __init__(
-        self, agent_num, rounds_num, fewshot, functions_per_dialogue, parameter_values, domain, task
+        self, agent_num, rounds_num, fewshot, functions_per_dialogue, domain, task
     ):
         self.agent_num = agent_num
         self.rounds_num = rounds_num
         self.fewshot = fewshot
         self.functions_per_dialogue = functions_per_dialogue
-        self.parameter_values = parameter_values
         self.domain = domain
         self.domain_ctr = 0
         self.task = task
@@ -120,6 +121,7 @@ class PromptMaker:
             agents=self.orchestrator_agent_prompt,
             max_msg=MAX_MSG,
             domain_definition=domain_definition,
+            functions_per_dialogue=self.functions_per_dialogue,
         )
 
         if agent_type == "orch":
@@ -134,7 +136,6 @@ class PromptMaker:
                 persona=agent_personas[(ord(agent_type) - 97) % 3],
                 domain=domain,
                 domain_definition=domain_definition,
-                parameter_values=self.parameter_values,
                 functions_per_dialogue=self.functions_per_dialogue,
             )
         return prompt
@@ -148,7 +149,6 @@ class PromptMaker:
             max_msg=MAX_MSG,
             rounds_num=self.rounds_num,
             functions_per_dialogue=self.functions_per_dialogue,
-            parameter_values=self.parameter_values,
             agents=self.orchestrator_agent_prompt,
             task_desc=task_desc[self.task],
             task=self.task,
@@ -171,3 +171,6 @@ class PromptMaker:
             return r_domain, domain_prompt_dict[r_domain]
         else:
             return self.domain, domain_prompt_dict[self.domain]
+
+        
+    

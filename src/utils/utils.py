@@ -4,7 +4,7 @@ from openai import OpenAI
 import re
 from src.prompt.domain_prompt import domain_prompt_dict
 
-def get_parameter_values(functions):
+def get_parameter_values(functions, target_function=None, target_parameter=None):
     client = OpenAI()
     prompt = f"""
         Below is an example of functions and their parameters:
@@ -84,7 +84,13 @@ def get_parameter_values(functions):
         These are the functions for which you need to generate parameter values:
         {{functions}}
         
-        Please specify example parameter values accordingly.
+        Just respond with the parameter values for each function in the same format as shown above without any additional context or explanation.
+        """
+    
+    if target_function is not None:
+        prompt += f"""
+        Please **strictly adhere** to the following instructions:
+        - For the function: **{target_function}**, you must use the following value: **{target_parameter}** for the parameter value of the function.
         """
         
     completion = client.chat.completions.create(
@@ -96,17 +102,17 @@ def get_parameter_values(functions):
                 "content": prompt.replace("{functions}", functions)
             }
         ],
-        temperature=0.0,
+        temperature=0.3,
     )
     
     return completion.choices[0].message.content
 
-def get_personas(domain, function_list, parameter_values, persona_num=3):
+def get_personas(domain, function_list, persona_num=3):
     domain_desc = domain_prompt_dict[domain]
     
     client = OpenAI()
     prompt = """
-        You are a helpful and ethical assistant. Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list} and corresponding parameter values: {parameter_values}.
+        You are a helpful and ethical assistant. Your task is to generate unique and responsible personas for agents participating in a multi-agent conversation system, based on the provided function list: {function_list}.
 
         **Guidelines for generating the personas:**
         - Ensure each persona has a clear and distinct role, personality traits, and communication style while adhering to ethical standards.
@@ -132,7 +138,7 @@ def get_personas(domain, function_list, parameter_values, persona_num=3):
         """
 
     
-    filled_prompt = prompt.replace("{persona_num}", str(persona_num)).replace("{function_list}", function_list).replace("{parameter_values}", parameter_values).replace("{domain_desc}", domain_desc)
+    filled_prompt = prompt.replace("{persona_num}", str(persona_num)).replace("{function_list}", function_list).replace("{domain_desc}", domain_desc)
     
     completion = client.chat.completions.create(
         model="gpt-4o",
@@ -146,7 +152,7 @@ def get_personas(domain, function_list, parameter_values, persona_num=3):
         temperature=0.5,
     )
     
-    print(f'filled_prompt: {filled_prompt}')
+    # print(f'filled_prompt: {filled_prompt}')
     
     return completion.choices[0].message.content
 
@@ -286,3 +292,83 @@ def parse_json_functions(text):
             "formatted": f"{function_name}({params_string})"
         })
     return parsed_results
+
+
+def system_prompt_per_round(functions_per_round, parameter_values_per_round):
+    
+    system_prompt_per_round = """
+        - Make sure the conversation naturally incorporates the function “\n{functions_per_round}\n” and its associated parameter values in a seamless and unforced manner.
+        - Engage in a discussion to negotiate the following parameters within the conversation:
+            {parameter_values_per_round}
+    """
+
+    prompt = system_prompt_per_round.format(
+        functions_per_round=functions_per_round,
+        parameter_values_per_round=parameter_values_per_round
+    )
+
+    return prompt
+
+def virtual_function_call(function_to_call, parameter_values):
+    client = OpenAI()
+    prompt = """   
+    Simulate the hypothetical output of the following function call:
+
+    Function: {function_to_call}  
+    Parameters: {parameter_values}  
+
+    Based on the function and parameter details provided, generate a hypothetical output that aligns with the expected behavior of the function.  
+    Only return the hypothetical output, without any additional context or explanation.
+    """
+
+    # Replace placeholders with actual values
+    prompt = prompt.replace("{function_to_call}", function_to_call)
+    prompt = prompt.replace("{parameter_values}", parameter_values)
+    
+    # print(f"Prompt inside the virtual funciton call function: {prompt}")
+
+    try:
+        # Make the API call to GPT
+        completion = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a virtual Python runtime environment."},
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.5,
+        )
+
+        # Extract the result from the response
+        result = completion.choices[0].message.content
+        return result
+
+    except client.error.OpenAIError as e:
+        return f"An error occurred: {e}"
+    
+def _sample_function_list(graph_sampler, task, rounds_num, nodes_per_level):
+    edges = None
+    function_list = []
+
+    if task == "S-S":
+        func = graph_sampler.sample_node()
+        function_list.append(func)
+
+    elif task == "S-M":
+        func = graph_sampler.sample_undirected_path(num_nodes=nodes_per_level)
+        function_list.append(func)
+
+    elif task == "M-S":
+        func = graph_sampler.sample_directed_path(num_nodes=rounds_num)
+        function_list.extend(func)
+
+    elif task == "M-M":
+        function_list, edges = graph_sampler.sample_tree(
+            num_levels=rounds_num, nodes_per_level=nodes_per_level
+        )
+    else:
+        raise ValueError(f"Invalid task: {task}")
+
+    return function_list, edges
