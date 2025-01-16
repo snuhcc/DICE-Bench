@@ -112,19 +112,33 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
                 }}
         ]
         
+        Below are list of five examples of parameter values for the given function. You only need to generate one example:
+        # first example
         \"parameters\": [
             {{'function': "find_hotel", 'parameters': {{"location": "Paris", "check_in": "07-15"}}}},
             {{'function': "book_hotel", 'parameters': {{"hotel_name": "Hotel Le Meurice", "location": "Paris", "check_in_date": "07-15", "check_in_time": "16:30"}}}},
-
+        ]
+        
+        # second example
+        \"parameters\": [
             {{'function': "find_hotel", 'parameters': {{"location": "New York", "check_in": "08-10"}}}},
             {{'function': "book_hotel", 'parameters': {{"hotel_name": "The Plaza Hotel", "location": "New York", "check_in_date": "08-10", "check_in_time": "14:00"}}}},
-
+        ]
+        
+        # third example
+        \"parameters\": [
             {{'function': "find_hotel", 'parameters': {{"location": "Tokyo", "check_in": "09-05"}}}},
             {{'function': "book_hotel", 'parameters': {{"hotel_name": "Tokyo Imperial Hotel", "location": "Tokyo", "check_in_date": "09-05", "check_in_time": "12:45"}}}},
-
+        ]
+        
+        # fourth example
+        \"parameters\": [
             {{'function': "find_hotel", 'parameters': {{"location": "Rome", "check_in": "10-20"}}}},
             {{'function': "book_hotel", 'parameters': {{"hotel_name": "Rome Cavalieri", "location": "Rome", "check_in_date": "10-20", "check_in_time": "15:00"}}}},
-
+        ]
+        
+        # fifth example
+        \"parameters\": [
             {{'function': "find_hotel", 'parameters': {{"location": "Dubai", "check_in": "11-25"}}}},
             {{'function': "book_hotel", 'parameters': {{"hotel_name": "Burj Al Arab", "location": "Dubai", "check_in_date": "11-25", "check_in_time": "13:00"}}}},
         ]
@@ -156,7 +170,7 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
         The following functions are the functions for which you need to generate parameter values:
         {functions}
     
-        Please generate diverse, creative and new parameter values for the given function, strictly adhering to the format shown above, without adding any additional context or explanation.
+        Please generate diverse and creative parameter values for the given function, strictly adhering to the format shown above, without adding any additional context or explanation.
         """
         
     client = OpenAI()
@@ -500,7 +514,7 @@ def print_processed_strings(raw_strings):
             logger.debug(f"Found JSON block in string at index {idx}.")
             try:
                 # JSON 데이터 파싱
-                json_object = json.loads(json_content)
+                json_object = json.loads(json_content)[0]
                 processed_json_list.append(json_object)
             except json.JSONDecodeError as e:
                 logger.error(f"Invalid JSON at index {idx}: {e}")

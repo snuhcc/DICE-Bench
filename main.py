@@ -131,11 +131,6 @@ def main(yaml_path):
                 )
                 
             parameters.append(current_parameters)
-            logger.debug(f"round_parameters:\n{current_parameters}")
-
-            # 함수 정보 추출
-            parsed_details = utils.parse_json_functions(current_parameters)
-            logger.debug(f"parsed_details:\n{parsed_details}")
 
             current_prompt = utils.system_prompt_per_round(
                 current_function_def, 

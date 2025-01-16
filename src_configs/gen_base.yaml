@@ -1,5 +1,5 @@
 # define number of agent (1~26)
-agent_num: 5
+agent_num: 2
 
 # define tasks: 'single_round', 'multi_round'
 task: "multi_round"  # 앵커 정의
@@ -12,10 +12,10 @@ rounds_num: 3
 domain: "Eristic"
 
 # define dataset number
-dataset_num: 5
+dataset_num: 1
 
 # define your desire fewshot prompt or use ""
 fewshot: ""
 
 # output path 
-output_path: "outputs/dialogue"
+output_path: "outputs/dialogue/325"
