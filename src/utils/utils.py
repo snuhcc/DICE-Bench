@@ -55,7 +55,7 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
         
     # one-shot example
     prompt += f"""
-        Below is a one-shot example of functions and their parameters:
+        Below is a few-shot example of functions and their parameters:
         
         \"functions\": [
             {{
@@ -113,8 +113,20 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
         ]
         
         \"parameters\": [
-            {{'function': "find_hotel", 'parameters': {{"location": "Thailand", "check_in": "06-07"}}}},
-            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Hilton Bangkok", "location": "Thailand", "check_in_date": "06-07", "check_in_time": "14:00"}}}},
+            {{'function': "find_hotel", 'parameters': {{"location": "Paris", "check_in": "07-15"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Hotel Le Meurice", "location": "Paris", "check_in_date": "07-15", "check_in_time": "16:30"}}}},
+
+            {{'function': "find_hotel", 'parameters': {{"location": "New York", "check_in": "08-10"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "The Plaza Hotel", "location": "New York", "check_in_date": "08-10", "check_in_time": "14:00"}}}},
+
+            {{'function': "find_hotel", 'parameters': {{"location": "Tokyo", "check_in": "09-05"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Tokyo Imperial Hotel", "location": "Tokyo", "check_in_date": "09-05", "check_in_time": "12:45"}}}},
+
+            {{'function': "find_hotel", 'parameters': {{"location": "Rome", "check_in": "10-20"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Rome Cavalieri", "location": "Rome", "check_in_date": "10-20", "check_in_time": "15:00"}}}},
+
+            {{'function': "find_hotel", 'parameters': {{"location": "Dubai", "check_in": "11-25"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Burj Al Arab", "location": "Dubai", "check_in_date": "11-25", "check_in_time": "13:00"}}}},
         ]
         
         Example output format:
@@ -144,7 +156,7 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
         The following functions are the functions for which you need to generate parameter values:
         {functions}
     
-        Please generate the parameter values for the given function in the same format as shown above without any additional context or explanation using the given context information.
+        Please generate diverse, creative and new parameter values for the given function, strictly adhering to the format shown above, without adding any additional context or explanation.
         """
         
     client = OpenAI()
@@ -158,6 +170,7 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
             }
         ],
         temperature=0.7,
+        top_p=0.8,
     )
     
     max_retries, attempt = 3, 0
@@ -204,6 +217,7 @@ def virtual_function_call(function_to_call, parameter_values):
                 }
             ],
             temperature=0.7,
+            top_p=0.8,
         )
         result = completion.choices[0].message.content
         logger.debug(f"Virtual function call result: {result}")
@@ -250,6 +264,7 @@ def get_persona_prompts(agent_num, function_dumps_per_dialogue, domain_desc):
             {"role": "user", "content": persona_generation_prompt}
         ],
         temperature=0.7,
+        top_p=0.8,
     )
     max_retries, attempt = 3, 0
     while attempt < max_retries:

@@ -1,5 +1,5 @@
 # define number of agent (1~26)
-agent_num: 3
+agent_num: 5
 
 # define tasks: 'single_round', 'multi_round'
 task: "multi_round"  # 앵커 정의
