@@ -6,71 +6,84 @@ from src.prompt.domain_prompt import domain_prompt_dict
 from pathlib import Path
 from src.graph.sample_subgraph import ToolGraphSampler
 
-
-def get_parameter_values(functions, target_function=None, target_parameter=None):
-    client = OpenAI()
+def gen_parameter_values(functions, domain, conversation_history=None, prev_function=None, prev_parameter=None, prev_virtual_output=None):
+    prompt = "Please consider the following context information when generating parameters:"
+    
+    if conversation_history:  # if it is not the first round
+        prompt += f"""
+            conversation_history: {conversation_history}
+            function: {prev_function}
+            parameter: {prev_parameter}
+        """
+    
     prompt = f"""
-        Below is an example of functions and their parameters:
+        domain: {domain}
+        domain_desc: {domain_prompt_dict[domain]}
+    """
+        
+    # one-shot example
+    prompt += f"""
+        Below is a one-shot example of functions and their parameters:
         
         \"functions\": [
-        {{
-            "function": "get_weather",
-            "desc": "Retrieve weather information for a specific location and date.",
-            "parameters": [
             {{
-                "name": "location",
-                "type": "string",
-                "desc": "The city or region to check weather for."
-            }},
+                "function": "find_hotel",
+                "desc": "Find a hotel in a specific location with a specified check-in date.",
+                "parameters": [
+                    {{
+                        "name": "location",
+                        "type": "string",
+                        "desc": "City or region to search for hotels."
+                    }},
+                    {{
+                        "name": "check_in",
+                        "type": "string",
+                        "desc": "Check-in date in MM-DD format."
+                    }}
+                ],
+                "return": {{
+                    "hotel_name": "string"
+                }}
+            }}
+        ],
             {{
-                "name": "date",
-                "type": "string",
-                "desc": "Date in MM-DD format."
-            }}
-            ],
-            "return": {{
-            "location": "string",
-            "date": "string",
-            "forecast": "string"
-            }}
-        }},
-        {{
             "function": "book_hotel",
             "desc": "Book a specific hotel on a given date and location.",
             "parameters": [
-            {{
+                {{
                 "name": "hotel_name",
                 "type": "string",
-                "desc": "Name of the hotel."
-            }},
-            {{
-                "name": "date",
-                "type": "string",
-                "desc": "Date in MM-DD format."
-            }},
-            {{
+                "desc": "Name of the hotel to book."
+                }},
+                {{
                 "name": "location",
                 "type": "string",
-                "desc": "Location of the hotel."
+                "desc": "City or region of the hotel."
+                }},
+                {{
+                "name": "check_in_date",
+                "type": "string",
+                "desc": "Check-in date in MM-DD format."
+                }},
+                {{
+                "name": "check_in_time",
+                "type": "string",
+                "desc": "Approximate check-in time (HH:MM, 24-hour)."
+                }}
             }}
             ],
             "return": {{
-            "hotel_name": "string",
-            "location": "string",
-            "check_in_date": "string",
-            "hotel_booking_confirmation": "string"
-            }}
-        }}
-        ],
+                "hotel_name": "string",
+                "location": "string",
+                "check_in_date": "string",
+                "check_in_time": "string",
+                }}
+        ]
         
         \"parameters\": [
-        {{'function': "get_weather", 'parameters': {{"location": "Thailand", "date": "06-07"}}}},
-        {{'function': "book_hotel", 'parameters': {{"hotel_name": "Hilton Bangkok", "date": "06-07", "location": "Thailand"}}}}
-        ],
-        
-        The above shows how you can structure functions and their parameters, along with example values.
-        
-        In the same format, please provide example parameters for each function described below:
+            {{'function': "find_hotel", 'parameters': {{"location": "Thailand", "check_in": "06-07"}}}},
+            {{'function': "book_hotel", 'parameters': {{"hotel_name": "Hilton Bangkok", "location": "Thailand", "check_in_date": "06-07", "check_in_time": "14:00"}}}},
+        ]
         
         Example output format:
         [
@@ -83,26 +96,31 @@ def get_parameter_values(functions, target_function=None, target_parameter=None)
                 "parameters": {{<parameter_name_1>: <value_1>, <parameter_name_2>: <value_2>, ...}}
             }}
         ]
+        """
+
+    if conversation_history is not None:
+        prompt += f"""
+        As you can see in the one-shot example, the virtual output of the previous function: book_hotel is "Hilton Bangkok", and the output is used as the parameter value for the next round's book_hotel function call.
         
-        These are the functions for which you need to generate parameter values:
-        {{functions}}
-        
-        Just respond with the parameter values for each function in the same format as shown above without any additional context or explanation.
+        Like the one-shot example, please **strictly adhere** to the following instructions:
+        You must use the virtual output: {prev_virtual_output} of the previous round as the input parameter value for the next round's function call.
         """
     
-    if target_function is not None:
-        prompt += f"""
-        Please **strictly adhere** to the following instructions:
-        - For the function: **{target_function}**, you must use the following value: **{target_parameter}** for the parameter value of the function.
+    prompt += f"""
+        The following functions are the functions for which you need to generate parameter values:
+        {functions}
+    
+        Please generate the parameter values for the given function in the same format as shown above without any additional context or explanation using the given context information.
         """
         
+    client = OpenAI()
     completion = client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
-                "content": prompt.replace("{functions}", functions)
+                "content": prompt
             }
         ],
         temperature=0.3,
@@ -274,50 +292,46 @@ def system_prompt_per_round(functions_per_round, parameter_values_per_round):
 
     return prompt
 
-# utils.py (새로운 함수 예시)
-def save_as_custom_format(
+# Function to create metadata for each conversation
+def create_metadata(idx, personas, domain, functions, parameters, task, turn_num, round_num):
+        
+    metadata = {
+        "diag_id": idx,
+        "user_personas": personas,
+        "functions": functions,
+        "parameters": parameters,
+        "category": domain,
+        "task": task,
+        "turn_num": turn_num,
+        "round_num": round_num,
+    }
+    return metadata
+
+def create_conversation_dict (
     dataset_index: int,
     rounds_events_list,
     personas,
     domain,
-    function_list,
-    output_json_path: str
+    functions,
+    parameters,
+    task: str,
+    turn_num: int,
+    round_num: int
 ):
-    """
-    1) rounds_events_list(각 라운드 대화)와 personas를 합쳐
-       원하는 JSON 구조를 만든다.
-    2) 해당 JSON을 output_json_path에 저장한다.
-    """
+    metadata = create_metadata(dataset_index, personas, domain, functions, parameters, task, turn_num, round_num)
 
-    # 1. 대화 하나(=1 dataset)에 대한 dict 구성
     conversation_dict = {
-        "metadata": {
-            "diag_id": dataset_index + 1,
-            "users": {},         # user1, user2 ...
-            "category": domain,  # 또는 domain_prompt_dict[domain] 등
-            "functions": {},     # round별 함수
-            "turn_count": 0
-        },
+        "metadata": metadata,
         "messages": []
     }
 
-    # 2. users 부분 생성 (예: agent_num=3 → user1, user2, user3)
-    #    persona_name은 임의로 붙이고, persona는 pm.personas[idx] 사용
-    for idx, persona_text in enumerate(personas):
-        user_key = f"user{idx+1}"
-        conversation_dict["metadata"]["users"][user_key] = {
-            "persona_name": f"User{idx+1}",  # 실제 이름이 필요하면 별도로 부여
-            "persona": persona_text
-        }
-
-    # 3. rounds_events_list 순회하며 messages 생성
-    #    rounds_events_list는 [ [event1, event2, ...], [event3, event4, ...], ... ] 형태로 추정
-    #    각 event는 보통 {"agent_a": {"messages":[...]} } 같은 구조로 구성됨
     messages_flat = []
+    print(f"rounds_events_list in save_as_custom_format: {rounds_events_list}")
     for round_idx, round_events in enumerate(rounds_events_list, start=1):
+        round_dict = {f'Round {round_idx}': []}
+        
         for event in round_events:
             if isinstance(event, dict):
-                # 예: { "agent_a": { "messages": [AIMessage(...), ...] }}
                 for agent_name, node_data in event.items():
                     if "messages" in node_data:
                         for msg in node_data["messages"]:
@@ -326,44 +340,16 @@ def save_as_custom_format(
                             # 일단 여기서는 agent_a→"agent_a" 그대로 두되,
                             # user 이름을 "User1" 등으로 바꾸고 싶으면 매핑 로직 추가.
 
-                            messages_flat.append({
+                            round_dict[f'Round {round_idx}'].append({
                                 "user": user_label,  
                                 "message": msg.content
                             })
 
+        messages_flat.append(round_dict)
+
     conversation_dict["messages"] = messages_flat
-    conversation_dict["metadata"]["turn_count"] = len(messages_flat)
 
-    # 4. “functions” 필드: 각 round의 함수 사용 정보를 어떻게 추출?
-    #    - 예: round1→function_list[0], round2→function_list[1] ...
-    #    - 아래는 간단 예시:
-    func_map = {}
-    for rdx, f_list in enumerate(function_list, start=1):
-        round_key = f"round{rdx}"
-        # f_list가 ['get_weather', 'book_hotel'] 처럼 함수명 목록이라면:
-        func_map[round_key] = {f: [] for f in f_list}
-
-    conversation_dict["metadata"]["functions"] = func_map
-
-    # 5. 최종 저장
-    #    conversations가 여러개 누적될 수 있으므로, output_json_path에
-    #    이미 기존 내용이 있으면 불러온 뒤, "conversations" 배열에 추가하고 다시 저장.
-    #    또는 데이터셋마다 별도 파일로 저장해도 됨.
-    all_data = {"conversations": []}
-
-    # 기존에 파일이 있으면 load
-    if os.path.exists(output_json_path):
-        with open(output_json_path, "r", encoding="utf-8") as f:
-            all_data = json.load(f)
-
-    # 대화 하나를 추가
-    all_data["conversations"].append(conversation_dict)
-
-    # write
-    with open(output_json_path, "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
-
-    print(f"[INFO] Saved custom conversation format to: {output_json_path}")
+    return conversation_dict
 
 def get_persona_prompts(agent_num, function_dumps_per_dialogue, domain_desc):
     

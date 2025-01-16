@@ -48,7 +48,11 @@ def main(yaml_path):
         tool_graph = json.load(f)
 
 
+    # Initialize list to store all conversations
+    all_conversations = []
+    
     for i in range(dataset_num):
+        
         function_list, function_dumps_per_dialogue = utils.sample_functions_from_graph_and_get_json(
             tool_graph, task, rounds_num
         )
@@ -77,57 +81,63 @@ def main(yaml_path):
         main_graph = make_agent_pipeline(pm)
 
         # 9. 파이프라인 구조 시각화 후 저장
-        utils.draw_langgraph(main_graph, Path(output_path))
+        utils.draw_langgraph(main_graph, Path(unique_output_fp.parent))
 
         data_prompt = pm.data_prompt()
         messages = [HumanMessage(content=data_prompt)]
 
         rounds_events_list = []
+        parameters = []
 
         is_multi_round = True if task == "multi_round" else False
         actual_rounds = rounds_num if is_multi_round else 1
 
-        next_parameter = None
+        prev_virtual_output = None
         for rdx in range(actual_rounds):
             print(f"\n=== [Dataset {i+1}] Round {rdx+1} ===")
-            round_function_list = function_list[rdx]
+            current_function_list = function_list[rdx]
 
-            round_function_json = utils.get_functions_from_tool_graph(
-                round_function_list, json_file_path="src/graph/tool_graph.json"
+            current_function_json = utils.get_functions_from_tool_graph(
+                current_function_list, json_file_path="src/graph/tool_graph.json"
             )
 
             # convert to function definition which is a str type
-            round_function_def = json.dumps(
-                round_function_json, ensure_ascii=False, indent=4
+            current_function_def = json.dumps(
+                current_function_json, ensure_ascii=False, indent=4
             )
-            print(f"\nfunctions_per_round: {round_function_def}\n")
-
+            print(f"\nfunctions_per_round: {current_function_def}\n")
+            
             # generate paramters
-            if next_parameter:  # if it is not the first round
-                round_parameters = utils.get_parameter_values(
-                    functions=round_function_def,
-                    target_function=next_parameter["target_function"],
-                    target_parameter=next_parameter["target_parameter"],
+            if prev_virtual_output:  # if it is not the first round
+                current_parameters = utils.gen_parameter_values(
+                    functions=current_function_def,
+                    domain=domain,
+                    conversation_history=rounds_events_list[rdx-1] if rdx > 0 else None,
+                    prev_function=prev_virtual_output["prev_function"],
+                    prev_parameter=prev_virtual_output["prev_parameter"],
+                    prev_virtual_output=prev_virtual_output["prev_virtual_output"],
                 )
                 print(
-                    f"\nnext_parameter['target_function']: {next_parameter['target_function']}"
+                    f"\nprev_virtual_output['prev_function']: {prev_virtual_output['prev_function']}"
                 )
                 print(
-                    f"next_parameter['target_parameter']: {next_parameter['target_parameter']}"
+                    f"prev_virtual_output['prev_virtual_output']: {prev_virtual_output['prev_virtual_output']}"
                 )
             else:  # if it is the first round
-                round_parameters = utils.get_parameter_values(round_function_def)
+                current_parameters = utils.gen_parameter_values(current_function_def)
+                
+            parameters.append(current_parameters)
 
-            print(f"\nround_parameters: {round_parameters}\n")
+            print(f"\nround_parameters: {current_parameters}\n")
 
             # 함수 정보 추출
-            parsed_details = utils.parse_json_functions(round_parameters)
+            parsed_details = utils.parse_json_functions(current_parameters)
             print(f"\nparsed_details: {parsed_details}\n")
 
-            round_prompt = utils.system_prompt_per_round(
-                round_function_def, round_parameters
+            current_prompt = utils.system_prompt_per_round(
+                current_function_def, current_parameters
             )
-            messages.append(HumanMessage(content=round_prompt))
+            messages.append(HumanMessage(content=current_prompt))
 
             events_gen = main_graph.stream(
                 {"messages": messages},
@@ -142,55 +152,44 @@ def main(yaml_path):
             if (
                 is_multi_round and rdx < actual_rounds - 1
             ):  # if it is not the last round
+                current_function_str = current_function_def
+                current_parameter_value_str = current_parameters
 
-
-                source_function_str = round_function_def
-                print(f'source_function_str: {source_function_str}')
-                source_parameter_value_str = round_parameters
-                print(f'source_parameter_value_str: {source_parameter_value_str}')
-
-                if task == "single_round":
-                    break
-                else:
-                    virtual_output = utils.virtual_function_call(
-                        source_function_str, source_parameter_value_str
+                virtual_output = utils.virtual_function_call(
+                        current_function_str, current_parameter_value_str
                     )
                 print(f"\nvirtual_output: {virtual_output}\n")
 
-                if task == "multi_round":
-                    next_parameter = {
-                        "target_function": function_list[rdx + 1],
-                        "target_parameter": virtual_output,
-                    }
+                prev_virtual_output = {
+                    "prev_function": current_function_str,
+                    "prev_parameter": current_parameter_value_str,
+                    "prev_virtual_output": virtual_output,
+                }
 
-            if virtual_output:
                 messages.append(
                     AIMessage(
-                        content=f"[Return Value from Round {rdx+1}]: {virtual_output}\n"
-                        "You should use the return value to progress the next round conversation so that the return value can be used as a parameter for the next function call.",
+                        content=f"[Return Value from Round {rdx+1}' function call]: {virtual_output}\n"
+                        "You should use the return value: {virtual_output} to progress the next round conversation so that the return value can be used as a parameter for the next function call.",
                         name="AI_Assistant",
                     )
                 )
-
-        # 11. 결과 JSON 저장
-        save_dicts, metadata_dicts = utils.save_data(
-            rounds_events_list, f"{unique_output_fp}.json"
+                
+        conversation_dict = utils.create_conversation_dict(
+            dataset_index=i,
+            rounds_events_list=rounds_events_list,
+            personas=personas,
+            domain=domain,
+            functions=function_list,
+            parameters=parameters,
+            task=task,
+            turn_num=10,
+            round_num=rounds_num
         )
+        
+        all_conversations.append(conversation_dict)
 
-        # 12. 메타데이터 저장
-        metadata_path = os.path.splitext(unique_output_fp)[0] + "_metadata.json"
-        metadata = {
-            "domain": domain,
-            "round": rounds_num,
-            "funclist": function_list,
-            "parameter": "not yet decided",
-            "orchestrator": metadata_dicts,
-        }
-        with open(metadata_path, "w", encoding="utf-8") as f:
-            json.dump(metadata, f, ensure_ascii=False)
-
-        print(f"Data saved to '{unique_output_fp}'")
-        print(f"Metadata saved to '{metadata_path}'")
+    with open(f"{unique_output_fp}", "w", encoding="utf-8") as f:
+        json.dump(all_conversations, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
