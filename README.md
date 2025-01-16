@@ -1,37 +1,78 @@
-# Funcion Calling Benchmark for MPC conversation
+# 🌟 **Function Calling Benchmark for MPC Conversations** 🌟
 
-## Environment
+Welcome to the **MPC Function Calling Benchmark**! This project is designed to benchmark function calling in **multi-party conversational (MPC)** scenarios. Dive in to explore agents, functions, and workflows in a seamless environment. 💬📊
 
-- python 3.10  
-- requirements.txt 참조
+---
 
-## Running
+## ⚙️ **Environment Setup**
 
-python main.py  
+To get started, ensure your environment is set up correctly:
 
-### Arguments
+- **🐍 Python Version:** 3.11.10
+- **📦 Dependencies and Conda Environment:** Refer to `requirements.txt` and `environment.yml`
 
-- src_configs/gen_base.yaml 수정
+### 🛠️ **Install Requirements**
+Run the following command to install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-fewshot이랑 function list를 txt/json file화해서 쉽게 import할 수 있게 만들 예정. step 수 아직
+To create a conda enironment and install dependencies:
+```bash
+conda env create -f environment.yml
+```
 
-agent 수 알파벳(26)만큼 가능.
+---
 
+## 🚀 **How to Run**
+
+Run the application using:
+```bash
+python main.py
+```
+
+### 🔧 **Custom Configuration**
+You can customize configurations by editing `src_configs/gen_base.yaml`. Use the following command to specify your configuration file:
+```bash
 python main.py --yaml_path=src_configs/gen_base.yaml
+```
 
-## Streamlit
+---
 
+## 🌐 **Streamlit Interface**
+
+For a visual and interactive experience, launch the Streamlit dashboard:
+```bash
 streamlit run showing_data.py
+```
 
-## Architecture
+> considering to use `taipy` instead of streamlit
 
-- agent : agent node 구현, langchain pipeline 생성
-- function : function list 저장 및 객체화
-- graph : 그래프 관련 모듈 (구현되면 추가 부탁)
-- notebook : ipynb
-- outputs : 데이터 저장할 곳  
-- prompt : 프롬프트들 저장.
-- utils : 파일 세이빙 등 유틸
-- main.py  
-- inference.py (vllm 고쳐야함)
+---
 
+## 🏗️ **Project Structure**
+
+Here’s an overview of the project structure:
+
+- **🤖 `agent/`**: Implements agent nodes and builds the LangChain pipeline.
+- **📋 `function/`**: Stores and objectifies the function list.
+- **📊 `graph/`**: (Coming Soon) Graph-related modules for advanced workflows.
+- **📓 `notebook/`**: Jupyter notebooks for analysis and prototyping.
+- **💾 `outputs/`**: Stores output data.
+- **💡 `prompt/`**: Contains prompt templates and configurations.
+- **🛠️ `utils/`**: Utility scripts for file operations and helper functions.
+- **🚦 `main.py`**: The main entry point for the application.
+- **🧠 `inference.py`**: Manages inference logic (needs updates for `vllm` compatibility).
+
+---
+
+## 🤝 **Contributing**
+
+We’re excited to see your contributions! Here’s how you can help:
+- **📊 Graph Modules**: Add graph implementations under `graph/`.
+- **🛠️ Update `inference.py`**: Improve compatibility with the `vllm` library.
+
+---
+
+## 💡 **Final Notes**
+Feel free to modify this project as it evolves. We appreciate your feedback and contributions to make this benchmark even better. 🌟✨

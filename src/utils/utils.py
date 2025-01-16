@@ -167,7 +167,7 @@ def gen_parameter_values(functions, domain, conversation_history=None, prev_func
             result = completion.choices[0].message.content
             break
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1} failed. Retrying...")
+            logger.logger(f"Attempt {attempt + 1} failed in gen_parameter_values. Retrying...")
             attempt += 1
             if attempt == max_retries:
                 raise RuntimeError("Failed to generate valid parameter values after multiple retries.")
@@ -257,7 +257,7 @@ def get_persona_prompts(agent_num, function_dumps_per_dialogue, domain_desc):
             resp = completion.choices[0].message.content
             break
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1} failed. Retrying...")
+            logger.warning(f"Attempt {attempt + 1} failed in get_persona_prompts. Retrying...")
             attempt += 1
             if attempt == max_retries:
                 raise RuntimeError("Failed to generate valid persona prompts after multiple retries.")
@@ -456,13 +456,13 @@ def load_yaml(yaml_path: str) -> dict:
 
     # 이모지 로그
     logger.info(
-        "🔧 Hyperparameters loaded from YAML:\n"
+        "\n🔧 Hyperparameters loaded from YAML:\n"
         f"  - 👥 agents_num: {agents_num}\n"
         f"  - 🔁 rounds_num: {rounds_num}\n"
         f"  - 🌐 domain: {domain}\n"
         f"  - 💾 output_path: {output_path}\n"
         f"  - 🎯 task: {task}\n"
-        f"  - 📊 dataset_num: {dataset_num}"
+        f"  - 📊 dataset_num: {dataset_num}\n"
     )
 
     return agents_num, rounds_num, fewshot, domain, output_path, task, dataset_num

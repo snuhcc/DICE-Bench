@@ -2,17 +2,17 @@
 agent_num: 3
 
 # define tasks: 'single_round', 'multi_round'
-task: "single_round"  # 앵커 정의
+task: "multi_round"  # 앵커 정의
 
 # define round of dialogue (number of function calls)
-rounds_num: 1
+rounds_num: 3
 
 # define dataset domain
 # one of: "Persuassion", "Negotiation", "Inquiry", "Deliberation", "Information-Seeking", "Eristic"
 domain: "Eristic"
 
 # define dataset number
-dataset_num: 1
+dataset_num: 5
 
 # define your desire fewshot prompt or use ""
 fewshot: ""
