@@ -118,6 +118,9 @@ class PromptMaker:
             domain_definition=domain_definition,
             function_dumps_per_dialogue=self.function_dumps_per_dialogue,
         )
+        
+        # print(f'ord(agent_type) - 97: {ord(agent_type) - 97}')
+        # print(f'self.personas: {self.personas}')
         if agent_type == "orch":
             prompt += orchestrator_system_message.format(
                 agents=self.next_agent_list,

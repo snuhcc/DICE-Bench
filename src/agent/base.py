@@ -84,7 +84,7 @@ def make_agent_pipeline(pm):
     cond_dict = {
         '__end__': END
         }
-    llm = ChatOpenAI(model='gpt-4o', temperature=0.5)
+    llm = ChatOpenAI(model='gpt-4o', temperature=0.7)
     
     agent_names = [f'agent_{chr(97+i)}' for i in range(pm.agent_num)]
     for i in range(pm.agent_num):
