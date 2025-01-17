@@ -1,0 +1,6 @@
+data_path: outputs/SM (1).json
+reference_path: outputs/SM (1).json
+valid_types: 
+- graph
+- geval
+valid_output_path: outputs/validation
