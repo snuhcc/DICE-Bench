@@ -3,4 +3,4 @@
 outputs
 pip
 *.pyc
-__pycache__/
+**/__pycache__/
