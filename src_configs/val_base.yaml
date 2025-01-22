@@ -1,6 +1,6 @@
-data_path: outputs/SM (1).json
-reference_path: outputs/SM (1).json
+data_path: outputs/multi_round (1).json
+tool_path: src/graph/tool_graph.json
+
 valid_types: 
-- graph
-- geval
+- Graph
 valid_output_path: outputs/validation
