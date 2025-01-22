@@ -69,6 +69,7 @@ class GraphValidator(BaseValidator):
                 print(e)
                 print(out_i)
             data_i['metadata']['val_functions'] = [fi['function_name'] for fi in out_json]
+            
             data_i['metadata']['val_params_ret_val'] = [
                 {
                     "function": fi['function_name'],
@@ -76,8 +77,8 @@ class GraphValidator(BaseValidator):
                             p['parameter_name']: p['parameter_value']
                         for p in fi['parameters']
                     }
-                }
-                for fi in out_json
+                } 
+                for fi in out_json if 'parameters' in fi 
             ]
             if self.is_exact_match(data_i,i,len(data)):
                 scores.append(1)
@@ -95,7 +96,9 @@ class GraphValidator(BaseValidator):
         if func_match:
             print("Func matched")
         else:
+            print(data_i['metadata']['functions'], data_i['metadata']['val_functions'])
             print("Func unmatched")
+            return 0
         ref_data_val = data_i['metadata']['params_ret_val']
         out_data_val = data_i['metadata']['val_params_ret_val']
         for expected, actual in zip(ref_data_val, out_data_val):
@@ -111,12 +114,11 @@ class GraphValidator(BaseValidator):
             except Exception as e:
                 print("Param name unmatched")
                 print(e)
-                print(actual_params)
+                print(expected_params, actual_params)
                 return 0
             if not all_match:
                 print("Param value unmatched")
-                print(e)
-                print(actual_params)
+                print(expected_params, actual_params)
                 return 0
         print("Param all matched")
         return 1
