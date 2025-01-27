@@ -6,9 +6,9 @@ from langchain_openai import ChatOpenAI
 
 
 # GPT : get new func calls from dialogue, compare orig and new
-class GraphValidator(BaseValidator):
+class EMValidator(BaseValidator):
     def __init__(self, tool_path):
-        self.name = 'Graph'
+        self.name = 'EM'
         self.tool_doc = self.generate_tool_document(tool_path)
         self.valid_prompt = validation_prompt_dict[self.name].format(tool_document=self.tool_doc)
         self.client = ChatOpenAI(model='gpt-4o', temperature=0.2)
@@ -48,7 +48,7 @@ class GraphValidator(BaseValidator):
     def validate(self, data):
         # Do validation calculation
         # return average score for data.
-        print("Validation for Graph Exact Match.")
+        print("Evaluation for Exact Match.")
         scores = []
         for i, data_i in enumerate(data):
             

@@ -1,12 +1,12 @@
 import numpy as np
 import json
-from src.validation.graph import GraphValidator
+from src.validation.EM import EMValidator
 from src.validation.ic import ICValidator
 from src.validation.geval import GEvalValidator
 from src.utils import utils
 
 validator_dict = {
-    "Graph": GraphValidator, "IC": ICValidator, "GEval": GEvalValidator
+    "EM": EMValidator, "IC": ICValidator, "GEval": GEvalValidator
 }
 
 class ValidationSystem:

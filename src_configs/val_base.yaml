@@ -2,5 +2,5 @@ data_path: outputs/multi_round (1).json
 tool_path: src/graph/tool_graph.json
 
 valid_types: 
-- Graph
+- EM
 valid_output_path: outputs/validation
