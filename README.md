@@ -146,7 +146,7 @@ Detailed configs (model path, dataset size, TP degree, etc.) can be edited direc
 
 ---
 
-## 📜 Citation
+## 📜 Citation(TBD)
 
 ```bibtex
 @inproceedings{jang2025dicebench,

@@ -39,6 +39,8 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -250,7 +252,7 @@
               DICE-SCORE quantifies how challenging it is to perform a function call by measuring the dispersion of tool-related information across dialogue turns. Higher scores indicate greater difficulty as critical information becomes more scattered.
             </p>
             <p style="text-align: center; font-size: 1.2em;">
-              <strong>DICE(S,T) = min(|S≠0|,T) · √(|S|·T) / Σ<sub>i∈S</sub>ln(1 + α×S<sub>i</sub>)</strong>
+              $$\text{DICE}(S,T)=\min(|S_{\neq 0}|,T)\cdot\sqrt{|S|\cdot T}\Big/\sum_{i\in S}\ln\left(1+\alpha S_i\right)$$
             </p>
             <p>
               Our experiments show a strong correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
@@ -352,7 +354,7 @@
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
+    <h2 class="title">BibTeX(TBD)</h2>
     <pre><code>@inproceedings{jang2025dicebench,
   title     = {DICE-BENCH: Evaluating the Tool-Use Capabilities of Large Language Models in Multi-Round, Multi-Party Dialogues},
   author    = {Jang, Kyochul and Lee, Donghyeon and Kim, Kyusik and Heo, Dongseok and Lee, Taewhoo and Kim, Woojeong and Suh, Bongwon},
