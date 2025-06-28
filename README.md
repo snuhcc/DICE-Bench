@@ -17,7 +17,7 @@
 
 ### ✨ News (DICE-BENCH)
 
-* **06/28/2025** - Dataset released on [Huggingface](https://huggingface.co/datasets/OfficerChul/DICE-BENCH)!
+* **06/28/2025** - Dataset released on [HuggingFace](https://huggingface.co/datasets/OfficerChul/DICE-BENCH)!
 * **06/25/2025** - Initial public release of **DICE-BENCH** including data generation, scoring utilities, and vLLM inference scripts.
 * **05/16/2025** - Our Paper DICE-BENCH is accepted to [ACL 2025. See you in Vienna, Austria!](https://2025.aclweb.org/)
 
