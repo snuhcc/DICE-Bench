@@ -6,6 +6,8 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/TBD" target="_blank"><img src="https://img.shields.io/badge/arXiv-TBD-red"></a>
+  <a href="https://snuhcc.github.io/DICE-Bench/" target="_blank"><img src="https://img.shields.io/badge/Project-Page-blue"></a>
+
   <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-Space-orange"></a>
   <a href="https://github.com/snuhcc/DICE-Bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
 </p>
