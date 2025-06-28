@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="description"
         content="DICE-BENCH evaluates the tool-use capabilities of large language models in multi-round, multi-party dialogues.">
-  <meta name="keywords" content="DICE-BENCH, LLM, Tool Use, Multi-party Dialogue, Benchmark">
+  <meta name="keywords" content="DICE-BENCH, LLM, Tool Use, Multi-party Dialogue, Benchmark, Function Calling">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DICE-BENCH: Evaluating Tool-Use in Multi-Party Dialogues</title>
 
@@ -32,7 +32,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="icon" href="./static/images/favicon.ico">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -66,6 +66,9 @@
           <a class="navbar-item" href="https://snuhcc.github.io">
             SNU HCC Lab
           </a>
+          <a class="navbar-item" href="https://ipai.snu.ac.kr">
+            IPAI SNU
+          </a>
         </div>
       </div>
     </div>
@@ -84,26 +87,30 @@
             <span class="author-block">
               <a href="https://www.kyochul.com">Kyochul Jang</a><sup>1</sup>,</span>
             <span class="author-block">
-              Donghyeon Lee<sup>1</sup>,</span>
+              Donghyeon Lee<sup>3,4</sup>,</span>
             <span class="author-block">
-              Kyusik Kim<sup>1</sup>,
+              Kyusik Kim<sup>2</sup>,
             </span>
             <span class="author-block">
               Dongseok Heo<sup>1</sup>,
             </span>
             <span class="author-block">
-              Taewhoo Lee<sup>1</sup>,
+              Taewhoo Lee<sup>3,4</sup>,
             </span>
             <span class="author-block">
-              Woojeong Kim<sup>1</sup>,
+              Woojeong Kim<sup>5</sup>,
             </span>
             <span class="author-block">
-              Bongwon Suh<sup>1</sup>
+              Bongwon Suh<sup>1,2</sup>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>Seoul National University</span>
+            <span class="author-block"><sup>1</sup>IPAI, Seoul National University,</span>
+            <span class="author-block"><sup>2</sup>Department of Intelligence and Information, Seoul National University</span><br>
+            <span class="author-block"><sup>3</sup>Korea University,</span>
+            <span class="author-block"><sup>4</sup>AIGEN Sciences,</span>
+            <span class="author-block"><sup>5</sup>Cornell University</span>
           </div>
 
           <div class="column has-text-centered">
@@ -158,9 +165,9 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/banner.png" alt="DICE-BENCH Banner" style="width: 100%;">
+      <img src="./media/banner.png" alt="DICE-BENCH Banner" style="width: 100%;">
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">DICE-BENCH</span> is the first benchmark to evaluate LLMs' ability to use tools in realistic multi-round, multi-party group chat scenarios.
+        <span class="dnerf">DICE-BENCH</span> is the first benchmark to evaluate LLMs' ability to use tools in realistic multi-round, multi-party group chat scenarios where function-related information is dispersed across multiple speakers.
       </h2>
     </div>
   </div>
@@ -172,13 +179,16 @@
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
         <div class="item">
-          <img src="./static/images/pipeline.png" alt="DICE-BENCH Pipeline">
+          <img src="./media/pipeline.png" alt="DICE-BENCH Pipeline">
         </div>
         <div class="item">
-          <img src="./static/images/baseline_comparison.png" alt="Performance Comparison">
+          <img src="./media/baseline_comparison.png" alt="Performance Comparison">
         </div>
         <div class="item">
-          <img src="./static/images/dice_score_visualization.png" alt="DICE-SCORE Visualization">
+          <img src="./media/dialogue_example.png" alt="Dialogue Example">
+        </div>
+        <div class="item">
+          <img src="./media/dice_score_correlation.png" alt="DICE-SCORE Correlation">
         </div>
       </div>
     </div>
@@ -194,20 +204,20 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present <span class="dnerf">DICE-BENCH</span>, a novel benchmark designed to evaluate the tool-use capabilities of Large Language Models (LLMs) in multi-round, multi-party dialogues—a challenging scenario that mirrors real-world group chat environments.
+            Existing function-calling benchmarks focus on single-turn interactions and overlook the complexity of real-world scenarios. To quantify how existing benchmarks address practical applications, we introduce <span class="dnerf">DICE-SCORE</span>, a metric that evaluates the dispersion of tool-related information such as function name and parameter values throughout the dialogue.
           </p>
           <p>
-            Our benchmark synthesizes realistic group conversations with 2-4 participants across 4 rounds, creating complex scenarios where tool-calling cues are dispersed throughout the dialogue. We introduce <span class="dnerf">DICE-SCORE</span>, a metric that quantifies dialogue difficulty by measuring the dispersion of tool-related information, with higher scores indicating more challenging inputs.
+            Analyzing existing benchmarks through DICE-SCORE reveals notably low scores, highlighting the need for more realistic scenarios. To address this gap, we present <span class="dnerf">DICE-BENCH</span>, a framework that constructs practical function-calling datasets by synthesizing conversations through a tool graph that maintains dependencies across rounds and a multi-agent system with distinct personas to enhance dialogue naturalness.
           </p>
           <p>
-            Our evaluation reveals that even state-of-the-art models like GPT-4o achieve only 64% exact match accuracy on average, with performance degrading as the number of rounds or participants increases. This highlights a significant gap in current LLMs' ability to handle complex, multi-party tool-use scenarios. As the first benchmark to combine multi-round multi-party dialogue with inter-tool dependencies, DICE-BENCH provides a comprehensive evaluation framework with fully open code, data, and pipeline.
+            The final dataset comprises 1,607 high-DICE-SCORE instances. Our experiments on 19 LLMs with DICE-BENCH show that significant advances are still required before such models can be deployed effectively in real-world settings. Even GPT-4o achieves only 64% exact match accuracy on average, with performance degrading as the number of rounds or participants increases.
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
 
-    <!-- Paper video. -->
+    <!-- Key Results. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Key Results</h2>
@@ -218,16 +228,20 @@
           </div>
           <div class="column">
             <h3 class="title is-2">1,607</h3>
-            <p>Dialogues in Dataset</p>
+            <p>High-Quality Dialogues</p>
           </div>
           <div class="column">
             <h3 class="title is-2">124</h3>
             <p>Distinct Tools</p>
           </div>
+          <div class="column">
+            <h3 class="title is-2">19</h3>
+            <p>LLMs Evaluated</p>
+          </div>
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
+    <!--/ Key Results. -->
   </div>
 </section>
 
@@ -237,17 +251,17 @@
 
     <div class="columns is-centered">
 
-      <!-- Method Overview. -->
+      <!-- Data Generation Pipeline. -->
       <div class="column">
         <div class="content">
-          <h2 class="title is-3">Method Overview</h2>
+          <h2 class="title is-3">Data Generation Pipeline</h2>
           <p>
-            DICE-BENCH synthesizes realistic group chat scenarios with natural turn-taking and context-dependent tool requirements. Our data generation pipeline creates authentic multi-party conversations where tool-calling cues are naturally dispersed throughout the dialogue.
+            DICE-BENCH employs a three-stage pipeline: (1) Tool Graph Construction to model inter-tool dependencies, (2) Scenario Configuration to set dialogue parameters and personas, and (3) Dialogue Simulation using multi-agent systems to generate realistic conversations.
           </p>
-          <img src="./static/images/pipeline.png" alt="DICE-BENCH Pipeline" style="width: 100%;">
+          <img src="./media/pipeline.png" alt="DICE-BENCH Pipeline" style="width: 100%;">
         </div>
       </div>
-      <!--/ Method Overview. -->
+      <!--/ Data Generation Pipeline. -->
 
       <!-- DICE-SCORE. -->
       <div class="column">
@@ -255,9 +269,14 @@
         <div class="columns is-centered">
           <div class="column content">
             <p>
-              We introduce DICE-SCORE, a novel metric that quantifies input difficulty by measuring how tool-related information is dispersed throughout the dialogue. Higher scores indicate more challenging scenarios where models must maintain context across multiple rounds and participants.
+              DICE-SCORE quantifies how challenging it is to perform a function call by measuring the dispersion of tool-related information across dialogue turns. Higher scores indicate greater difficulty as critical information becomes more scattered.
             </p>
-            <img src="./static/images/dice_score_formula.png" alt="DICE-SCORE Formula" style="width: 100%;">
+            <p style="text-align: center; font-size: 1.2em;">
+              <strong>DICE(S,T) = min(|S≠0|,T) · √(|S|·T) / Σ<sub>i∈S</sub>ln(1 + α×S<sub>i</sub>)</strong>
+            </p>
+            <p>
+              Our experiments show a strong negative correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
+            </p>
           </div>
 
         </div>
@@ -270,68 +289,155 @@
       <div class="column is-full-width">
         <h2 class="title is-3">Performance Analysis</h2>
 
-        <!-- Baseline Comparison. -->
+        <!-- Model Comparison. -->
         <h3 class="title is-4">Model Performance Across Rounds</h3>
         <div class="content has-text-justified">
           <p>
-            Our evaluation shows consistent performance degradation as dialogue complexity increases. All models struggle particularly with 4-round, 4-party scenarios, highlighting the challenge of maintaining context and extracting tool-use requirements from complex multi-party interactions.
+            Our evaluation of 19 state-of-the-art LLMs reveals consistent performance degradation as dialogue complexity increases. The drop from Round 1 to Round 4 is particularly striking, with most models losing 15-20% accuracy. This decline correlates strongly with increasing DICE-SCORE values, confirming that information dispersion is a key challenge.
           </p>
         </div>
         <div class="content has-text-centered">
-          <img src="./static/images/baseline_comparison.png" alt="Performance Comparison" style="width: 75%;">
+          <img src="./media/baseline_comparison.png" alt="Performance Comparison" style="width: 85%;">
         </div>
-        <!--/ Baseline Comparison. -->
+        <!--/ Model Comparison. -->
 
-        <!-- Inter-tool Dependencies. -->
-        <h3 class="title is-4">Inter-tool Dependencies</h3>
+        <!-- Tool Graph. -->
+        <h3 class="title is-4">Tool Graph Structure</h3>
         <div class="content has-text-justified">
           <p>
-            DICE-BENCH includes complex scenarios requiring multiple tools with dependencies, testing LLMs' ability to understand and execute multi-step tool chains. This reflects real-world scenarios where tools must be called in specific sequences with outputs feeding into subsequent calls.
+            Our Tool Graph consists of 124 nodes and 270 edges with a density of 0.0177 and average out-degree of 2.18. This sparse structure prevents any single function from dominating while offering diverse pathways for multi-turn dialogue generation. The graph captures realistic dependencies between tools, such as weather checks before travel bookings.
           </p>
         </div>
         <div class="content has-text-centered">
-          <img src="./static/images/tool_graph.png" alt="Tool Dependency Graph" style="width: 75%;">
+          <img src="./media/tool_graph.png" alt="Tool Dependency Graph" style="width: 75%;">
         </div>
-        <!--/ Inter-tool Dependencies. -->
+        <!--/ Tool Graph. -->
 
       </div>
     </div>
     <!--/ Performance Analysis. -->
 
 
-    <!-- Dataset Statistics. -->
+    <!-- Validation Pipeline. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Dataset Statistics</h2>
+        <h2 class="title is-3">Rigorous Validation Pipeline</h2>
 
         <div class="content has-text-justified">
           <p>
-            DICE-BENCH contains 1,607 carefully curated dialogues across various domains, with balanced distribution across different numbers of participants and rounds. Each dialogue is annotated with ground-truth tool calls and DICE-SCORE values.
+            We employ a comprehensive three-stage filtering process to ensure high-quality data:
           </p>
           <div class="columns">
             <div class="column">
-              <h4>Dialogue Distribution</h4>
-              <ul>
-                <li>2 participants: 402 dialogues</li>
-                <li>3 participants: 603 dialogues</li>
-                <li>4 participants: 602 dialogues</li>
-              </ul>
+              <h4><strong>Stage 1: Automatic Evaluation</strong></h4>
+              <p>Using G-Eval with GPT-4o to assess six criteria: Coherence, Consistency, Fluency, Human-likeness, Persona Consistency, and Relevance. Dialogues scoring below 4.0 average are removed.</p>
             </div>
             <div class="column">
-              <h4>Domain Coverage</h4>
-              <ul>
-                <li>General conversation: 35%</li>
-                <li>Technical support: 25%</li>
-                <li>Collaborative planning: 20%</li>
-                <li>Information seeking: 20%</li>
-              </ul>
+              <h4><strong>Stage 2: Rule-Based Filtering</strong></h4>
+              <p>Removing dialogues with GPT refusals or lacking explicit AI/Assistant addressing. Authors manually review ambiguous cases.</p>
+            </div>
+            <div class="column">
+              <h4><strong>Stage 3: Human Validation</strong></h4>
+              <p>Expert evaluation across 15 sub-criteria covering Conversation Quality, Functional Integration, and Real-World Applicability. Only dialogues scoring 10+/15 are retained.</p>
+            </div>
+          </div>
+          <p>
+            This rigorous process filtered out 193 dialogues from the initial 1,800, resulting in 1,607 high-quality instances.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Validation Pipeline. -->
+
+  </div>
+</section>
+
+
+<section class="section" style="background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <!-- Dataset Statistics. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Dataset Characteristics</h2>
+        
+        <div class="content">
+          <h3 class="title is-4">Dialogue Types</h3>
+          <p>
+            DICE-BENCH includes three dialogue types based on Walton and Krabbe's taxonomy:
+          </p>
+          <ul>
+            <li><strong>Persuasion, Deliberation & Negotiation:</strong> Resolving conflicts through reason-based proposals and trade-offs</li>
+            <li><strong>Inquiry & Information Seeking:</strong> Exploring unknowns and filling knowledge gaps through structured exchanges</li>
+            <li><strong>Eristic:</strong> Antagonistic debates focusing on winning arguments rather than seeking truth</li>
+          </ul>
+
+          <h3 class="title is-4">Key Statistics</h3>
+          <div class="columns">
+            <div class="column">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Round</th>
+                    <th>Count</th>
+                    <th>DICE-SCORE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>425</td>
+                    <td>1.42</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>418</td>
+                    <td>3.25</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>399</td>
+                    <td>4.55</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>365</td>
+                    <td>5.36</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="column">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Configuration</th>
+                    <th>Distribution</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2 Participants</td>
+                    <td>35.4%</td>
+                  </tr>
+                  <tr>
+                    <td>3 Participants</td>
+                    <td>32.3%</td>
+                  </tr>
+                  <tr>
+                    <td>4 Participants</td>
+                    <td>32.3%</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: center;"><em>Balanced across all dialogue types</em></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!--/ Dataset Statistics. -->
-
   </div>
 </section>
 
