@@ -252,7 +252,7 @@
               DICE-SCORE quantifies how challenging it is to perform a function call by measuring the dispersion of tool-related information across dialogue turns. Higher scores indicate greater difficulty as critical information becomes more scattered.
             </p>
             <p style="text-align: center; font-size: 1.2em;">
-              $$\text{DICE}(S,T)=\min(|S_{\neq 0}|,T)\cdot\sqrt{|S|\cdot T}\Big/\sum_{i\in S}\ln\left(1+\alpha S_i\right)$$
+              $$\text{DICE}(S,T)=\frac{\min(|S_{\neq 0}|,T)\cdot\sqrt{|S|\cdot T}}{\sum_{i\in S}\ln\left(1+\alpha S_i\right)}$$
             </p>
             <p>
               Our experiments show a strong correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
