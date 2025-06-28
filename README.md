@@ -11,7 +11,7 @@
   <a href="https://github.com/snuhcc/DICE-Bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
 </p>
 
-> **TBD**: Add paper
+> **TBD**: Add paper, Add arXiv, Chang Citation
 
 ---
 
