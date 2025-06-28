@@ -133,12 +133,6 @@ cd scripts
 
 Results will appear in `outputs/inf_vllm/<model_name>/`.
 
-### 4. Compute DICE Score *(TBD)*
-
-```bash
-uv run python -m src.get_dice_score --pred_dir outputs/inf_vllm/<model> --gold_dir data
-```
-
 ---
 
 ## 🔄 Experiment Steps
