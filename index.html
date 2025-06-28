@@ -185,9 +185,6 @@
           <img src="./media/baseline_comparison.png" alt="Performance Comparison">
         </div>
         <div class="item">
-          <img src="./media/multi_round.png" alt="Multi-round Dialogue Example">
-        </div>
-        <div class="item">
           <img src="./media/dice_band.png" alt="DICE-band">
         </div>
         <div class="item">
@@ -256,7 +253,7 @@
               <strong>DICE(S,T) = min(|S≠0|,T) · √(|S|·T) / Σ<sub>i∈S</sub>ln(1 + α×S<sub>i</sub>)</strong>
             </p>
             <p>
-              Our experiments show a strong negative correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
+              Our experiments show a strong correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
             </p>
           </div>
 
@@ -265,38 +262,6 @@
     </div>
     <!--/ DICE-SCORE. -->
 
-    <!-- Performance Analysis. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Performance Analysis</h2>
-
-        <!-- Model Comparison. -->
-        <h3 class="title is-4">Model Performance Across Rounds</h3>
-        <div class="content has-text-justified">
-          <p>
-            Our evaluation of 19 state-of-the-art LLMs reveals consistent performance degradation as dialogue complexity increases. The drop from Round 1 to Round 4 is particularly striking, with most models losing 15-20% accuracy. This decline correlates strongly with increasing DICE-SCORE values, confirming that information dispersion is a key challenge.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <img src="./media/baseline_comparison.png" alt="Performance Comparison" style="width: 85%;">
-        </div>
-        <!--/ Model Comparison. -->
-
-        <!-- Tool Graph. -->
-        <h3 class="title is-4">Tool Graph Structure</h3>
-        <div class="content has-text-justified">
-          <p>
-            Our Tool Graph consists of 124 nodes and 270 edges with a density of 0.0177 and average out-degree of 2.18. This sparse structure prevents any single function from dominating while offering diverse pathways for multi-turn dialogue generation. The graph captures realistic dependencies between tools, such as weather checks before travel bookings.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <img src="./media/tool_graph.png" alt="Tool Dependency Graph" style="width: 75%;">
-        </div>
-        <!--/ Tool Graph. -->
-
-      </div>
-    </div>
-    <!--/ Performance Analysis. -->
 
 
     <!-- Validation Pipeline. -->
@@ -336,89 +301,51 @@
 
 <section class="section" style="background-color: #f5f5f5;">
   <div class="container is-max-desktop">
-    <!-- Dataset Statistics. -->
+    <!-- Dataset Format. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Dataset Characteristics</h2>
-        
+        <h2 class="title is-3">Dataset Format</h2>
         <div class="content">
-          <h3 class="title is-4">Dialogue Types</h3>
-          <p>
-            DICE-BENCH includes three dialogue types based on Walton and Krabbe's taxonomy:
-          </p>
-          <ul>
-            <li><strong>Persuasion, Deliberation & Negotiation:</strong> Resolving conflicts through reason-based proposals and trade-offs</li>
-            <li><strong>Inquiry & Information Seeking:</strong> Exploring unknowns and filling knowledge gaps through structured exchanges</li>
-            <li><strong>Eristic:</strong> Antagonistic debates focusing on winning arguments rather than seeking truth</li>
-          </ul>
-
-          <h3 class="title is-4">Key Statistics</h3>
-          <div class="columns">
-            <div class="column">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Round</th>
-                    <th>Count</th>
-                    <th>DICE-SCORE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>425</td>
-                    <td>1.42</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>418</td>
-                    <td>3.25</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>399</td>
-                    <td>4.55</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>365</td>
-                    <td>5.36</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="column">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Configuration</th>
-                    <th>Distribution</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>2 Participants</td>
-                    <td>35.4%</td>
-                  </tr>
-                  <tr>
-                    <td>3 Participants</td>
-                    <td>32.3%</td>
-                  </tr>
-                  <tr>
-                    <td>4 Participants</td>
-                    <td>32.3%</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" style="text-align: center;"><em>Balanced across all dialogue types</em></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <p>The JSON below illustrates <strong>one dialogue instance</strong> in DICE-BENCH.</p>
+<pre><code>{
+ "diag_id": 1,
+ "metadata": {
+   "diag_id": 1,
+   "user_personas": {
+     "agent_a": "Marketing specialist with optimistic personality",
+     "agent_b": "Skeptical engineer who prefers concise answers"
+   },
+   "functions": ["find_restaurant", "book_hotel", ...],
+   "params_ret_val": [
+     {
+       "function": "find_restaurant",
+       "parameters": {
+         "location": "San Francisco",
+         "cuisine": "Thai"
+       },
+       "domain": "Inquiry_and_Information_Seeking",
+       "return_value": {
+         "restaurant_name": "Thai Palace"
+       },
+       "returned_nl": "I found a great Thai place called Thai Palace in San Francisco!"
+     }
+   ],
+   "category": "Inquiry_and_Information_Seeking",
+   "task": "multi_round",
+   "round_num": 2,
+   "agent_num": 2
+ },
+ "conversation": [
+   {"role": "user", "content": "Any good Thai food nearby?"},
+   {"role": "assistant", "content": "Sure, let me look that up for you."},
+   ...
+ ]
+}</code></pre>
+          <p>See the <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH" target="_blank">dataset card</a> for the complete schema description.</p>
         </div>
       </div>
     </div>
-    <!--/ Dataset Statistics. -->
+    <!--/ Dataset Format. -->
   </div>
 </section>
 
@@ -454,16 +381,7 @@
       <div class="column is-8">
         <div class="content">
           <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
+            Page template from <a href="https://github.com/nerfies/nerfies.github.io">NERFies</a>.
           </p>
         </div>
       </div>
