@@ -6,17 +6,17 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/TBD" target="_blank"><img src="https://img.shields.io/badge/arXiv-TBD-red"></a>
-  <a href="https://dice-bench.github.io/" target="_blank"><img src="https://img.shields.io/badge/Project-Page-blue"></a>
-  <a href="https://huggingface.co/spaces/TBD" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-Space-orange"></a>
-  <a href="https://github.com/your-org/dice-bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
+  <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-Space-orange"></a>
+  <a href="https://github.com/snuhcc/DICE-Bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
 </p>
 
-> **TBD**: Add paper / demo links once public
+> **TBD**: Add paper
 
 ---
 
 ### ✨ News (DICE-BENCH)
 
+* **06/28/2025** - Dataset released on [Huggingface](https://huggingface.co/datasets/OfficerChul/DICE-BENCH)!
 * **06/25/2025** - Initial public release of **DICE-BENCH** including data generation, scoring utilities, and vLLM inference scripts.
 * **05/16/2025** - Our Paper DICE-BENCH is accepted to [ACL 2025. See you in Vienna, Austria!](https://2025.aclweb.org/)
 
