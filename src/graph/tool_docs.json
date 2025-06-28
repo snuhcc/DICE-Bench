@@ -1,0 +1,2623 @@
+{
+  "functions": [
+      {
+          "function": "get_weather",
+          "desc": "Retrieve weather information for a specific location and date.",
+          "parameters": [
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "The city or region to get the weather information for (e.g. 'New York')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date in MM-DD format (e.g. '04-15')."
+              }
+          ],
+          "return": {
+              "weather": "string"
+          }
+      },
+      {
+          "function": "get_news_for_topic",
+          "desc": "Fetch news headlines related to a given topic.",
+          "parameters": [
+              {
+                  "name": "topic",
+                  "type": "string",
+                  "desc": "A keyword or topic to search news for (e.g. 'technology')."
+              }
+          ],
+          "return": {
+              "news_headlines": "string"
+          }
+      },
+      {
+          "function": "get_crypto_price",
+          "desc": "Retrieve the price of a specific cryptocurrency on a specific date.",
+          "parameters": [
+              {
+                  "name": "currency",
+                  "type": "string",
+                  "desc": "Name of the cryptocurrency (e.g. 'bitcoin')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date in MM-DD format (e.g. '06-20') for which you want the price."
+              }
+          ],
+          "return": {
+              "price": "number"
+          }
+      },
+      {
+          "function": "get_stock_price",
+          "desc": "Retrieve the current price of a specific stock.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "Stock symbol or name (e.g. 'AAPL')."
+              }
+          ],
+          "return": {
+              "price": "number"
+          }
+      },
+      {
+          "function": "buy_stock",
+          "desc": "Buy shares of a specific stock.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "Stock symbol or name (e.g. 'AAPL') to buy."
+              },
+              {
+                  "name": "shares",
+                  "type": "number",
+                  "desc": "Number of shares you want to purchase (e.g. 10)."
+              }
+          ],
+          "return": {
+              "stock_name": "string",
+              "shares_bought": "number"
+          }
+      },
+      {
+          "function": "sell_stock",
+          "desc": "Sell shares of a specific stock.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "Stock symbol or name (e.g. 'AAPL') to sell."
+              },
+              {
+                  "name": "shares",
+                  "type": "number",
+                  "desc": "Number of shares you want to sell (e.g. 5)."
+              }
+          ],
+          "return": {
+              "stock_name": "string",
+              "shares_sold": "number"
+          }
+      },
+      {
+          "function": "book_flight",
+          "desc": "Book a flight from a location to a destination on a specific date.",
+          "parameters": [
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Flight departure date in MM-DD format (e.g. '09-15')."
+              },
+              {
+                  "name": "from",
+                  "type": "string",
+                  "desc": "Departure airport or city (e.g. 'JFK')."
+              },
+              {
+                  "name": "to",
+                  "type": "string",
+                  "desc": "Arrival airport or city (e.g. 'LAX')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Departure time in HH:MM 24-hour format (e.g. '09:30')."
+              }
+          ],
+          "return": {
+              "flight_number": "string",
+              "departure_date": "string",
+              "departure_time": "string",
+              "from": "string",
+              "to": "string",
+              "reservation_id": "string"
+          }
+      },
+      {
+          "function": "check_flight_status",
+          "desc": "Check the real-time status of a flight.",
+          "parameters": [
+              {
+                  "name": "flight_number",
+                  "type": "string",
+                  "desc": "Flight number (e.g. 'AA100') to check status for."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date in MM-DD format (e.g. '09-15') of the flight."
+              }
+          ],
+          "return": {
+              "flight_status": "string"
+          }
+      },
+      {
+          "function": "find_hotel",
+          "desc": "Find a hotel in a specific location with a specified check-in date.",
+          "parameters": [
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or region to search for hotels (e.g. 'Las Vegas')."
+              },
+              {
+                  "name": "check_in",
+                  "type": "string",
+                  "desc": "Check-in date in MM-DD format (e.g. '10-05')."
+              }
+          ],
+          "return": {
+              "hotel_name": "string"
+          }
+      },
+      {
+          "function": "book_hotel",
+          "desc": "Book a specific hotel on a given date and location.",
+          "parameters": [
+              {
+                  "name": "hotel_name",
+                  "type": "string",
+                  "desc": "Name of the hotel to book (e.g. 'Grand Hyatt')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or region of the hotel (e.g. 'Las Vegas')."
+              },
+              {
+                  "name": "check_in_date",
+                  "type": "string",
+                  "desc": "Check-in date in MM-DD format (e.g. '10-05')."
+              },
+              {
+                  "name": "check_in_time",
+                  "type": "string",
+                  "desc": "Approximate check-in time (HH:MM, 24-hour) (e.g. '15:00')."
+              }
+          ],
+          "return": {
+              "hotel_name": "string",
+              "location": "string",
+              "check_in_date": "string",
+              "check_in_time": "string",
+              "reservation_id": "string"
+          }
+      },
+      {
+          "function": "find_restaurants",
+          "desc": "Find restaurants based on cuisine type and location.",
+          "parameters": [
+              {
+                  "name": "cuisine",
+                  "type": "string",
+                  "desc": "Type of cuisine (e.g. 'Italian')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or area to search for restaurants (e.g. 'San Francisco')."
+              }
+          ],
+          "return": {
+              "restaurant_name": "string"
+          }
+      },
+      {
+          "function": "book_restaurant",
+          "desc": "Book a table at a specific restaurant on a certain date/time.",
+          "parameters": [
+              {
+                  "name": "restaurant_name",
+                  "type": "string",
+                  "desc": "Name of the restaurant to reserve a table at (e.g. 'Olive Garden')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date for the reservation in MM-DD format (e.g. '03-10')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Time for the reservation in HH:MM (24-hour) format (e.g. '19:00')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Restaurant's location or address (e.g. '123 Main St')."
+              }
+          ],
+          "return": {
+              "restaurant_name": "string",
+              "reservation_date": "string",
+              "reservation_time": "string",
+              "location": "string",
+              "booking_id": "string"
+          }
+      },
+      {
+          "function": "order_food_dinein",
+          "desc": "Place a dine-in order for a specific menu item at a restaurant.",
+          "parameters": [
+              {
+                  "name": "restaurant_name",
+                  "type": "string",
+                  "desc": "Name of the restaurant where you want to dine in."
+              },
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Menu item to order (e.g. 'Margherita Pizza')."
+              }
+          ],
+          "return": {
+              "order_status": "string"
+          }
+      },
+      {
+          "function": "order_food_delivery",
+          "desc": "Order a specific food item for delivery to a location via a chosen platform.",
+          "parameters": [
+              {
+                  "name": "food",
+                  "type": "string",
+                  "desc": "Name of the food item to order (e.g. 'Pepperoni Pizza')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Delivery address (e.g. '123 Main St')."
+              },
+              {
+                  "name": "platform",
+                  "type": "string",
+                  "desc": "Delivery service platform (e.g. 'Uber Eats')."
+              }
+          ],
+          "return": {
+              "order_details": "string"
+          }
+      },
+      {
+          "function": "find_car",
+          "desc": "Search for available rental cars on a given date and location.",
+          "parameters": [
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Pickup date in MM-DD format (e.g. '07-01')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or location to pick up the rental car (e.g. 'Miami')."
+              }
+          ],
+          "return": {
+              "car_name": "string"
+          }
+      },
+      {
+          "function": "book_car",
+          "desc": "Book a car rental for a specified date, time, and location.",
+          "parameters": [
+              {
+                  "name": "car_name",
+                  "type": "string",
+                  "desc": "Name or model of the car to rent (e.g. 'Toyota Camry')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or location to pick up the rental car (e.g. 'Miami')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Pickup date in MM-DD format (e.g. '07-02')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Pickup time in HH:MM (24-hour) format (e.g. '10:30')."
+              }
+          ],
+          "return": {
+              "car_name": "string",
+              "location": "string",
+              "date": "string",
+              "time": "string",
+              "reservation_id": "string"
+          }
+      },
+      {
+          "function": "order_taxi",
+          "desc": "Order a taxi to a location using a specified platform.",
+          "parameters": [
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Pickup address or location (e.g. '55 5th Ave')."
+              },
+              {
+                  "name": "platform",
+                  "type": "string",
+                  "desc": "Taxi service platform (e.g. 'Uber')."
+              },
+              {
+                  "name": "destination",
+                  "type": "string",
+                  "desc": "Drop-off location or address (e.g. 'Central Park')."
+              }
+          ],
+          "return": {
+              "ride_details": "string"
+          }
+      },
+      {
+          "function": "check_balance",
+          "desc": "Check account balance for a given bank, account type, and currency.",
+          "parameters": [
+              {
+                  "name": "bank",
+                  "type": "string",
+                  "desc": "Name of the bank (e.g. 'Chase')."
+              },
+              {
+                  "name": "account_type",
+                  "type": "string",
+                  "desc": "Account type (e.g. 'savings', 'checking')."
+              },
+              {
+                  "name": "currency",
+                  "type": "string",
+                  "desc": "Currency code (e.g. 'USD')."
+              }
+          ],
+          "return": {
+              "account_balance": "number"
+          }
+      },
+      {
+          "function": "withdraw_cash",
+          "desc": "Withdraw a specific amount of cash from a bank in a certain currency.",
+          "parameters": [
+              {
+                  "name": "bank",
+                  "type": "string",
+                  "desc": "Name of the bank to withdraw from (e.g. 'Chase')."
+              },
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "Amount of money to withdraw (e.g. 200)."
+              },
+              {
+                  "name": "currency",
+                  "type": "string",
+                  "desc": "Currency code (e.g. 'USD')."
+              }
+          ],
+          "return": {
+              "transaction_status": "string"
+          }
+      },
+      {
+          "function": "pay_for_credit_card",
+          "desc": "Pay the balance for a given credit card.",
+          "parameters": [
+              {
+                  "name": "credit_card",
+                  "type": "string",
+                  "desc": "Credit card identifier (e.g. last 4 digits)."
+              }
+          ],
+          "return": {
+              "payment_status": "string"
+          }
+      },
+      {
+          "function": "shop_online",
+          "desc": "Purchase a product from an online shopping platform.",
+          "parameters": [
+              {
+                  "name": "website",
+                  "type": "string",
+                  "desc": "Website or marketplace to buy from (e.g. 'Amazon')."
+              },
+              {
+                  "name": "product",
+                  "type": "string",
+                  "desc": "Name or description of the product (e.g. 'wireless mouse')."
+              }
+          ],
+          "return": {
+              "order_details": "string"
+          }
+      },
+      {
+          "function": "sell_item_online",
+          "desc": "List an item for sale at an online marketplace.",
+          "parameters": [
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Name/description of the item to sell (e.g. 'used iPhone X')."
+              },
+              {
+                  "name": "store",
+                  "type": "string",
+                  "desc": "Online marketplace (e.g. 'Ebay')."
+              },
+              {
+                  "name": "price",
+                  "type": "number",
+                  "desc": "Price for which the item will be sold."
+              }
+          ],
+          "return": {
+              "sold_item": "string"
+          }
+      },
+      {
+          "function": "send_email",
+          "desc": "Send an email to a specified address.",
+          "parameters": [
+              {
+                  "name": "email_address",
+                  "type": "string",
+                  "desc": "Recipient's email address (e.g. 'john@example.com')."
+              },
+              {
+                  "name": "content",
+                  "type": "string",
+                  "desc": "Body text of the email."
+              }
+          ],
+          "return": {
+              "email_status": "string"
+          }
+      },
+      {
+          "function": "send_sms",
+          "desc": "Send an SMS message to a given phone number.",
+          "parameters": [
+              {
+                  "name": "phone_number",
+                  "type": "string",
+                  "desc": "Destination phone number (e.g. '+1 555-1234')."
+              },
+              {
+                  "name": "content",
+                  "type": "string",
+                  "desc": "Text content of the SMS message."
+              }
+          ],
+          "return": {
+              "sms_status": "string"
+          }
+      },
+      {
+          "function": "share_by_social_network",
+          "desc": "Share content via a specific social network.",
+          "parameters": [
+              {
+                  "name": "content",
+                  "type": "string",
+                  "desc": "Text or link to share."
+              },
+              {
+                  "name": "social_network",
+                  "type": "string",
+                  "desc": "Name of the social platform (e.g. 'Facebook')."
+              }
+          ],
+          "return": {
+              "share_status": "string"
+          }
+      },
+      {
+          "function": "search_by_engine",
+          "desc": "Search a query on a chosen search engine.",
+          "parameters": [
+              {
+                  "name": "query",
+                  "type": "string",
+                  "desc": "Search keywords (e.g. 'best restaurants in NYC')."
+              },
+              {
+                  "name": "engine",
+                  "type": "string",
+                  "desc": "Search engine to use (e.g. 'Google')."
+              }
+          ],
+          "return": {
+              "search_results": "string"
+          }
+      },
+      {
+          "function": "schedule_appointment",
+          "desc": "Schedule an appointment for a service at a date/time/location.",
+          "parameters": [
+              {
+                  "name": "service",
+                  "type": "string",
+                  "desc": "Type of service (e.g. 'dentist')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date of the appointment in MM-DD format (e.g. '08-23')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Time of the appointment in HH:MM (24-hour) format (e.g. '14:30')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Physical location or address for the appointment (e.g. '123 Dental St.')."
+              }
+          ],
+          "return": {
+              "service": "string",
+              "date": "string",
+              "time": "string",
+              "location": "string",
+              "appointment_id": "string"
+          }
+      },
+      {
+          "function": "make_video_call",
+          "desc": "Start a video call to a given phone number.",
+          "parameters": [
+              {
+                  "name": "phone_number",
+                  "type": "string",
+                  "desc": "Recipient's phone number for the video call (e.g. '+1 555-1234')."
+              }
+          ],
+          "return": {
+              "call_status": "string"
+          }
+      },
+      {
+          "function": "organize_meeting_online",
+          "desc": "Organize an online meeting about a given topic.",
+          "parameters": [
+              {
+                  "name": "topic",
+                  "type": "string",
+                  "desc": "Subject or agenda of the online meeting (e.g. 'Project Kickoff')."
+              },
+              {
+                  "name": "meeting_time",
+                  "type": "string",
+                  "desc": "Scheduled time for the meeting in HH:MM (24-hour) format (e.g. '10:00')."
+              }
+          ],
+          "return": {
+              "topic": "string",
+              "meeting_time": "string",
+              "meeting_status": "string"
+          }
+      },
+      {
+          "function": "deliver_package",
+          "desc": "Deliver a package to a given destination.",
+          "parameters": [
+              {
+                  "name": "package",
+                  "type": "string",
+                  "desc": "Description or ID of the package (e.g. 'Order #12345')."
+              },
+              {
+                  "name": "destination",
+                  "type": "string",
+                  "desc": "Address or location to deliver the package (e.g. '456 Market St.')."
+              }
+          ],
+          "return": {
+              "delivery_status": "string"
+          }
+      },
+      {
+          "function": "connect_bluetooth_device",
+          "desc": "Set up a Bluetooth connection with a specific device.",
+          "parameters": [
+              {
+                  "name": "device_name",
+                  "type": "string",
+                  "desc": "Bluetooth device name or ID (e.g. 'JBL Speaker')."
+              }
+          ],
+          "return": {
+              "connection_status": "string"
+          }
+      },
+      {
+          "function": "play_music",
+          "desc": "Play a specific piece of music, optionally via a Bluetooth device.",
+          "parameters": [
+              {
+                  "name": "music_name",
+                  "type": "string",
+                  "desc": "Title of the music to play (e.g. 'Shape of You')."
+              },
+              {
+                  "name": "device_name",
+                  "type": "string",
+                  "desc": "Bluetooth device name if playback should happen on a paired device (optional)."
+              }
+          ],
+          "return": {
+              "play_status": "string"
+          }
+      },
+      {
+          "function": "play_music_by_artist_and_genre",
+          "desc": "Play music matching a given artist and genre.",
+          "parameters": [
+              {
+                  "name": "genre",
+                  "type": "string",
+                  "desc": "Genre of music (e.g. 'pop')."
+              },
+              {
+                  "name": "artist",
+                  "type": "string",
+                  "desc": "Name of the artist (e.g. 'Taylor Swift')."
+              }
+          ],
+          "return": {
+              "music_status": "string"
+          }
+      },
+      {
+          "function": "play_music_by_title",
+          "desc": "Play a specific music track by its title.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Exact title of the song (e.g. 'Bohemian Rhapsody')."
+              }
+          ],
+          "return": {
+              "music_status": "string"
+          }
+      },
+      {
+          "function": "get_music_recommendation",
+          "desc": "Get music recommendations based on genre, mood, or artist.",
+          "parameters": [
+              {
+                  "name": "genre",
+                  "type": "string",
+                  "desc": "Music genre preference (e.g. 'R&B')."
+              },
+              {
+                  "name": "mood",
+                  "type": "string",
+                  "desc": "Mood or vibe (e.g. 'chill')."
+              },
+              {
+                  "name": "artist",
+                  "type": "string",
+                  "desc": "Optional artist to base recommendations on (e.g. 'Ed Sheeran')."
+              }
+          ],
+          "return": {
+              "recommended_tracks": "string"
+          }
+      },
+      {
+          "function": "get_movie_recommendation",
+          "desc": "Get movie recommendations based on genre, mood, or actor.",
+          "parameters": [
+              {
+                  "name": "genre",
+                  "type": "string",
+                  "desc": "Movie genre (e.g. 'action', 'comedy')."
+              },
+              {
+                  "name": "mood",
+                  "type": "string",
+                  "desc": "Movie mood (e.g. 'romantic')."
+              },
+              {
+                  "name": "actor",
+                  "type": "string",
+                  "desc": "Optional actor name to base recommendations on (e.g. 'Tom Hanks')."
+              }
+          ],
+          "return": {
+              "recommended_movie": "string"
+          }
+      },
+      {
+          "function": "play_movie",
+          "desc": "Play a movie by title.",
+          "parameters": [
+              {
+                  "name": "movie_title",
+                  "type": "string",
+                  "desc": "Exact title of the movie (e.g. 'Inception')."
+              }
+          ],
+          "return": {
+              "movie_status": "string"
+          }
+      },
+      {
+          "function": "take_note",
+          "desc": "Create or append a note with the given content.",
+          "parameters": [
+              {
+                  "name": "content",
+                  "type": "string",
+                  "desc": "Text content to save in the note."
+              }
+          ],
+          "return": {
+              "note_status": "string"
+          }
+      },
+      {
+          "function": "borrow_book_online",
+          "desc": "Borrow a specific book from an online library.",
+          "parameters": [
+              {
+                  "name": "book",
+                  "type": "string",
+                  "desc": "Title or ID of the book to borrow (e.g. 'Harry Potter')."
+              },
+              {
+                  "name": "library",
+                  "type": "string",
+                  "desc": "Name of the online library or service (e.g. 'Kindle Store')."
+              }
+          ],
+          "return": {
+              "borrow_status": "string"
+          }
+      },
+      {
+          "function": "recording_audio",
+          "desc": "Record audio with given content or purpose.",
+          "parameters": [
+              {
+                  "name": "content",
+                  "type": "string",
+                  "desc": "Description or reason for the recording (e.g. 'Meeting notes')."
+              }
+          ],
+          "return": {
+              "recording_status": "string"
+          }
+      },
+      {
+          "function": "print_document",
+          "desc": "Print a specified document.",
+          "parameters": [
+              {
+                  "name": "document",
+                  "type": "string",
+                  "desc": "File name or path of the document (e.g. 'report.pdf')."
+              }
+          ],
+          "return": {
+              "print_status": "string"
+          }
+      },
+      {
+          "function": "set_alarm",
+          "desc": "Set an alarm for a specific time (optionally location-based).",
+          "parameters": [
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Alarm time in HH:MM format (e.g. '07:00')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Optional location context to trigger alarm (e.g. 'Home')."
+              }
+          ],
+          "return": {
+              "alarm_time": "string",
+              "alarm_set_status": "string"
+          }
+      },
+      {
+          "function": "calculate_bmi",
+          "desc": "Calculate BMI using height (cm) and weight (kg).",
+          "parameters": [
+              {
+                  "name": "height",
+                  "type": "number",
+                  "desc": "Height in centimeters (e.g. 170)."
+              },
+              {
+                  "name": "weight",
+                  "type": "number",
+                  "desc": "Weight in kilograms (e.g. 65)."
+              }
+          ],
+          "return": {
+              "bmi_value": "number"
+          }
+      },
+      {
+          "function": "track_parcel",
+          "desc": "Track a parcel's delivery status by its tracking number.",
+          "parameters": [
+              {
+                  "name": "tracking_number",
+                  "type": "string",
+                  "desc": "Parcel's tracking code (e.g. '1Z999AA10123456784')."
+              }
+          ],
+          "return": {
+              "delivery_status": "string"
+          }
+      },
+      {
+          "function": "add_item",
+          "desc": "Add an item to a shopping list, specifying quantity.",
+          "parameters": [
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Name of the item to add (e.g. 'milk')."
+              },
+              {
+                  "name": "quantity",
+                  "type": "number",
+                  "desc": "Quantity of the item (e.g. 2)."
+              }
+          ],
+          "return": {
+              "list_status": "string"
+          }
+      },
+      {
+          "function": "remove_item",
+          "desc": "Remove an item from the shopping list.",
+          "parameters": [
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Name of the item to remove (e.g. 'milk')."
+              }
+          ],
+          "return": {
+              "list_status": "string"
+          }
+      },
+      {
+          "function": "update_item",
+          "desc": "Update the quantity of an existing item in the shopping list.",
+          "parameters": [
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Name of the item to update (e.g. 'milk')."
+              },
+              {
+                  "name": "quantity",
+                  "type": "number",
+                  "desc": "New quantity for the item (e.g. 3)."
+              }
+          ],
+          "return": {
+              "list_status": "string"
+          }
+      },
+      {
+          "function": "convert_currency",
+          "desc": "Convert an amount from one currency to another using exchange rates.",
+          "parameters": [
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "Amount of money to convert (e.g. 100)."
+              },
+              {
+                  "name": "from_currency",
+                  "type": "string",
+                  "desc": "Source currency code (e.g. 'USD')."
+              },
+              {
+                  "name": "to_currency",
+                  "type": "string",
+                  "desc": "Target currency code (e.g. 'EUR')."
+              }
+          ],
+          "return": {
+              "conversion_result": "number"
+          }
+      },
+      {
+          "function": "check_traffic",
+          "desc": "Check traffic congestion and estimated travel time between two locations.",
+          "parameters": [
+              {
+                  "name": "start_location",
+                  "type": "string",
+                  "desc": "Starting location or address (e.g. 'Brooklyn')."
+              },
+              {
+                  "name": "end_location",
+                  "type": "string",
+                  "desc": "Destination location or address (e.g. 'Manhattan')."
+              }
+          ],
+          "return": {
+              "traffic_info": "string"
+          }
+      },
+      {
+          "function": "find_local_event",
+          "desc": "Search for local events happening in a place on a certain date.",
+          "parameters": [
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or region to find events (e.g. 'Chicago')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Event date in MM-DD format (optional, e.g. '05-20')."
+              }
+          ],
+          "return": {
+              "event_name": "string"
+          }
+      },
+      {
+          "function": "create_fitness_plan",
+          "desc": "Generate a personalized workout plan based on a goal.",
+          "parameters": [
+              {
+                  "name": "goal",
+                  "type": "string",
+                  "desc": "Fitness goal (e.g. 'muscle building')."
+              },
+              {
+                  "name": "duration_weeks",
+                  "type": "number",
+                  "desc": "Length of the workout plan in weeks (e.g. 8)."
+              }
+          ],
+          "return": {
+              "fitness_plan": "string"
+          }
+      },
+      {
+          "function": "set_reminder",
+          "desc": "Set a reminder for a task with optional date/time/location.",
+          "parameters": [
+              {
+                  "name": "reminder_task",
+                  "type": "string",
+                  "desc": "Description of the task to be reminded about (e.g. 'Buy groceries')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Optional date in MM-DD format (e.g. '06-01')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Optional time in HH:MM (24-hour) format (e.g. '18:00')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Optional location for the reminder trigger (e.g. 'Home')."
+              }
+          ],
+          "return": {
+              "reminder_confirmation": "string"
+          }
+      },
+      {
+          "function": "translate_text",
+          "desc": "Translate text from a source language to a target language.",
+          "parameters": [
+              {
+                  "name": "source_text",
+                  "type": "string",
+                  "desc": "Text to be translated."
+              },
+              {
+                  "name": "source_language",
+                  "type": "string",
+                  "desc": "Language code of the original text (e.g. 'en')."
+              },
+              {
+                  "name": "target_language",
+                  "type": "string",
+                  "desc": "Language code to translate into (e.g. 'fr')."
+              }
+          ],
+          "return": {
+              "translated_text": "string"
+          }
+      },
+      {
+          "function": "summarize_text",
+          "desc": "Generate a summary for a given text.",
+          "parameters": [
+              {
+                  "name": "text_name",
+                  "type": "string",
+                  "desc": "Name or ID of the text to summarize (e.g. 'article1')."
+              }
+          ],
+          "return": {
+              "text_summary": "string"
+          }
+      },
+      {
+          "function": "monitor_expenses",
+          "desc": "Record or manage expenses by date, category, amount.",
+          "parameters": [
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date of the expense in MM-DD format (e.g. '06-10')."
+              },
+              {
+                  "name": "category",
+                  "type": "string",
+                  "desc": "Expense category (e.g. 'food')."
+              },
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "Amount of the expense (e.g. 20.5)."
+              }
+          ],
+          "return": {
+              "expense_status": "string"
+          }
+      },
+      {
+          "function": "recommend_recipe",
+          "desc": "Suggest recipes given certain ingredients and dietary preferences.",
+          "parameters": [
+              {
+                  "name": "ingredients",
+                  "type": "string",
+                  "desc": "Comma-separated list of ingredients (e.g. 'tomato,onion,cheese')."
+              },
+              {
+                  "name": "dietary_preference",
+                  "type": "string",
+                  "desc": "Optional dietary preference (e.g. 'vegan')."
+              }
+          ],
+          "return": {
+              "recipe": "string"
+          }
+      },
+      {
+          "function": "order_subway_tickets",
+          "desc": "Purchase or recharge subway tickets.",
+          "parameters": [
+              {
+                  "name": "station_start",
+                  "type": "string",
+                  "desc": "Starting station (e.g. 'Times Square')."
+              },
+              {
+                  "name": "station_end",
+                  "type": "string",
+                  "desc": "Destination station (e.g. 'Grand Central')."
+              },
+              {
+                  "name": "ticket_type",
+                  "type": "string",
+                  "desc": "Ticket type (e.g. 'single', 'round-trip')."
+              }
+          ],
+          "return": {
+              "ticket_order_status": "string"
+          }
+      },
+      {
+          "function": "send_gift_card",
+          "desc": "Send a gift card to someone's email.",
+          "parameters": [
+              {
+                  "name": "recipient_email",
+                  "type": "string",
+                  "desc": "Email address of the gift card recipient (e.g. 'jane@example.com')."
+              },
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "Value of the gift card (e.g. 50)."
+              },
+              {
+                  "name": "message",
+                  "type": "string",
+                  "desc": "Optional greeting or message to include with the gift card."
+              }
+          ],
+          "return": {
+              "gift_card_status": "string"
+          }
+      },
+      {
+          "function": "create_budget_plan",
+          "desc": "Generate a monthly budget plan from income and expense data.",
+          "parameters": [
+              {
+                  "name": "monthly_income",
+                  "type": "number",
+                  "desc": "Total monthly income (e.g. 3000)."
+              },
+              {
+                  "name": "fixed_expenses",
+                  "type": "string",
+                  "desc": "JSON or structured string listing fixed expenses (e.g. rent, utilities)."
+              },
+              {
+                  "name": "variable_expenses",
+                  "type": "string",
+                  "desc": "JSON or structured string listing variable expenses (e.g. groceries)."
+              }
+          ],
+          "return": {
+              "budget_plan": "string"
+          }
+      },
+      {
+          "function": "pay_utility_bill",
+          "desc": "Pay a utility bill (electricity, water, gas).",
+          "parameters": [
+              {
+                  "name": "bill_type",
+                  "type": "string",
+                  "desc": "Type of utility bill (e.g. 'electricity')."
+              },
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "Payment amount for the bill (e.g. 75)."
+              },
+              {
+                  "name": "account_number",
+                  "type": "string",
+                  "desc": "Billing account number (e.g. 'AC1234567')."
+              }
+          ],
+          "return": {
+              "bill_payment_status": "string"
+          }
+      },
+      {
+          "function": "locate_mobile_device",
+          "desc": "Find the location of a lost mobile device by ID.",
+          "parameters": [
+              {
+                  "name": "device_id",
+                  "type": "string",
+                  "desc": "Unique identifier of the mobile device (e.g. 'PixelPhone123')."
+              }
+          ],
+          "return": {
+              "device_location": "string"
+          }
+      },
+      {
+          "function": "backup_files_cloud",
+          "desc": "Backup specified files to a chosen cloud provider.",
+          "parameters": [
+              {
+                  "name": "file_list",
+                  "type": "string",
+                  "desc": "Comma-separated list of file paths to back up (e.g. 'docs/report.pdf,photos/vacation.jpg')."
+              },
+              {
+                  "name": "cloud_provider",
+                  "type": "string",
+                  "desc": "Cloud provider to use (e.g. 'Google Drive')."
+              }
+          ],
+          "return": {
+              "backup_status": "string"
+          }
+      },
+      {
+          "function": "subscribe_newsletter",
+          "desc": "Register for an email newsletter about a certain topic.",
+          "parameters": [
+              {
+                  "name": "email",
+                  "type": "string",
+                  "desc": "Email address to subscribe (e.g. 'alex@example.com')."
+              },
+              {
+                  "name": "newsletter_topic",
+                  "type": "string",
+                  "desc": "Topic of the newsletter (e.g. 'technology')."
+              }
+          ],
+          "return": {
+              "subscription_status": "string"
+          }
+      },
+      {
+          "function": "redeem_coupon",
+          "desc": "Apply a discount or offer by redeeming a coupon code.",
+          "parameters": [
+              {
+                  "name": "coupon_code",
+                  "type": "string",
+                  "desc": "The coupon code to redeem (e.g. 'SAVE10')."
+              },
+              {
+                  "name": "order_id",
+                  "type": "string",
+                  "desc": "Optional order number if the coupon applies to a specific order."
+              }
+          ],
+          "return": {
+              "redeem_status": "string"
+          }
+      },
+      {
+          "function": "play_podcast",
+          "desc": "Play a specific podcast episode.",
+          "parameters": [
+              {
+                  "name": "podcast_name",
+                  "type": "string",
+                  "desc": "Name of the podcast (e.g. 'The Daily')."
+              },
+              {
+                  "name": "episode",
+                  "type": "string",
+                  "desc": "Episode number/title (optional, e.g. 'Episode 123: Market News')."
+              }
+          ],
+          "return": {
+              "podcast_status": "string"
+          }
+      },
+      {
+          "function": "check_package_size",
+          "desc": "Verify if a package meets shipping size guidelines.",
+          "parameters": [
+              {
+                  "name": "length",
+                  "type": "number",
+                  "desc": "Length of the package in centimeters."
+              },
+              {
+                  "name": "width",
+                  "type": "number",
+                  "desc": "Width of the package in centimeters."
+              },
+              {
+                  "name": "height",
+                  "type": "number",
+                  "desc": "Height of the package in centimeters."
+              }
+          ],
+          "return": {
+              "size_check_result": "string"
+          }
+      },
+      {
+          "function": "request_emergency_services",
+          "desc": "Contact emergency services about an incident.",
+          "parameters": [
+              {
+                  "name": "emergency_type",
+                  "type": "string",
+                  "desc": "Type of emergency (e.g. 'accident')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Address or place where the emergency occurred (e.g. '10 Main St.')."
+              }
+          ],
+          "return": {
+              "emergency_request_status": "string"
+          }
+      },
+      {
+          "function": "order_groceries",
+          "desc": "Order groceries from a supermarket or online grocery store.",
+          "parameters": [
+              {
+                  "name": "items",
+                  "type": "string",
+                  "desc": "Comma-separated list of grocery items (e.g. 'apples,bananas,milk')."
+              },
+              {
+                  "name": "delivery_location",
+                  "type": "string",
+                  "desc": "Address or location for grocery delivery (e.g. '123 Main St.')."
+              },
+              {
+                  "name": "delivery_time",
+                  "type": "string",
+                  "desc": "Preferred delivery time in HH:MM (24-hour), e.g. '10:30' (optional)."
+              }
+          ],
+          "return": {
+              "grocery_order_status": "string"
+          }
+      },
+      {
+          "function": "request_maintenance",
+          "desc": "Request repair or inspection of an item/facility at a location.",
+          "parameters": [
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Name or description of the item needing repair (e.g. 'AC unit')."
+              },
+              {
+                  "name": "issue_description",
+                  "type": "string",
+                  "desc": "Detailed explanation of the problem (e.g. 'Not cooling properly')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Address or place where the maintenance is needed (e.g. 'Unit 305')."
+              }
+          ],
+          "return": {
+              "maintenance_request_status": "string"
+          }
+      },
+      {
+          "function": "check_calendar",
+          "desc": "Retrieve today's calendar events or schedule.",
+          "parameters": [],
+          "return": {
+              "events": "string"
+          }
+      },
+      {
+          "function": "set_timer",
+          "desc": "Set a countdown timer for a certain duration.",
+          "parameters": [
+              {
+                  "name": "minutes",
+                  "type": "number",
+                  "desc": "Number of minutes for the countdown (e.g. 30)."
+              }
+          ],
+          "return": {
+              "timer_status": "string"
+          }
+      },
+      {
+          "function": "open_app",
+          "desc": "Open an application by name on the device.",
+          "parameters": [
+              {
+                  "name": "app_name",
+                  "type": "string",
+                  "desc": "Name of the application to open (e.g. 'Slack')."
+              }
+          ],
+          "return": {
+              "app_open_status": "string"
+          }
+      },
+      {
+          "function": "create_event",
+          "desc": "Add an event to the calendar with a date/time.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Title or description of the event (e.g. 'Project Meeting')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date of the event in MM-DD format (e.g. '07-15')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Time of the event in HH:MM (24-hour) format (e.g. '09:00')."
+              }
+          ],
+          "return": {
+              "event_status": "string"
+          }
+      },
+      {
+          "function": "get_shopping_deals",
+          "desc": "Search for available deals or coupons for online/local shopping.",
+          "parameters": [
+              {
+                  "name": "store_name",
+                  "type": "string",
+                  "desc": "Name of the store or website to check deals for (e.g. 'Target')."
+              }
+          ],
+          "return": {
+              "available_deals": "string"
+          }
+      },
+      {
+          "function": "lookup_contact",
+          "desc": "Look up a phone number or email address by contact name.",
+          "parameters": [
+              {
+                  "name": "contact_name",
+                  "type": "string",
+                  "desc": "Name of the contact (e.g. 'John Doe')."
+              }
+          ],
+          "return": {
+              "phone_number": "string",
+              "email": "string"
+          }
+      },
+      {
+          "function": "check_public_holiday",
+          "desc": "Check if a given date is a public holiday in a specified region.",
+          "parameters": [
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date in MM-DD format (e.g. '12-25') to check."
+              },
+              {
+                  "name": "region",
+                  "type": "string",
+                  "desc": "Country or region to check (e.g. 'US')."
+              }
+          ],
+          "return": {
+              "is_holiday": "boolean"
+          }
+      },
+      {
+          "function": "check_internet_speed",
+          "desc": "Run an internet speed test and get the result.",
+          "parameters": [],
+          "return": {
+              "download_speed_mbps": "number",
+              "upload_speed_mbps": "number",
+              "ping_ms": "number"
+          }
+      },
+      {
+          "function": "find_local_store",
+          "desc": "Find a local physical store by name or type in a given area.",
+          "parameters": [
+              {
+                  "name": "store_name",
+                  "type": "string",
+                  "desc": "Name or type of the store (e.g. 'grocery')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "City or region to search in (e.g. 'Houston')."
+              }
+          ],
+          "return": {
+              "store_info": "string"
+          }
+      },
+      {
+          "function": "order_coffee",
+          "desc": "Place a coffee order at a nearby cafe.",
+          "parameters": [
+              {
+                  "name": "cafe_name",
+                  "type": "string",
+                  "desc": "Name of the cafe (e.g. 'Starbucks')."
+              },
+              {
+                  "name": "coffee_type",
+                  "type": "string",
+                  "desc": "Type of coffee (e.g. 'latte')."
+              }
+          ],
+          "return": {
+              "order_status": "string"
+          }
+      },
+      {
+          "function": "create_todo_list",
+          "desc": "Create a new to-do list with a given title.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Title for the new to-do list (e.g. 'Weekend Tasks')."
+              }
+          ],
+          "return": {
+              "todo_list_status": "string"
+          }
+      },
+      {
+          "function": "add_todo_item",
+          "desc": "Add an item to an existing to-do list.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Name of the to-do list to add the item to (e.g. 'Weekend Tasks')."
+              },
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Task or item to add (e.g. 'Buy groceries')."
+              }
+          ],
+          "return": {
+              "todo_list_status": "string"
+          }
+      },
+      {
+          "function": "mark_todo_item_done",
+          "desc": "Mark an item as completed in a to-do list.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Name of the to-do list containing the item (e.g. 'Weekend Tasks')."
+              },
+              {
+                  "name": "item",
+                  "type": "string",
+                  "desc": "Task or item to mark as done (e.g. 'Buy groceries')."
+              }
+          ],
+          "return": {
+              "done_status": "string"
+          }
+      },
+      {
+          "function": "connect_wifi",
+          "desc": "Connect to a Wi-Fi network by SSID and password.",
+          "parameters": [
+              {
+                  "name": "ssid",
+                  "type": "string",
+                  "desc": "Wi-Fi network name (SSID) (e.g. 'MyHomeWiFi')."
+              },
+              {
+                  "name": "password",
+                  "type": "string",
+                  "desc": "Wi-Fi network password (e.g. 'mypassword123')."
+              }
+          ],
+          "return": {
+              "connection_status": "string"
+          }
+      },
+      {
+          "function": "open_browser",
+          "desc": "Open the default web browser to a specified URL.",
+          "parameters": [
+              {
+                  "name": "url",
+                  "type": "string",
+                  "desc": "Web address to open (e.g. 'https://www.google.com')."
+              }
+          ],
+          "return": {
+              "browser_status": "string"
+          }
+      },
+      {
+          "function": "check_battery",
+          "desc": "Check the device's battery level.",
+          "parameters": [],
+          "return": {
+              "battery_level_percent": "number"
+          }
+      },
+      {
+          "function": "organize_photos",
+          "desc": "Sort or arrange photos into albums based on a criterion (e.g. date).",
+          "parameters": [
+              {
+                  "name": "album_name",
+                  "type": "string",
+                  "desc": "Name of the photo album to create or use (e.g. 'Vacation 2023')."
+              },
+              {
+                  "name": "criterion",
+                  "type": "string",
+                  "desc": "Criterion for sorting (e.g. 'date', 'location')."
+              }
+          ],
+          "return": {
+              "organize_status": "string"
+          }
+      },
+      {
+          "function": "clean_notification",
+          "desc": "Clear old or read notifications from the device.",
+          "parameters": [],
+          "return": {
+              "clear_status": "string"
+          }
+      },
+      {
+          "function": "market_trends_api",
+          "desc": "Get the latest market trends and relevant news for a specified country and language.",
+          "parameters": [
+              {
+                  "name": "country",
+                  "type": "string",
+                  "desc": "The country for which to get trends, specified as a 2-letter country code - see ISO 3166."
+              },
+              {
+                  "name": "language",
+                  "type": "string",
+                  "desc": "The language to use for the results, specified as a 2-letter language code - see ISO 639-1."
+              }
+          ],
+          "return": {
+              "topic": "string",
+              "content": "string"
+          }
+      },
+      {
+          "function": "sec_filings",
+          "desc": "Returns a list of SEC Filings for the requested company, including filing types, strings, and documents.",
+          "parameters": [
+              {
+                  "name": "identifier",
+                  "type": "string",
+                  "desc": "Publicly traded company's stock symbol or Central Index Key (CIK)"
+              }
+          ],
+          "return": {
+              "company": "string",
+              "document": "string"
+          }
+      },
+      {
+          "function": "stock_company_overview",
+          "desc": "Retrieve detailed information about a stock company, including its overview, financials, and other relevant data.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "Stock symbol (ticker) of the company."
+              },
+              {
+                  "name": "language",
+                  "type": "string",
+                  "desc": "The language to use for the results, specified as a 2-letter language code (e.g., en for English)."
+              }
+          ],
+          "return": {
+              "stock_name": "string",
+              "industry": "string",
+              "market_cap": "number",
+              "stock": "string"
+          }
+      },
+      {
+          "function": "get_net_income",
+          "desc": "Retrieve the net income of a specified stock.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "Ticker Symbol (Ex. 'AAPL' is Ticker symbol for Apple Inc. on the stock market)"
+              },
+              {
+                  "name": "region",
+                  "type": "string",
+                  "desc": "One of the following regions: US, BR, AU, CA, FR, DE, HK, IN, IT, ES, GB, S"
+              }
+          ],
+          "return": {
+              "stock_name": "string",
+              "net_income": "number",
+              "currency": "string",
+              "year": "number"
+          }
+      },
+      {
+          "function": "marketci_price_forecast_api",
+          "desc": "This API provides an AI-generated price forecast for a specified stock symbol over the next 3 months.",
+          "parameters": [
+              {
+                  "name": "stock_name",
+                  "type": "string",
+                  "desc": "The stock symbol for which the price forecast is required."
+              }
+          ],
+          "return": {
+              "stock_name": "string",
+              "forecast_price": "number",
+              "forecast_date": "string"
+          }
+      },
+      {
+          "function": "pitching_leaders",
+          "desc": "Retrieve the leaders for a given pitching statistic in the MLB domain.",
+          "parameters": [
+              {
+                  "name": "results",
+                  "type": "int",
+                  "desc": "The number of results to return."
+              },
+              {
+                  "name": "sort_column",
+                  "type": "string",
+                  "desc": "The statistic to sort the leaders by."
+              },
+              {
+                  "name": "season",
+                  "type": "string",
+                  "desc": "The season for which to retrieve the leaders."
+              },
+              {
+                  "name": "sports_code",
+                  "type": "string",
+                  "desc": "The sports code for the MLB domain."
+              },
+              {
+                  "name": "game_type",
+                  "type": "string",
+                  "desc": "The type of games to include in the leaders (e.g., regular season, playoffs)."
+              }
+          ],
+          "return": {
+              "player_name": "string",
+              "statistic": "string",
+              "value": "number"
+          }
+      },
+      {
+          "function": "bundesliga_standings_api",
+          "desc": "Retrieve the current standings of the German Bundesliga football league.",
+          "parameters": [
+              {
+                  "name": "season",
+                  "type": "string",
+                  "desc": "The season for which to retrieve the standings. e.g. `2022` or `2021`."
+              }
+          ],
+          "return": {
+              "team_name": "string",
+              "rank": "number",
+              "points": "number"
+          }
+      },
+      {
+          "function": "get_instagram_media_information",
+          "desc": "Retrieves media information for an Instagram post, reel, or TV by providing a URL.",
+          "parameters": [
+              {
+                  "name": "link",
+                  "type": "string",
+                  "desc": "The URL of the Instagram post, reel, or TV."
+              }
+          ],
+          "return": {
+              "media_url": "string",
+              "caption": "string",
+              "likes_count": "number"
+          }
+      },
+      {
+          "function": "get_tiktok_video_details",
+          "desc": "Retrieve detailed information about a TikTok video, including the video content without a watermark, cover, music, and other metadata.",
+          "parameters": [
+              {
+                  "name": "url",
+                  "type": "string",
+                  "desc": "The URL of the TikTok video"
+              }
+          ],
+          "return": {
+              "video_url": "string",
+              "description": "string",
+              "views_count": "number"
+          }
+      },
+      {
+          "function": "hashtag_info_api",
+          "desc": "Retrieves information about a specific hashtag on TikTok.",
+          "parameters": [
+              {
+                  "name": "hashtag",
+                  "type": "string",
+                  "desc": "The name of the hashtag (challenge) to retrieve information about."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "retrieve_quotes_by_tag",
+          "desc": "Retrieve a list of quotes by a given tag from the Social domain.",
+          "parameters": [
+              {
+                  "name": "tag",
+                  "type": "string",
+                  "desc": "The tag to search for quotes."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "trending_videos",
+          "desc": "Retrieves a list of trending videos from YouTube, filtered by locale, country, and type.",
+          "parameters": [
+              {
+                  "name": "hl",
+                  "type": "string",
+                  "desc": "Locale/language for the request"
+              },
+              {
+                  "name": "gl",
+                  "type": "string",
+                  "desc": "Country to get trending videos from"
+              },
+              {
+                  "name": "type",
+                  "type": "string",
+                  "desc": "Type of trending videos"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_pinterest_image",
+          "desc": "Downloads a Pinterest image in original HD quality by providing the Pinterest image pin address.",
+          "parameters": [
+              {
+                  "name": "url",
+                  "type": "string",
+                  "desc": "The Pinterest image pin address"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_user_feed_by_username",
+          "desc": "Retrieve a user's feed from TikTok by their username.",
+          "parameters": [
+              {
+                  "name": "username",
+                  "type": "string",
+                  "desc": "The username of the user whose feed to retrieve."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_instagram_post_likes",
+          "desc": "Retrieve the likes data for a specific Instagram post by its shortcode.",
+          "parameters": [
+              {
+                  "name": "shortcode",
+                  "type": "string",
+                  "desc": "The shortcode of the Instagram post"
+              },
+              {
+                  "name": "count",
+                  "type": "int",
+                  "desc": "The number of likes to retrieve (range from 1 to 50)"
+              },
+              {
+                  "name": "end_cursor",
+                  "type": "string",
+                  "desc": "The cursor to use for pagination (optional)"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "text_analysis",
+          "desc": "Analyzes a given text sentence using a neural network-based NLP tool.",
+          "parameters": [
+              {
+                  "name": "text",
+                  "type": "string",
+                  "desc": "The input text sentence to be analyzed."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "detect_language",
+          "desc": "Detect the language of a given text with a confidence score.",
+          "parameters": [
+              {
+                  "name": "text",
+                  "type": "string",
+                  "desc": "The text to be analyzed for language detection"
+              },
+              {
+                  "name": "detectedcount",
+                  "type": "number",
+                  "desc": "The number of languages to detect (default: 5)"
+              }
+          ],
+          "return": {
+              "detected_language": "string",
+              "confidence_score": "number"
+          }
+      },
+      {
+          "function": "correct_sentence",
+          "desc": "This API corrects grammatical errors in a given sentence using a grammar correction tool.",
+          "parameters": [
+              {
+                  "name": "text",
+                  "type": "string",
+                  "desc": "The input sentence to be corrected"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "text_sentiment_analysis",
+          "desc": "Analyzes text sentiment using VADER and returns sentiment scores.",
+          "parameters": [
+              {
+                  "name": "text",
+                  "type": "string",
+                  "desc": "The text to be analyzed for sentiment"
+              },
+              {
+                  "name": "output",
+                  "type": "string",
+                  "desc": "The format of the output scores (e.g., 'combined', 'positive', 'neutral', 'negative')"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "rental_property_calculator",
+          "desc": "Calculates the rental property value based on the provided address and other parameters.",
+          "parameters": [
+              {
+                  "name": "address",
+                  "type": "string",
+                  "desc": "The address of the rental property."
+              },
+              {
+                  "name": "bathrooms",
+                  "type": "number",
+                  "desc": "The number of bathrooms in the property."
+              },
+              {
+                  "name": "accommostrings",
+                  "type": "string",
+                  "desc": "The maximum number of people the property can accommostring."
+              },
+              {
+                  "name": "bedrooms",
+                  "type": "number",
+                  "desc": "The number of bedrooms in the property."
+              },
+              {
+                  "name": "currency",
+                  "type": "string",
+                  "desc": "The currency to use for the calculation."
+              }
+          ],
+          "return": {
+              "estimated_rent": "number",
+              "currency": "string"
+          }
+      },
+      {
+          "function": "property_details_api",
+          "desc": "Retrieve detailed information about a property by its Zillow Property ID (ZPID).",
+          "parameters": [
+              {
+                  "name": "zpid",
+                  "type": "string",
+                  "desc": "The Zillow Property ID of the property for which you want to retrieve details."
+              }
+          ],
+          "return": {
+              "property": "string",
+              "address": "string",
+              "price": "number",
+              "currency": "string"
+          }
+      },
+      {
+          "function": "search_mortgages",
+          "desc": "Search for mortgages based on various parameters.",
+          "parameters": [
+              {
+                  "name": "repaymentPeriod",
+                  "type": "number",
+                  "desc": "Repayment period in months"
+              },
+              {
+                  "name": "propertyValue",
+                  "type": "number",
+                  "desc": "Property value in pounds"
+              },
+              {
+                  "name": "mortgageAmount",
+                  "type": "number",
+                  "desc": "Mortgage amount in pounds"
+              },
+              {
+                  "name": "page",
+                  "type": "number",
+                  "desc": "Page number for pagination"
+              },
+              {
+                  "name": "filterByInitialPeriod",
+                  "type": "string",
+                  "desc": "Initial period filter (comma-separated list)"
+              },
+              {
+                  "name": "filterByRateType",
+                  "type": "string",
+                  "desc": "Rate type filter (comma-separated list)"
+              },
+              {
+                  "name": "filterByPaymentType",
+                  "type": "string",
+                  "desc": "Payment type filter (repayment or interestOnly)"
+              },
+              {
+                  "name": "paginationLimit",
+                  "type": "number",
+                  "desc": "Number of results per page"
+              },
+              {
+                  "name": "sortType",
+                  "type": "string",
+                  "desc": "Sorting type (initialRate, monthlyCost, totalApplicationFeesPounds)"
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Location filter (england, northernIreland, scotland, wales)"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_agent_s_active_listings",
+          "desc": "Retrieve a list of active listings from a specific agent on Zillow.",
+          "parameters": [
+              {
+                  "name": "zuid",
+                  "type": "string",
+                  "desc": "Unique identifier of the agent on Zillow."
+              },
+              {
+                  "name": "page",
+                  "type": "number",
+                  "desc": "Optional page number for pagination."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "travel_time_search_api",
+          "desc": "Search for rental properties within a specified travel time from a given location.",
+          "parameters": [
+              {
+                  "name": "search_area",
+                  "type": "string",
+                  "desc": "The location from which to search for rental properties"
+              },
+              {
+                  "name": "keywords",
+                  "type": "string",
+                  "desc": "Additional search terms to filter results"
+              },
+              {
+                  "name": "furnishing_state",
+                  "type": "string",
+                  "desc": "The state of furnishing of the property"
+              },
+              {
+                  "name": "show_let_or_let_agreed",
+                  "type": "boolean",
+                  "desc": "Whether to show let or let agreed properties"
+              },
+              {
+                  "name": "available_from",
+                  "type": "string",
+                  "desc": "The available string of the property"
+              },
+              {
+                  "name": "added_to_site",
+                  "type": "string",
+                  "desc": "The string the property was added to the site"
+              },
+              {
+                  "name": "price_per",
+                  "type": "string",
+                  "desc": "The price per unit"
+              },
+              {
+                  "name": "min_bedroom",
+                  "type": "number",
+                  "desc": "The minimum number of bedrooms"
+              },
+              {
+                  "name": "has_garden",
+                  "type": "boolean",
+                  "desc": "Whether the property has a garden"
+              },
+              {
+                  "name": "has_bills_included",
+                  "type": "boolean",
+                  "desc": "Whether bills are included in the rent"
+              },
+              {
+                  "name": "has_parking_garage",
+                  "type": "boolean",
+                  "desc": "Whether the property has a parking garage"
+              },
+              {
+                  "name": "has_balcony_terrace",
+                  "type": "boolean",
+                  "desc": "Whether the property has a balcony or terrace"
+              },
+              {
+                  "name": "has_pets_allowed",
+                  "type": "boolean",
+                  "desc": "Whether pets are allowed in the property"
+              },
+              {
+                  "name": "max_travel_time",
+                  "type": "string",
+                  "desc": "The maximum travel time from the search area"
+              },
+              {
+                  "name": "max_price",
+                  "type": "number",
+                  "desc": "The maximum price of the property"
+              },
+              {
+                  "name": "retirement_homes",
+                  "type": "string",
+                  "desc": "Whether to show retirement homes"
+              },
+              {
+                  "name": "sort_order",
+                  "type": "string",
+                  "desc": "The sort order of the search results"
+              },
+              {
+                  "name": "house_share",
+                  "type": "string",
+                  "desc": "Whether to show house shares"
+              },
+              {
+                  "name": "max_bedroom",
+                  "type": "number",
+                  "desc": "The maximum number of bedrooms"
+              },
+              {
+                  "name": "transport_type",
+                  "type": "string",
+                  "desc": "The type of transport"
+              },
+              {
+                  "name": "min_price",
+                  "type": "number",
+                  "desc": "The minimum price of the property"
+              },
+              {
+                  "name": "property_type",
+                  "type": "string",
+                  "desc": "The type of property"
+              },
+              {
+                  "name": "page",
+                  "type": "number",
+                  "desc": "The page number of the search results"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "facilities_lookup",
+          "desc": "This API allows you to search for facilities in Ghana by providing optional query parameters for facility type, region, and city.",
+          "parameters": [
+              {
+                  "name": "region",
+                  "type": "string",
+                  "desc": "The region where the facility is located"
+              },
+              {
+                  "name": "type",
+                  "type": "string",
+                  "desc": "The type of amenity facility to search for (default: hospital)"
+              },
+              {
+                  "name": "limit",
+                  "type": "number",
+                  "desc": "The number of facilities to query (default: 10)"
+              },
+              {
+                  "name": "city",
+                  "type": "string",
+                  "desc": "The city where the facility is located (default: Accra)"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_cars_information",
+          "desc": "This API returns a list of cars information based on the provided parameters.",
+          "parameters": [
+              {
+                  "name": "model",
+                  "type": "string",
+                  "desc": "The model of the vehicle."
+              },
+              {
+                  "name": "make",
+                  "type": "string",
+                  "desc": "The manufacturer of the vehicle."
+              },
+              {
+                  "name": "year",
+                  "type": "string",
+                  "desc": "The model year of the vehicle."
+              },
+              {
+                  "name": "fuel_type",
+                  "type": "string",
+                  "desc": "The type of fuel used."
+              },
+              {
+                  "name": "drive",
+                  "type": "string",
+                  "desc": "The drive transmission type."
+              },
+              {
+                  "name": "transmission",
+                  "type": "string",
+                  "desc": "The type of transmission."
+              },
+              {
+                  "name": "cylinders",
+                  "type": "number",
+                  "desc": "The number of cylinders."
+              },
+              {
+                  "name": "min_city_mpg",
+                  "type": "number",
+                  "desc": "Minimum city fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "max_city_mpg",
+                  "type": "number",
+                  "desc": "Maximum city fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "min_hwy_mpg",
+                  "type": "number",
+                  "desc": "Minimum highway fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "max_hwy_mpg",
+                  "type": "number",
+                  "desc": "Maximum highway fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "min_comb_mpg",
+                  "type": "number",
+                  "desc": "Minimum combination (city + highway) fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "max_comb_mpg",
+                  "type": "number",
+                  "desc": "Maximum combination (city + highway) fuel efficiency in miles per gallon."
+              },
+              {
+                  "name": "limit",
+                  "type": "string",
+                  "desc": "How many results to return."
+              }
+          ],
+          "return": {
+              "car_name": "string",
+              "manufacturer": "string",
+              "year": "string",
+              "fuel_type": "string"
+          }
+      },
+      {
+          "function": "vin_decode",
+          "desc": "Decodes a Vehicle Identification Number (VIN) and returns relevant information about the vehicle.",
+          "parameters": [
+              {
+                  "name": "vin",
+                  "type": "string",
+                  "desc": "The Vehicle Identification Number (VIN) to be decoded."
+              }
+          ],
+          "return": {
+              "vin": "string",
+              "car_name": "string",
+              "year": "string"
+          }
+      },
+      {
+          "function": "vehicle_identification_number_vin_lookup",
+          "desc": "This API converts a license plate number to a Vehicle Identification Number (VIN) for a specific state.",
+          "parameters": [
+              {
+                  "name": "state_code",
+                  "type": "string",
+                  "desc": "The two-letter state code where the license plate was issued."
+              },
+              {
+                  "name": "license_plate",
+                  "type": "string",
+                  "desc": "The license plate number to be converted to a VIN."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "motorcycles_api",
+          "desc": "Returns a list of motorcycle models matching the input parameters.",
+          "parameters": [
+              {
+                  "name": "make",
+                  "type": "string",
+                  "desc": "Name of the motorcycle manufacturer/brand. Supports partial matching."
+              },
+              {
+                  "name": "model",
+                  "type": "string",
+                  "desc": "Name of the motorcycle model. Supports partial matching."
+              },
+              {
+                  "name": "year",
+                  "type": "string",
+                  "desc": "Release year of the motorcycle model. Must be in the form of YYYY (e.g. 2022)."
+              },
+              {
+                  "name": "offset",
+                  "type": "int",
+                  "desc": "Number of results to offset for pagination. Default is 0."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "get_gas_price",
+          "desc": "Returns the current gas price in GWEI for the Ethereum network.",
+          "parameters": [
+              {
+                  "name": "chain",
+                  "type": "string",
+                  "desc": "The blockchain to get the current gas price for."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "city_gas_prices",
+          "desc": "Returns the average price of gas in a specific city.",
+          "parameters": [
+              {
+                  "name": "city",
+                  "type": "string",
+                  "desc": "The name of the city for which you want to retrieve the gas price."
+              },
+              {
+                  "name": "province",
+                  "type": "string",
+                  "desc": "The province of the city for which you want to retrieve the gas price."
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "us_gas_prices",
+          "desc": "Returns current and historical gas price data for New Hampshire.",
+          "parameters": [
+              {
+                  "name": "string",
+                  "type": "string",
+                  "desc": "Optional string parameter to query historical gas price data. Format: YYYY-MM-DD"
+              }
+          ],
+          "return": {
+              "content": "string"
+          }
+      },
+      {
+          "function": "transfer_funds",
+          "desc": "Transfer funds between two bank accounts.",
+          "parameters": [
+              {
+                  "name": "from_account",
+                  "type": "string",
+                  "desc": "The account from which funds will be transferred (e.g. 'Savings123')."
+              },
+              {
+                  "name": "to_account",
+                  "type": "string",
+                  "desc": "The account to which the funds will be transferred (e.g. 'Checking456')."
+              },
+              {
+                  "name": "amount",
+                  "type": "number",
+                  "desc": "The amount of money to transfer."
+              },
+              {
+                  "name": "currency",
+                  "type": "string",
+                  "desc": "Currency code (e.g. 'USD')."
+              }
+          ],
+          "return": {
+              "transaction_status": "string"
+          }
+      },
+      {
+          "function": "find_for_job",
+          "desc": "Search for a job based on role or location.",
+          "parameters": [
+              {
+                  "name": "role",
+                  "type": "string",
+                  "desc": "Job role or title to search (e.g. 'software engineer')."
+              },
+              {
+                  "name": "location",
+                  "type": "string",
+                  "desc": "Location to search for jobs (e.g. 'San Francisco')."
+              }
+          ],
+          "return": {
+              "job_listings": "string"
+          }
+      },
+      {
+          "function": "book_cinema",
+          "desc": "Reserve or book a cinema ticket for a movie.",
+          "parameters": [
+              {
+                  "name": "movie_title",
+                  "type": "string",
+                  "desc": "Title of the movie (e.g. 'Avengers')."
+              },
+              {
+                  "name": "cinema_location",
+                  "type": "string",
+                  "desc": "Name or address of the cinema (e.g. 'AMC Metreon')."
+              },
+              {
+                  "name": "date",
+                  "type": "string",
+                  "desc": "Date in MM-DD format (e.g. '09-15')."
+              },
+              {
+                  "name": "time",
+                  "type": "string",
+                  "desc": "Showtime in HH:MM (24-hour) format (e.g. '19:00')."
+              }
+          ],
+          "return": {
+              "booking_status": "string"
+          }
+      },
+      {
+          "function": "delete_event",
+          "desc": "Delete an existing event by its ID.",
+          "parameters": [
+              {
+                  "name": "event_id",
+                  "type": "string",
+                  "desc": "The ID of the event to delete."
+              }
+          ],
+          "return": {
+              "delete_status": "string"
+          }
+      },
+      {
+          "function": "delete_todo_list",
+          "desc": "Delete an entire to-do list by title.",
+          "parameters": [
+              {
+                  "name": "title",
+                  "type": "string",
+                  "desc": "Title of the to-do list to delete (e.g. 'Weekend Tasks')."
+              }
+          ],
+          "return": {
+              "todo_delete_status": "string"
+          }
+      }
+  ]
+}

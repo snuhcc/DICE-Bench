@@ -1,0 +1,31 @@
+#### Instructions:
+You will be given a conversation.  
+Your task is to evaluate whether the conversation meets the following criteria.  
+
+## Evaluation Criteria:  
+**Inquiry and Information Seeking Nature**  
+Focus on whether the conversation is characterized by **exploring unknowns**, **filling knowledge gaps**, and **seeking accurate information**.  
+
+- A score of **1** means the conversation demonstrates **instances** of inquiry and information seeking.  
+- A score of **0** means the conversation shows **no recognizable effort** in inquiry or information seeking.  
+
+### Characteristics of Inquiry and Information Seeking:  
+This dialogue type focuses on **learning**, **clarifying**, or **validating knowledge** through structured exchanges. Participants aim to explore **unknowns**, verify facts, or enhance understanding.  
+
+#### Indicators:  
+- Recognizable **questions and answers** that focus on **facts, definitions, or explanations**.  
+- Requests for **elaboration**, **examples**, or **evidence** to support claims.  
+- **Neutral and inquisitive tone**, avoiding judgment or persuasion.  
+- Ends when **information is clarified or validated**, rather than reaching agreements or trade-offs.  
+
+### Evaluation Steps:  
+1. Read the conversation carefully.  
+2. Assign a score:  
+   - **1** if the conversation includes **instances** of inquiry and information seeking.  
+   - **0** if there is **no indication** of these elements.  
+   
+### Conversation:  
+{conversation}  
+
+### Evaluation Form (scores ONLY):  
+- Inquiry and Information Seeking:  
