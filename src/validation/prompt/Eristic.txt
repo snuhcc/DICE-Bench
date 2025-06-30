@@ -1,0 +1,31 @@
+#### Instructions:
+You will be given a conversation.  
+Your task is to evaluate whether the conversation meets the following criteria.  
+
+## Evaluation Criteria:  
+**Eristic Nature**  
+Focus on whether the conversation is characterized by **antagonism**, **hostility**, or an effort to **win** an argument rather than seeking truth or consensus.  
+
+- A score of **1** means the conversation demonstrates **instances** of eristic dialogue.  
+- A score of **0** means the conversation shows **no recognizable eristic behavior** and is cooperative.  
+
+### Characteristics of Eristic Dialogue:  
+An **Eristic** dialogue arises from **antagonism** or **hostility**, focusing on **winning** an argument or **dominating** an opponent. Participants aim to **attack, undermine, or outmaneuver** each other’s positions rather than seeking truth or consensus. Emotional appeals, personal attacks, and **point‑scoring** are common.  
+
+#### Indicators:  
+- **Confrontational language** such as accusations, insults, or ridicule.  
+- **Focus on personal victory** rather than mutual understanding or resolution.  
+- Emotional tone, **sarcasm**, or **dismissive comments**.  
+- No attempts at compromise or truth-seeking.  
+
+### Evaluation Steps:  
+1. Read the conversation carefully.  
+2. Assign a score:  
+   - **1** if the conversation includes **recognizable eristic elements**.  
+   - **0** if the conversation shows **no eristic behavior** and is cooperative.  
+
+### Conversation:  
+{conversation}  
+
+### Evaluation Form (scores ONLY):  
+- Eristic Nature:  

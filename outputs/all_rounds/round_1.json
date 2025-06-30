@@ -1,0 +1,150 @@
+[
+    {
+        "metadata": {
+            "diag_id": 0,
+            "user_personas": {
+                "agent_a": "A logical and persuasive negotiator who excels at finding common ground, focusing on the benefits of collaboration and practical solutions. They approach discussions with a calm demeanor, using evidence-based arguments to guide others towards mutually beneficial agreements.",
+                "agent_b": "An empathetic and creative thinker who values diverse perspectives and is skilled at framing proposals that consider the needs of all parties involved. They communicate with warmth and openness, aiming to foster trust while navigating complex negotiations to reach satisfactory resolutions."
+            },
+            "functions": [
+                "borrow_book_online"
+            ],
+            "params_ret_val": [
+                {
+                    "function": "borrow_book_online",
+                    "parameters": {
+                        "book": "The Great Gatsby",
+                        "library": "OverDrive"
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "borrow_status": "Success"
+                    },
+                    "returned_nl": "The book 'The Great Gatsby' has been successfully borrowed from OverDrive."
+                }
+            ],
+            "category": "Persuassion_Deliberation_and_Negotiation",
+            "task": "single_round",
+            "round_num": 1,
+            "agent_num": 2
+        },
+        "messages": [
+            {
+                "Round 1": [
+                    {
+                        "speaker": "agent_b",
+                        "message": "I know you're looking to borrow a book online. Have you considered which title you'd like to start with?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "I've been thinking about \"The Great Gatsby\" lately. Does that interest you as well?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "\"The Great Gatsby\" sounds like a fantastic choice. Do you have a preferred online library for borrowing it?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "OverDrive has a broad selection. Have you used it before?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Yes, OverDrive is quite user-friendly. Should we agree to borrow \"The Great Gatsby\" from there?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That sounds like a solid plan. If you handle the borrowing, I can help with returning it later. Does that work for you?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "I'm happy to borrow it, and having your help for the return would be perfect. So, we're all set with OverDrive to get the book, right?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Absolutely, it seems like everything's in place. AI, could you please help us out?"
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "The book 'The Great Gatsby' has been successfully borrowed from OverDrive."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "metadata": {
+            "diag_id": 1,
+            "user_personas": {
+                "agent_a": "A pragmatic and analytical negotiator who excels at identifying shared interests and proposing logical solutions. They focus on creating win-win scenarios, using evidence and clear conditions to guide discussions toward practical agreements.",
+                "agent_b": "An empathetic and creative thinker who values collaboration and strives to understand different perspectives. They emphasize the importance of mutual benefit and are skilled at crafting counteroffers that address concerns while moving toward a resolution."
+            },
+            "functions": [
+                "find_car"
+            ],
+            "params_ret_val": [
+                {
+                    "function": "find_car",
+                    "parameters": {
+                        "date": "11-15",
+                        "location": "San Francisco"
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "car_name": "Toyota Camry"
+                    },
+                    "returned_nl": "A Toyota Camry is available for rental on November 15th in San Francisco."
+                }
+            ],
+            "category": "Persuassion_Deliberation_and_Negotiation",
+            "task": "single_round",
+            "round_num": 1,
+            "agent_num": 2
+        },
+        "messages": [
+            {
+                "Round 1": [
+                    {
+                        "speaker": "agent_a",
+                        "message": "I see we need to figure out the best date and location for our car rental. What do you think about picking up the car around mid-November?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Mid-November sounds good. What location were you thinking for the pickup?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "I was considering San Francisco as a convenient spot for both of us. Does that work for you?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "San Francisco works fine for me. Should we aim for the 15th of November then?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "The 15th of November is perfect. Would you like to consider any specific car type, or should we focus on availability first?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Let's focus on availability first, and then we can look at the options. We want to be sure we have something secured."
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That makes sense. It's crucial to have a reliable vehicle lined up. Shall I proceed to search for available cars on the agreed date and location?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Yes, please go ahead. It’s important to get this sorted out early. Could you handle reaching out to find a car for us?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Alright, I'll take care of that. AI, please look into car rentals available in the city for our agreed date."
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "A Toyota Camry is available for rental on November 15th in San Francisco."
+                    }
+                ]
+            }
+        ]
+    }
+]

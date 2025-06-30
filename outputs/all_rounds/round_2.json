@@ -1,0 +1,254 @@
+[
+    {
+        "metadata": {
+            "diag_id": 0,
+            "user_personas": {
+                "agent_a": "A pragmatic and analytical negotiator who prioritizes data-driven decisions, always looking for logical solutions to complex issues. They focus on creating win-win scenarios by clearly articulating their proposals and emphasizing shared benefits.",
+                "agent_b": "A diplomatic and empathetic communicator who excels at understanding different perspectives and fostering collaboration. They aim to bridge gaps between conflicting interests by proposing creative compromises that address the needs of all parties involved."
+            },
+            "functions": [
+                "get_agent_s_active_listings",
+                "open_browser"
+            ],
+            "params_ret_val": [
+                {
+                    "function": "get_agent_s_active_listings",
+                    "parameters": {
+                        "zuid": "A1B2C3D4",
+                        "page": 1
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "listings": "3 active listings found for agent A1B2C3D4 on page 1."
+                    },
+                    "returned_nl": "Agent A1B2C3D4 currently has 3 active listings available on page 1. You can view them to find more details about each property."
+                },
+                {
+                    "function": "open_browser",
+                    "parameters": {
+                        "url": "https://www.zillow.com/agent/A1B2C3D4"
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "browser_status": "success"
+                    },
+                    "returned_nl": "The default web browser has successfully opened the page at https://www.zillow.com/agent/A1B2C3D4."
+                }
+            ],
+            "category": "Persuassion_Deliberation_and_Negotiation",
+            "task": "multi_round",
+            "round_num": 2,
+            "agent_num": 2
+        },
+        "messages": [
+            {
+                "Round 1": [
+                    {
+                        "speaker": "agent_b",
+                        "message": "Shall we explore how to manage the listings effectively for our real estate collaboration?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That sounds good. Maybe we should first gather details about current active listings."
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Indeed, knowing what listings we're dealing with can help us plan better. Let's agree on a starting point for this process."
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Let's focus on an agent with a reliable track record. How about retrieving data from a specific agent we both trust?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "I agree. We should start with their active listings on Zillow. Can you recall their unique identifier?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Yes, the agent's unique identifier is A1B2C3D4. Shall we start with the first page of listings?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Starting with the first page makes sense to ensure we don't miss anything. AI, could you assist us with that?"
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "Agent A1B2C3D4 currently has 3 active listings available on page 1. You can view them to find more details about each property."
+                    }
+                ]
+            },
+            {
+                "Round 2": [
+                    {
+                        "speaker": "agent_a",
+                        "message": "We now have a list of three active listings from the agent. What's our next step?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "I suggest we start by reviewing the listings online for a deeper understanding. Does that sound good?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That makes sense. We should check the details on Zillow. Do you have the URL handy?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Yes, I believe it's crucial to have direct access to their page. Shall we proceed with opening the website?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Agreed. Let's navigate to the agent's specific page to review those listings."
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "AI, please open the website so we can look at the agent's listings directly."
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "The browser is now open to the agent's page. Shall we prioritize which listing to focus on first?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Focusing on the most promising listing first would be strategic. Do you have any preferences based on initial impressions?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "\nI think we should start with the property that has the highest demand potential. What do you think?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "That sounds like a solid plan. Let's review the listing details to decide."
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "The default web browser has successfully opened the page at https://www.zillow.com/agent/A1B2C3D4."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "metadata": {
+            "diag_id": 1,
+            "user_personas": {
+                "agent_a": "A logical and analytical negotiator who excels at breaking down complex issues into manageable components, always focusing on evidence-based proposals to reach mutually beneficial agreements. They prioritize collaboration and are adept at finding common ground while articulating clear offers and counteroffers.",
+                "agent_b": "A diplomatic and empathetic communicator who values understanding differing perspectives and seeks to reconcile conflicts through active listening and thoughtful dialogue. They emphasize shared goals and are skilled at summarizing priorities, ensuring that all parties feel heard and respected during negotiations."
+            },
+            "functions": [
+                "trending_videos",
+                "send_email"
+            ],
+            "params_ret_val": [
+                {
+                    "function": "trending_videos",
+                    "parameters": {
+                        "hl": "en",
+                        "gl": "US",
+                        "type": "music"
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "video1": "Olivia Rodrigo - vampire (Official Video)",
+                        "video2": "Doja Cat - Paint The Town Red (Official Video)",
+                        "video3": "Taylor Swift - I Can See You (Taylor’s Version) (From The Vault)"
+                    },
+                    "returned_nl": "Here are some trending music videos in the US: Olivia Rodrigo's 'vampire', Doja Cat's 'Paint The Town Red', and Taylor Swift's 'I Can See You'."
+                },
+                {
+                    "function": "send_email",
+                    "parameters": {
+                        "email_address": "jane.doe@example.com",
+                        "content": "Hi Jane,\n\nI hope this message finds you well. I wanted to share some trending music videos with you that are currently popular in the US: Olivia Rodrigo's 'vampire', Doja Cat's 'Paint The Town Red', and Taylor Swift's 'I Can See You'. Let me know what you think!\n\nBest regards,\nJohn"
+                    },
+                    "domain": "Persuassion_Deliberation_and_Negotiation",
+                    "return_value": {
+                        "email_status": "Email sent successfully"
+                    },
+                    "returned_nl": "The email to jane.doe@example.com was sent successfully, sharing some trending music videos in the US."
+                }
+            ],
+            "category": "Persuassion_Deliberation_and_Negotiation",
+            "task": "multi_round",
+            "round_num": 2,
+            "agent_num": 2
+        },
+        "messages": [
+            {
+                "Round 1": [
+                    {
+                        "speaker": "agent_a",
+                        "message": "I know we're trying to find a way to catch up on the latest trends. What about starting with trending music videos? They provide a fun and engaging insight into what's currently popular."
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "That's a great idea! However, perhaps we should consider which country's trends to look into. I heard the US has a diverse and vibrant music scene. What do you think?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "I agree, exploring trends in the US would give us a broad view. Shall we align on the language for our search? English might be the most straightforward choice given the context."
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "English definitely works, as it would likely cover a wide audience. Do you think we should focus solely on music videos, or explore other types as well?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Sticking to music for now seems like a good move, as it often reflects cultural trends. Later, we can expand if needed. Shall we finalize this plan to ensure we stay focused?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "That sounds like a solid plan. So, we’re set on exploring trending music videos in English from the US. Are we ready to move forward with this and see what insights we gather?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Absolutely, I think we've outlined a clear path forward. AI, could you please start by checking the trending videos?"
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "Here are some trending music videos in the US: Olivia Rodrigo's 'vampire', Doja Cat's 'Paint The Town Red', and Taylor Swift's 'I Can See You'."
+                    }
+                ]
+            },
+            {
+                "Round 2": [
+                    {
+                        "speaker": "agent_b",
+                        "message": "Those trending videos should give Jane some great insights into current music trends. Shall we share this list with her to see if she has any thoughts or picks a favorite?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That's a great idea. If I draft an email sharing these trending videos with Jane, would you be open to reviewing it before we send it?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Absolutely, I can look it over to ensure it captures our intent clearly. Perhaps we could also ask for her opinion on the videos?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "Asking for her opinion would definitely engage her more. I'll include a note inviting her feedback. Would you like to add anything specific before sending it out?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Perhaps just a friendly greeting at the start and a sign-off that reflects our enthusiasm for her thoughts. Do you agree with that approach?"
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "That sounds perfect. With your approval, I'll finalize the email draft, making sure it includes our excitement for her insights. Ready to proceed?"
+                    },
+                    {
+                        "speaker": "agent_b",
+                        "message": "Yes, I'm ready. Let's ensure the email address is correct, too. Once that's in place, we can send it."
+                    },
+                    {
+                        "speaker": "agent_a",
+                        "message": "The email was successfully sent. Now, we can wait for Jane's feedback and see which video captures her attention the most."
+                    },
+                    {
+                        "speaker": "AI Assistant",
+                        "message": "The email to jane.doe@example.com was sent successfully, sharing some trending music videos in the US."
+                    }
+                ]
+            }
+        ]
+    }
+]

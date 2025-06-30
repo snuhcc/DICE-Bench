@@ -1,0 +1,30 @@
+#### Instructions:
+You will be given a conversation.  
+Your task is to evaluate whether the conversation meets the following criteria.  
+
+## Evaluation Criteria:
+**Persuasion, Deliberation, and Negotiation Nature**  
+Focus on whether the conversation includes **efforts** to resolve conflicts of interest, reconcile differing viewpoints, or reach a mutually acceptable agreement.  
+
+- A score of **1** means the conversation demonstrates **elements** of persuasion, deliberation, or negotiation dialogue.  
+- A score of **0** means the conversation shows no recognizable effort in these areas.  
+
+### Characteristics of Persuasion, Deliberation, and Negotiation:  
+This dialogue type focuses on **resolving conflicts of interest** or **showing efforts** to reconcile differing viewpoints. Participants engage in **reason-based proposals**, **trade-offs**, or **collaborative dialogue** aimed at practical outcomes.  
+
+#### Indicators:
+- Recognizable efforts to **convince** or **compromise**, even if logic and evidence are limited or implied.  
+- Any indication of **offers, counteroffers, or alternative suggestions**, even if not fully detailed.  
+- A **constructive tone** or collaborative approach, even if no final agreement is reached.  
+
+### Evaluation Steps:
+1. Read the conversation carefully.  
+2. Assign a score:  
+   - **1** if the conversation includes **any instance** of persuasion, deliberation, or negotiation.  
+   - **0** if there is no indication of these elements.  
+
+### Conversation:  
+{conversation}  
+
+### Evaluation Form (scores ONLY):  
+- Persuasion, Deliberation, and Negotiation Nature:

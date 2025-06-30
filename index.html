@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="DICE-BENCH evaluates the tool-use capabilities of large language models in multi-round, multi-party dialogues.">
+  <meta name="keywords" content="DICE-BENCH, LLM, Tool Use, Multi-party Dialogue, Benchmark, Function Calling">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DICE-BENCH: Evaluating Tool-Use in Multi-Party Dialogues</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://www.kyochul.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/snuhcc">
+            SNU HCC Lab
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">DICE-BENCH: Evaluating the Tool-Use Capabilities of Large Language Models in Multi-Round, Multi-Party Dialogues</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://www.kyochul.com">Kyochul Jang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              Donghyeon Lee<sup>3,4</sup>,</span>
+            <span class="author-block">
+              Kyusik Kim<sup>2</sup>,
+            </span>
+            <span class="author-block">
+              Dongseok Heo<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Taewhoo Lee<sup>3,4</sup>,
+            </span>
+            <span class="author-block">
+              Woojeong Kim<sup>5</sup>,
+            </span>
+            <span class="author-block">
+              Bongwon Suh<sup>1,2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>IPAI, Seoul National University,</span>
+            <span class="author-block"><sup>2</sup>Department of Intelligence and Information, Seoul National University</span><br>
+            <span class="author-block"><sup>3</sup>Korea University,</span>
+            <span class="author-block"><sup>4</sup>AIGEN Sciences,</span>
+            <span class="author-block"><sup>5</sup>Cornell University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/TBD"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/TBD"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/snuhcc/DICE-Bench"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                </a>
+              </span>
+
+              <!-- Personal links moved to footer -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./media/banner.png" alt="DICE-BENCH Banner" style="width: 100%;">
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">DICE-BENCH</span> is the first benchmark to evaluate LLMs' ability to use tools in realistic multi-round, multi-party group chat scenarios where function-related information is dispersed across multiple speakers.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <img src="./media/pipeline.png" alt="DICE-BENCH Pipeline">
+        </div>
+        <div class="item">
+          <img src="./media/baseline_comparison.png" alt="Performance Comparison">
+        </div>
+        <div class="item">
+          <img src="./media/dice_band.png" alt="DICE-band">
+        </div>
+        <div class="item">
+          <img src="./media/combined_em_score_plots.png" alt="Combined EM Score Plots">
+        </div>
+        <div class="item">
+          <img src="./media/results.png" alt="Results">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Existing function-calling benchmarks focus on single-turn interactions and overlook the complexity of real-world scenarios. To quantify how existing benchmarks address practical applications, we introduce <span class="dnerf">DICE-SCORE</span>, a metric that evaluates the dispersion of tool-related information such as function name and parameter values throughout the dialogue.
+          </p>
+          <p>
+            Analyzing existing benchmarks through DICE-SCORE reveals notably low scores, highlighting the need for more realistic scenarios. To address this gap, we present <span class="dnerf">DICE-BENCH</span>, a framework that constructs practical function-calling datasets by synthesizing conversations through a tool graph that maintains dependencies across rounds and a multi-agent system with distinct personas to enhance dialogue naturalness.
+          </p>
+          <p>
+            The final dataset comprises 1,607 high-DICE-SCORE instances. Our experiments on 19 LLMs with DICE-BENCH show that significant advances are still required before such models can be deployed effectively in real-world settings. Even GPT-4o achieves only 64% exact match accuracy on average, with performance degrading as the number of rounds or participants increases.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Data Generation Pipeline. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Data Generation Pipeline</h2>
+          <p>
+            DICE-BENCH employs a three-stage pipeline: (1) Tool Graph Construction to model inter-tool dependencies, (2) Scenario Configuration to set dialogue parameters and personas, and (3) Dialogue Simulation using multi-agent systems to generate realistic conversations.
+          </p>
+          <img src="./media/pipeline.png" alt="DICE-BENCH Pipeline" style="width: 100%;">
+        </div>
+      </div>
+      <!--/ Data Generation Pipeline. -->
+
+      <!-- DICE-SCORE. -->
+      <div class="column">
+        <h2 class="title is-3">DICE-SCORE Metric</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              DICE-SCORE quantifies how challenging it is to perform a function call by measuring the dispersion of tool-related information across dialogue turns. Higher scores indicate greater difficulty as critical information becomes more scattered.
+            </p>
+            <p style="text-align: center; font-size: 1.2em;">
+              $$\text{DICE}(S,T)=\frac{\min(|S_{\neq 0}|,T)\cdot\sqrt{|S|\cdot T}}{\sum_{i\in S}\ln\left(1+\alpha S_i\right)}$$
+            </p>
+            <p>
+              Our experiments show a strong correlation (r ≈ -0.984) between DICE-SCORE and model performance, validating its effectiveness as a difficulty metric.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ DICE-SCORE. -->
+
+
+
+    <!-- Validation Pipeline. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Rigorous Validation Pipeline</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We employ a comprehensive three-stage filtering process to ensure high-quality data:
+          </p>
+          <div class="columns">
+            <div class="column">
+              <h4><strong>Stage 1: Automatic Evaluation</strong></h4>
+              <p>Using G-Eval with GPT-4o to assess six criteria: Coherence, Consistency, Fluency, Human-likeness, Persona Consistency, and Relevance. Dialogues scoring below 4.0 average are removed.</p>
+            </div>
+            <div class="column">
+              <h4><strong>Stage 2: Rule-Based Filtering</strong></h4>
+              <p>Removing dialogues with GPT refusals or lacking explicit AI/Assistant addressing. Authors manually review ambiguous cases.</p>
+            </div>
+            <div class="column">
+              <h4><strong>Stage 3: Human Validation</strong></h4>
+              <p>Expert evaluation across 15 sub-criteria covering Conversation Quality, Functional Integration, and Real-World Applicability. Only dialogues scoring 10+/15 are retained.</p>
+            </div>
+          </div>
+          <p>
+            This rigorous process filtered out 193 dialogues from the initial 1,800, resulting in 1,607 high-quality instances.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Validation Pipeline. -->
+
+  </div>
+</section>
+
+
+<section class="section" style="background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <!-- Dataset Format. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Dataset Format</h2>
+        <div class="content">
+          <p>The JSON below illustrates <strong>one dialogue instance of One-Round-Two-Party scenario</strong> in DICE-BENCH.</p>
+<pre><code>{
+ "diag_id": 1,
+ "metadata": {
+   "diag_id": 1,
+   "user_personas": {
+     "agent_a": "Marketing specialist with optimistic personality",
+     "agent_b": "Skeptical engineer who prefers concise answers"
+   },
+   "functions": ["find_restaurant", "book_hotel", ...],
+   "params_ret_val": [
+     {
+       "function": "find_restaurant",
+       "parameters": {
+         "location": "San Francisco",
+         "cuisine": "Thai"
+       },
+       "domain": "Inquiry_and_Information_Seeking",
+       "return_value": {
+         "restaurant_name": "Thai Palace"
+       },
+       "returned_nl": "I found a great Thai place called Thai Palace in San Francisco!"
+     }
+   ],
+   "category": "Inquiry_and_Information_Seeking",
+   "task": "multi_round",
+   "round_num": 2,
+   "agent_num": 2
+ },
+ "conversation": [
+   {"role": "user", "content": "Any good Thai food nearby?"},
+   {"role": "assistant", "content": "Sure, let me look that up for you."},
+   ...
+ ]
+}</code></pre>
+          <p>See the <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH" target="_blank">dataset card</a> for the complete schema description.</p>
+        </div>
+      </div>
+    </div>
+    <!--/ Dataset Format. -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX(TBD)</h2>
+    <pre><code>@inproceedings{jang2025dicebench,
+  title     = {DICE-BENCH: Evaluating the Tool-Use Capabilities of Large Language Models in Multi-Round, Multi-Party Dialogues},
+  author    = {Jang, Kyochul and Lee, Donghyeon and Kim, Kyusik and Heo, Dongseok and Lee, Taewhoo and Kim, Woojeong and Suh, Bongwon},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
+  year      = {2025},
+  address   = {Vienna, Austria},
+  url       = {https://github.com/snuhcc/DICE-Bench},
+  note      = {Preprint available on arXiv}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="https://www.linkedin.com/in/kyochul-jang/"><i class="fab fa-linkedin"></i></a>
+      <a class="icon-link" href="https://www.kyochul.com/"><i class="fas fa-globe"></i></a>
+      <a class="icon-link" href="https://github.com/OfficerChul"><i class="fab fa-github"></i></a>
+      <a class="icon-link" href="https://www.instagram.com/kjang_kyochul?igsh=dGkxeWcxaHdsYnVx"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Page template from <a href="https://github.com/nerfies/nerfies.github.io">NERFies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

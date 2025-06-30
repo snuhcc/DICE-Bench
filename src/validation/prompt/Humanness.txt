@@ -1,0 +1,23 @@
+### Instructions:
+You will be given a conversation.
+Your task is to rate the conversation based on one metric.
+Please make sure you read and understand these instructions carefully.
+Please keep this document open while reviewing, and refer to it as needed.
+
+### Evaluation Criteria:
+Humanness (1-5): How human-like is the conversation?
+- A score of 1 (poor) means the conversation is extremely hard to follow or feels robotic.
+- A score of 2 (below average) means the conversation makes sense overall but has noticeable awkward points.
+- A score of 3 (average) means the conversation is generally clear, with only minor issues.
+- A score of 4 (above average) means the conversation feels mostly human-like with few, if any, awkward moments.
+- A score of 5 (excellent) means the conversation feels very natural and human-like. 
+
+### Evaluation Steps:
+1. Read the conversation carefully.
+2. Rate the conversation on a scale of 1-5 for humanness, according to the criteria above.
+
+### Conversation:
+{conversation}
+
+### Evaluation Form (scores ONLY):
+- Humanness:

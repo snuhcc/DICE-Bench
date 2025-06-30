@@ -1,0 +1,23 @@
+### Instructions:
+You will be given a conversation.
+Your task is to rate the conversation based on one metric.
+Please make sure you read and understand these instructions carefully.
+Please keep this document open while reviewing, and refer to it as needed.
+
+## Evaluation Criteria:
+Coherence (1-5) Is the conversation coherent with the dialogue context?
+- A score of 1 (very bad) means that the conversation is incoherent and does not make sense.
+- A score of 2 (relatively bad) means that the conversation makes sense, but there are many bad points.
+- A score of 3 (neither) means that the conversation is neither good nor bad.
+- A score of 4 (fair enough) means that the conversation feels a little coherent.
+- A score of 5 (very good) means the conversation is coherent and makes sense throughout.
+
+### Evaluation Steps:
+1. Read the conversation carefully.
+2. Rate the conversation on a scale of 1-5 for coherence, according to the criteria above.
+
+### Conversation:
+{conversation}
+
+### Evaluation Form (scores ONLY):
+- Coherence:
