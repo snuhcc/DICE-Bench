@@ -11,12 +11,11 @@
   <a href="https://github.com/snuhcc/DICE-Bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
 </p>
 
-> **Update**: Added paper and arXiv links, updated citation.
-
 ---
 
 ### ✨ News (DICE-BENCH)
 
+* **07/01/2025** - Our paper is now available on [arXiv](http://arxiv.org/abs/2506.22853)!
 * **06/28/2025** - Dataset released on [HuggingFace](https://huggingface.co/datasets/OfficerChul/DICE-BENCH)!
 * **06/25/2025** - Initial public release of **DICE-BENCH** including data generation, scoring utilities, and vLLM inference scripts.
 * **05/16/2025** - Our Paper DICE-BENCH is accepted to [ACL 2025. See you in Vienna, Austria!](https://2025.aclweb.org/)
@@ -32,6 +31,7 @@
 **DICE-BENCH** is a benchmark that tests how well large language models can call external functions in realistic group-chat scenarios.
 
 Key points at a glance:
+
 - DICE-BENCH synthesizes real group chats with a condition of four rounds and two to four speakers.
 - The released dataset contains 1,607 dialogues, and 124 distinct tools.
 - DICE-SCORE quantifies how difficult the given inputs are by quantifying dispersion of tool-clues throughout the input. Higher scores means the input is difficult.
@@ -46,23 +46,22 @@ Key points at a glance:
 
 ## 📂 Directory Layout
 
-
-| Path | Description |
-|------|-------------|
-| `src/` | Core Python package (agents, prompts, utils, graphs, inference) |
-| `data/` | Pre-generated sample datasets (`round_*.json`) |
-| `scripts/` | Bash helpers to generate data & run inference |
+| Path         | Description                                                                                                                                                                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`     | Core Python package (agents, prompts, utils, graphs, inference)                                                                                                                                                       |
+| `data/`    | Pre-generated sample datasets (`round_*.json`)                                                                                                                                                                      |
+| `scripts/` | Bash helpers to generate data & run inference                                                                                                                                                                         |
 | `outputs/` | Generated outputs (`all_rounds`, `selected_round`, `inf_vllm`). **Note:** the output files committed here are *demo-sized* samples only. Please visit the Hugging Face repository for the full dataset. |
 
 ---
 
 ## 🛠️ Core Scripts
 
-| Script | Purpose | Key CLI flags / variables |
-|--------|---------|---------------------------|
-| `scripts/gen_all_round.sh` | Quickly generate a **small** dataset across rounds 1–4, multiple agent numbers & domains. | `AGENT_NUM_LIST`, `DOMAIN_LIST`, `ROUND_LIST`, `DATASET_NUM`, outputs to `outputs/all_rounds/round_<n>.json` |
-| `scripts/gen_selected_round.sh` | Generate **many** samples for one specific round (`SELECTED_ROUND`). | `DATASET_NUM`, `SELECTED_ROUND`, outputs to `outputs/selected_round/round_<n>.json` |
-| `scripts/inf_vllm.sh` | Run **vLLM** inference over generated dialogues. | `MODEL_NAME`, `FUNCTION_DOCS`, `MAX_TOKENS`, results in `outputs/inf_vllm/<model>/` |
+| Script                            | Purpose                                                                                         | Key CLI flags / variables                                                                                              |
+| --------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `scripts/gen_all_round.sh`      | Quickly generate a**small** dataset across rounds 1–4, multiple agent numbers & domains. | `AGENT_NUM_LIST`, `DOMAIN_LIST`, `ROUND_LIST`, `DATASET_NUM`, outputs to `outputs/all_rounds/round_<n>.json` |
+| `scripts/gen_selected_round.sh` | Generate**many** samples for one specific round (`SELECTED_ROUND`).                     | `DATASET_NUM`, `SELECTED_ROUND`, outputs to `outputs/selected_round/round_<n>.json`                              |
+| `scripts/inf_vllm.sh`           | Run**vLLM** inference over generated dialogues.                                           | `MODEL_NAME`, `FUNCTION_DOCS`, `MAX_TOKENS`, results in `outputs/inf_vllm/<model>/`                            |
 
 All scripts rely on `uv` to launch python modules reproducibly (`uv run ...`). Feel free to edit variables at the top of each file.
 
@@ -82,7 +81,7 @@ The repository ships with a **sample** dataset under `data/sample/` so you can e
         └── ...
 ```
 
-* `round_<n>.json` – gold dialogues used for evaluation (can be regenerated).  
+* `round_<n>.json` – gold dialogues used for evaluation (can be regenerated).
 * `sample/round_<n>.json` – miniature versions bundled with git to keep the repo lightweight.
 
 The **tool graph** and **function docs** used during generation live in `src/graph/tool_graph.json` and `src/graph/tool_docs.json` respectively.
@@ -93,7 +92,7 @@ The **tool graph** and **function docs** used during generation live in `src/gra
 
 ### 1. Environment (🛠 with **uv**)
 
-`uv` is a super-fast Rust-based package manager & virtual-env tool that fully understands **pyproject.toml**.  
+`uv` is a super-fast Rust-based package manager & virtual-env tool that fully understands **pyproject.toml**.
 If you do not have it yet:
 
 ```bash
