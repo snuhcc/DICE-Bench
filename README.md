@@ -5,13 +5,13 @@
 # DICE-BENCH: Evaluating the Tool-Use Capabilities of Large Language Models in Multi-Round, Multi-Party Dialogues
 
 <p align="center">
-  <a href="https://arxiv.org/abs/TBD" target="_blank"><img src="https://img.shields.io/badge/arXiv-TBD-red"></a>
+  <a href="http://arxiv.org/abs/2506.22853" target="_blank"><img src="https://img.shields.io/badge/arXiv-2506.22853-red"></a>
   <a href="https://snuhcc.github.io/DICE-Bench/" target="_blank"><img src="https://img.shields.io/badge/Project-Page-blue"></a>
   <a href="https://huggingface.co/datasets/OfficerChul/DICE-BENCH" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-Space-orange"></a>
   <a href="https://github.com/snuhcc/DICE-Bench" target="_blank"><img src="https://img.shields.io/badge/Code-GitHub-brightgreen"></a>
 </p>
 
-> **TBD**: Add paper, Add arXiv, Chang Citation
+> **Update**: Added paper and arXiv links, updated citation.
 
 ---
 
@@ -146,17 +146,17 @@ Detailed configs (model path, dataset size, TP degree, etc.) can be edited direc
 
 ---
 
-## 📜 Citation(TBD)
+## 📜 Citation
 
 ```bibtex
-@inproceedings{jang2025dicebench,
-  title     = {DICE{-}BENCH: Evaluating the Tool{-}Use Capabilities of Large Language Models in Multi{-}Round, Multi{-}Party Dialogues},
-  author    = {Jang, Kyochul and Lee, Donghyeon and Kim, Kyusik and Heo, Dongseok and Lee, Taewhoo and Kim, Woojeong and Suh, Bongwon},
-  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
-  year      = {2025},
-  address   = {Vienna, Austria},
-  url       = {https://github.com/snuhcc/DICE-Bench},
-  note      = {Preprint available on arXiv}
+@misc{jang2025dicebenchevaluatingtoolusecapabilities,
+  title={DICE-BENCH: Evaluating the Tool-Use Capabilities of Large Language Models in Multi-Round, Multi-Party Dialogues},
+  author={Kyochul Jang and Donghyeon Lee and Kyusik Kim and Dongseok Heo and Taewhoo Lee and Woojeong Kim and Bongwon Suh},
+  year={2025},
+  eprint={2506.22853},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2506.22853},
 }
 ```
 
