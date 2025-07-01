@@ -156,35 +156,41 @@ body {
   border-radius: 5px;
 }
 
-/* Brand-colored buttons */
+/* Pastel (translucent) brand colors */
 .button.is-github {
-  background-color: #24292E;
-  color: #FFFFFF;
+  background-color: rgba(36, 41, 46, 0.15);
+  color: #24292E;
 }
 .button.is-hf {
-  background-color: #FFCF00;
+  background-color: rgba(255, 207, 0, 0.25);
   color: #000000;
 }
 .button.is-x {
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #000000;
 }
 .button.is-linkedin {
-  background-color: #0A66C2;
-  color: #FFFFFF;
+  background-color: rgba(10, 102, 194, 0.20);
+  color: #0A66C2;
 }
 .button.is-arxiv {
-  background-color: #B31B1B;
-  color: #FFFFFF;
+  background-color: rgba(179, 27, 27, 0.20);
+  color: #B31B1B;
 }
 
-/* Hover brightness adjustments */
-.button.is-github:hover,
-.button.is-x:hover,
-.button.is-linkedin:hover,
-.button.is-arxiv:hover {
-  filter: brightness(1.1);
+/* Hover: slightly deepen the pastel tone */
+.button.is-github:hover {
+  background-color: rgba(36, 41, 46, 0.25);
 }
 .button.is-hf:hover {
-  filter: brightness(0.9);
+  background-color: rgba(255, 207, 0, 0.35);
+}
+.button.is-x:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.button.is-linkedin:hover {
+  background-color: rgba(10, 102, 194, 0.30);
+}
+.button.is-arxiv:hover {
+  background-color: rgba(179, 27, 27, 0.30);
 }
