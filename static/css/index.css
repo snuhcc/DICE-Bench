@@ -155,3 +155,36 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+/* Brand-colored buttons */
+.button.is-github {
+  background-color: #24292E;
+  color: #FFFFFF;
+}
+.button.is-hf {
+  background-color: #FFCF00;
+  color: #000000;
+}
+.button.is-x {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+.button.is-linkedin {
+  background-color: #0A66C2;
+  color: #FFFFFF;
+}
+.button.is-arxiv {
+  background-color: #B31B1B;
+  color: #FFFFFF;
+}
+
+/* Hover brightness adjustments */
+.button.is-github:hover,
+.button.is-x:hover,
+.button.is-linkedin:hover,
+.button.is-arxiv:hover {
+  filter: brightness(1.1);
+}
+.button.is-hf:hover {
+  filter: brightness(0.9);
+}
